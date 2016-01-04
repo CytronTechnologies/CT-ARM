@@ -1,0 +1,411 @@
+
+system_NUC200Series.o:
+00000000 r C.11.2864
+00000000 D CyclesPerUs
+00000000 D PllClock
+00000000 D SystemCoreClock
+00000000 T SystemCoreClockUpdate
+00000000 T SystemInit
+         U __aeabi_uidiv
+00000000 D gau32ClkSrcTbl
+
+acmp.o:
+00000000 T ACMP_Close
+00000000 T ACMP_Open
+
+adc.o:
+00000000 T ADC_Close
+00000000 T ADC_DisableHWTrigger
+00000000 T ADC_DisableInt
+00000000 T ADC_EnableHWTrigger
+00000000 T ADC_EnableInt
+00000000 T ADC_Open
+
+can.o:
+00000000 T CAN_BasicReceiveMsg
+00000000 T CAN_BasicSendMsg
+00000000 T CAN_CLR_INT_PENDING_BIT
+00000000 T CAN_Close
+00000000 T CAN_DisableInt
+00000000 T CAN_EnableInt
+00000000 T CAN_EnterInitMode
+00000000 T CAN_EnterTestMode
+00000000 T CAN_GetCANBitRate
+00000000 T CAN_IsNewDataReceived
+00000000 T CAN_LeaveInitMode
+00000000 T CAN_LeaveTestMode
+00000000 T CAN_Open
+00000000 T CAN_ReadMsgObj
+00000000 T CAN_Receive
+00000000 T CAN_SetBaudRate
+00000000 T CAN_SetMultiRxMsg
+00000000 T CAN_SetRxMsg
+00000000 T CAN_SetRxMsgObj
+00000000 T CAN_SetTxMsg
+00000000 T CAN_Transmit
+00000000 T CAN_TriggerTxMsg
+00000000 T CAN_WaitMsg
+00000000 t GetFreeIF
+         U SystemCoreClock
+         U SystemCoreClockUpdate
+         U __aeabi_uidiv
+         U __aeabi_uidivmod
+
+clk.o:
+00000000 r C.11.2864
+00000000 r C.16.3091
+00000000 r C.19.3176
+00000000 r C.21.3191
+00000000 T CLK_DisableCKO
+00000000 T CLK_DisableModuleClock
+00000000 T CLK_DisablePLL
+00000000 T CLK_DisableXtalRC
+00000000 T CLK_EnableCKO
+00000000 T CLK_EnableModuleClock
+00000000 T CLK_EnablePLL
+00000000 T CLK_EnableXtalRC
+00000000 T CLK_GetCPUFreq
+00000000 T CLK_GetHCLKFreq
+00000000 T CLK_GetHXTFreq
+00000000 T CLK_GetLXTFreq
+00000000 T CLK_GetPCLKFreq
+00000000 T CLK_Idle
+00000000 T CLK_PowerDown
+00000000 T CLK_SetCoreClock
+00000000 T CLK_SetHCLK
+00000000 T CLK_SetModuleClock
+00000000 T CLK_SetSysTickClockSrc
+00000000 T CLK_WaitClockReady
+         U SystemCoreClock
+         U SystemCoreClockUpdate
+         U __aeabi_uidiv
+
+crc.o:
+00000000 T CRC_GetChecksum
+00000000 T CRC_Open
+00000000 T CRC_StartDMATransfer
+
+fmc.o:
+00000000 T FMC_Close
+00000000 T FMC_DisableAPUpdate
+00000000 T FMC_DisableConfigUpdate
+00000000 T FMC_DisableLDUpdate
+00000000 T FMC_EnableAPUpdate
+00000000 T FMC_EnableConfigUpdate
+00000000 T FMC_EnableLDUpdate
+00000000 T FMC_GetBootSource
+00000000 T FMC_Open
+00000000 T FMC_ReadConfig
+00000000 T FMC_ReadDataFlashBaseAddr
+00000000 T FMC_SetBootSource
+00000000 T FMC_WriteConfig
+
+gpio.o:
+00000000 T GPIO_DisableInt
+00000000 T GPIO_EnableInt
+00000000 T GPIO_SetMode
+
+i2c.o:
+00000000 T I2C_ClearTimeoutFlag
+00000000 T I2C_Close
+00000000 T I2C_DisableInt
+00000000 T I2C_DisableTimeout
+00000000 T I2C_DisableWakeup
+00000000 T I2C_EnableInt
+00000000 T I2C_EnableTimeout
+00000000 T I2C_EnableWakeup
+00000000 T I2C_GetBusClockFreq
+00000000 T I2C_GetData
+00000000 T I2C_GetIntFlag
+00000000 T I2C_GetStatus
+00000000 T I2C_Open
+00000000 T I2C_SetBusClockFreq
+00000000 T I2C_SetData
+00000000 T I2C_SetSlaveAddr
+00000000 T I2C_SetSlaveAddrMask
+00000000 T I2C_Trigger
+         U SystemCoreClock
+         U __aeabi_uidiv
+
+i2s.o:
+00000000 r C.11.3528
+00000000 T I2S_Close
+00000000 T I2S_DisableInt
+00000000 T I2S_DisableMCLK
+00000000 T I2S_EnableInt
+00000000 T I2S_EnableMCLK
+00000000 t I2S_GetSourceClockFreq
+00000000 T I2S_Open
+         U SystemCoreClock
+         U __aeabi_uidiv
+
+pdma.o:
+00000000 T PDMA_Close
+00000000 T PDMA_DisableInt
+00000000 T PDMA_EnableInt
+00000000 T PDMA_Open
+00000000 T PDMA_SetTransferAddr
+00000000 T PDMA_SetTransferCnt
+00000000 T PDMA_SetTransferMode
+00000000 T PDMA_Trigger
+
+ps2.o:
+00000000 T PS2_Close
+00000000 T PS2_DisableInt
+00000000 T PS2_EnableInt
+00000000 T PS2_Open
+00000000 T PS2_Read
+00000000 T PS2_Write
+
+pwm.o:
+00000000 r C.13.2970
+00000000 r C.14.2971
+00000000 r C.16.3083
+00000000 r C.17.3084
+00000000 T PWM_ClearADCTriggerFlag
+00000000 T PWM_ClearCaptureIntFlag
+00000000 T PWM_ClearDutyIntFlag
+00000000 T PWM_ClearPeriodIntFlag
+00000000 T PWM_ConfigCaptureChannel
+00000000 T PWM_ConfigOutputChannel
+00000000 T PWM_DisableADCTrigger
+00000000 T PWM_DisableCapture
+00000000 T PWM_DisableCaptureInt
+00000000 T PWM_DisableDeadZone
+00000000 T PWM_DisableDutyInt
+00000000 T PWM_DisableOutput
+00000000 T PWM_DisablePeriodInt
+00000000 T PWM_EnableADCTrigger
+00000000 T PWM_EnableCapture
+00000000 T PWM_EnableCaptureInt
+00000000 T PWM_EnableDeadZone
+00000000 T PWM_EnableDutyInt
+00000000 T PWM_EnableOutput
+00000000 T PWM_EnablePeriodInt
+00000000 T PWM_ForceStop
+00000000 T PWM_GetADCTriggerFlag
+00000000 T PWM_GetCaptureIntFlag
+00000000 T PWM_GetDutyIntFlag
+00000000 T PWM_GetPeriodIntFlag
+00000000 T PWM_Start
+00000000 T PWM_Stop
+         U SystemCoreClock
+         U SystemCoreClockUpdate
+         U __aeabi_uidiv
+         U memcpy
+
+rtc.o:
+00000000 T RTC_32KCalibration
+00000000 T RTC_Close
+00000000 T RTC_DisableInt
+00000000 T RTC_DisableSnooperDetection
+00000000 T RTC_DisableSpareRegister
+00000000 T RTC_EnableInt
+00000000 T RTC_EnableSnooperDetection
+00000000 T RTC_EnableSpareRegister
+00000000 T RTC_GetAlarmDateAndTime
+00000000 T RTC_GetDateAndTime
+00000000 T RTC_GetDayOfWeek
+00000000 T RTC_Open
+00000000 T RTC_SetAlarmDate
+00000000 T RTC_SetAlarmDateAndTime
+00000000 T RTC_SetAlarmTime
+00000000 T RTC_SetDate
+00000000 T RTC_SetDateAndTime
+00000000 T RTC_SetTickPeriod
+00000000 T RTC_SetTime
+         U __aeabi_idiv
+         U __aeabi_idivmod
+         U __aeabi_uidiv
+         U __aeabi_uidivmod
+00000000 b g_u32hiDay
+00000000 b g_u32hiHour
+00000000 b g_u32hiMin
+00000000 b g_u32hiMonth
+00000000 b g_u32hiSec
+00000000 b g_u32hiYear
+00000000 b g_u32loDay
+00000000 b g_u32loHour
+00000000 b g_u32loMin
+00000000 b g_u32loMonth
+00000000 b g_u32loSec
+00000000 b g_u32loYear
+
+sc.o:
+00000000 T SC_ClearFIFO
+00000000 T SC_Close
+00000000 T SC_IsCardInserted
+00000000 T SC_Open
+00000000 T SC_ResetReader
+00000000 T SC_SetBlockGuardTime
+00000000 T SC_SetCharGuardTime
+00000000 T SC_StartTimer
+00000000 T SC_StopAllTimer
+00000000 T SC_StopTimer
+00000000 b u32CardStateIgnore
+
+scuart.o:
+00000000 r C.11.2864
+00000000 t CLK_GetPLLClockFreq
+00000000 T SCUART_Close
+00000000 T SCUART_Open
+00000000 T SCUART_Read
+00000000 T SCUART_SetLineConfig
+00000000 T SCUART_SetTimeoutCnt
+00000000 T SCUART_Write
+         U __aeabi_uidiv
+
+spi.o:
+00000000 r C.11.2864
+         U CLK_GetHCLKFreq
+00000000 t CLK_GetPLLClockFreq
+00000000 T SPI_ClearIntFlag
+00000000 T SPI_ClearRxFIFO
+00000000 T SPI_ClearTxFIFO
+00000000 T SPI_Close
+00000000 T SPI_DisableAutoSS
+00000000 T SPI_DisableFIFO
+00000000 T SPI_DisableInt
+00000000 T SPI_EnableAutoSS
+00000000 T SPI_EnableFIFO
+00000000 T SPI_EnableInt
+00000000 T SPI_GetBusClock
+00000000 T SPI_GetIntFlag
+00000000 T SPI_GetStatus
+00000000 T SPI_Open
+00000000 T SPI_SetBusClock
+         U __aeabi_uidiv
+
+sys.o:
+00000000 T SYS_ClearResetSrc
+00000000 T SYS_DisableBOD
+00000000 T SYS_EnableBOD
+00000000 T SYS_GetBODStatus
+00000000 T SYS_GetResetSrc
+00000000 T SYS_IsRegLocked
+00000000 T SYS_ReadPDID
+00000000 T SYS_ResetCPU
+00000000 T SYS_ResetChip
+00000000 T SYS_ResetModule
+
+timer.o:
+00000000 r C.16.3062
+         U SystemCoreClock
+00000000 T TIMER_Close
+00000000 T TIMER_Delay
+00000000 T TIMER_DisableCapture
+00000000 T TIMER_DisableEventCounter
+00000000 T TIMER_EnableCapture
+00000000 T TIMER_EnableEventCounter
+00000000 T TIMER_GetModuleClock
+00000000 T TIMER_Open
+         U __aeabi_uidiv
+
+uart.o:
+00000000 r C.11.3528
+00000000 r C.13.3694
+00000000 r C.14.3759
+00000000 r C.15.3810
+00000000 t CLK_GetPLLClockFreq
+00000000 T UART_ClearIntFlag
+00000000 T UART_Close
+00000000 T UART_DisableFlowCtrl
+00000000 T UART_DisableInt
+00000000 T UART_EnableFlowCtrl
+00000000 T UART_EnableInt
+00000000 T UART_Open
+00000000 T UART_Read
+00000000 T UART_SelectIrDAMode
+00000000 T UART_SelectLINMode
+00000000 T UART_SelectRS485Mode
+00000000 T UART_SetLine_Config
+00000000 T UART_SetTimeoutCnt
+00000000 T UART_Write
+         U __aeabi_uidiv
+
+usbd.o:
+         U CyclesPerUs
+00000000 t T.61
+00000000 T USBD_CtrlIn
+00000000 T USBD_CtrlOut
+00000000 T USBD_GetDescriptor
+00000000 T USBD_GetSetupPacket
+00000000 T USBD_Open
+00000000 T USBD_PrepareCtrlIn
+00000000 T USBD_PrepareCtrlOut
+00000000 T USBD_ProcessSetupPacket
+00000000 T USBD_StandardRequest
+00000000 T USBD_Start
+00000000 T USBD_SwReset
+00000000 b g_usbd_CtrlInPointer
+00000000 b g_usbd_CtrlInSize
+00000000 d g_usbd_CtrlMaxPktSize
+00000000 b g_usbd_CtrlOutPointer
+00000000 b g_usbd_CtrlOutSize
+00000000 b g_usbd_CtrlOutSizeLimit
+00000000 B g_usbd_SetupPacket
+00000000 b g_usbd_UsbAddr
+00000000 b g_usbd_UsbAltInterface
+00000000 b g_usbd_UsbConfig
+00000000 B g_usbd_pfnClassRequest
+00000000 B g_usbd_pfnSetInterface
+00000004 C g_usbd_sInfo
+
+wdt.o:
+00000000 T WDT_Open
+
+wwdt.o:
+00000000 T WWDT_Open
+
+startup_NUC200Series.o:
+00000000 W ACMP_IRQHandler
+00000000 W ADC_IRQHandler
+00000000 W BOD_IRQHandler
+00000000 W BusFault_Handler
+00000000 W CAN0_IRQHandler
+00000000 W CAN1_IRQHandler
+00000000 W DebugMon_Handler
+00000000 T Dummy_Handler
+00000000 W EINT0_IRQHandler
+00000000 W EINT1_IRQHandler
+00000000 W GPAB_IRQHandler
+00000000 W GPCDEF_IRQHandler
+00000000 W HardFault_Handler
+00000000 W I2C0_IRQHandler
+00000000 W I2C1_IRQHandler
+00000000 W I2S_IRQHandler
+00000000 W MemManage_Handler
+00000000 W NMI_Handler
+00000000 W PDMA_IRQHandler
+00000000 W PS2_IRQHandler
+00000000 W PWMA_IRQHandler
+00000000 W PWMB_IRQHandler
+00000000 W PWRWU_IRQHandler
+00000000 W PendSV_Handler
+00000000 W RTC_IRQHandler
+00000000 T Reset_Handler
+00000000 W SC012_IRQHandler
+00000000 W SPI0_IRQHandler
+00000000 W SPI1_IRQHandler
+00000000 W SPI2_IRQHandler
+00000000 W SPI3_IRQHandler
+00000000 W SVC_Handler
+00000000 W SysTick_Handler
+00000000 W TMR0_IRQHandler
+00000000 W TMR1_IRQHandler
+00000000 W TMR2_IRQHandler
+00000000 W TMR3_IRQHandler
+00000000 W UART02_IRQHandler
+00000000 W UART1_IRQHandler
+00000000 W USBD_IRQHandler
+00000000 W UsageFault_Handler
+00000000 W WDT_IRQHandler
+         U __libc_init_array
+         U _erelocate
+         U _estack
+         U _etext
+         U _ezero
+         U _srelocate
+         U _szero
+00000000 D exception_table
+         U main

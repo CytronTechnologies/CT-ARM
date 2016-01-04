@@ -1,0 +1,62 @@
+------------------------------------------------------------
+ARM_GCC_TOOLCHAIN=C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\..\g++_arm_none_eabi\bin
+PROJECT_BASE_PATH=C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data
+CORE =cortex-m0
+CHIP=NUC131
+OUTPUT_BIN=C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data
+------------------------------------------------------------	
+Compiler Information :
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/bpwm.c: In function 'BPWM_ConfigCaptureChannel':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/bpwm.c:69: warning: comparison between signed and unsigned integer expressions
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/bpwm.c: In function 'BPWM_ConfigOutputChannel':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/inc/CLK.h:290: warning: inlining failed in call to 'CLK_GetPLLClockFreq': optimizing for size and code size would grow
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/bpwm.c:115: warning: called from here
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/bpwm.c: In function 'BPWM_ConfigCaptureChannel':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/inc/CLK.h:290: warning: inlining failed in call to 'CLK_GetPLLClockFreq': optimizing for size and code size would grow
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/bpwm.c:52: warning: called from here
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/can.c:61: warning: no previous prototype for 'CAN_EnterInitMode'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/can.c:75: warning: no previous prototype for 'CAN_LeaveInitMode'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/can.c:89: warning: no previous prototype for 'CAN_WaitMsg'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/can.c:116: warning: no previous prototype for 'CAN_GetCANBitRate'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/can.c:141: warning: no previous prototype for 'CAN_EnterTestMode'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/can.c:154: warning: no previous prototype for 'CAN_LeaveTestMode'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/can.c:169: warning: no previous prototype for 'CAN_IsNewDataReceived'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/can.c:185: warning: no previous prototype for 'CAN_BasicSendMsg'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/can.c:252: warning: no previous prototype for 'CAN_BasicReceiveMsg'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/can.c:313: warning: no previous prototype for 'CAN_SetRxMsgObj'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/can.c:364: warning: no previous prototype for 'CAN_ReadMsgObj'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/fmc.c: In function 'FMC_ReadConfig':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/fmc.c:237: warning: comparison between signed and unsigned integer expressions
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/fmc.c: In function 'FMC_WriteConfig':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/fmc.c:262: warning: comparison between signed and unsigned integer expressions
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/pwm.c: In function 'PWM_ConfigCaptureChannel':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/pwm.c:69: warning: comparison between signed and unsigned integer expressions
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/pwm.c: In function 'PWM_SetClockSource':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/pwm.c:850: warning: suggest parentheses around arithmetic in operand of '|'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/pwm.c: In function 'PWM_ConfigOutputChannel':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/inc/CLK.h:290: warning: inlining failed in call to 'CLK_GetPLLClockFreq': optimizing for size and code size would grow
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/pwm.c:115: warning: called from here
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/pwm.c: In function 'PWM_ConfigCaptureChannel':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/inc/CLK.h:290: warning: inlining failed in call to 'CLK_GetPLLClockFreq': optimizing for size and code size would grow
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/pwm.c:52: warning: called from here
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/spi.c: In function 'SPI_EnableFIFO':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/spi.c:287: warning: suggest parentheses around arithmetic in operand of '|'
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/spi.c: In function 'SPI_GetBusClock':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/inc/CLK.h:290: warning: inlining failed in call to 'CLK_GetPLLClockFreq': optimizing for size and code size would grow
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/spi.c:322: warning: called from here
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/spi.c: In function 'SPI_SetBusClock':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/inc/CLK.h:290: warning: inlining failed in call to 'CLK_GetPLLClockFreq': optimizing for size and code size would grow
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/spi.c:226: warning: called from here
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/spi.c: In function 'SPI_Open':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/inc/CLK.h:290: warning: inlining failed in call to 'CLK_GetPLLClockFreq': optimizing for size and code size would grow
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/spi.c:70: warning: called from here
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/uart.c: In function 'UART_Open':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/inc/CLK.h:290: warning: inlining failed in call to 'CLK_GetPLLClockFreq': optimizing for size and code size would grow
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/uart.c:247: warning: called from here
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/uart.c: In function 'UART_SetLine_Config':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/inc/CLK.h:290: warning: inlining failed in call to 'CLK_GetPLLClockFreq': optimizing for size and code size would grow
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/uart.c:336: warning: called from here
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/uart.c: In function 'UART_SelectIrDAMode':
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/inc/CLK.h:290: warning: inlining failed in call to 'CLK_GetPLLClockFreq': optimizing for size and code size would grow
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/StdDriver/src/uart.c:404: warning: called from here
+C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\..\g++_arm_none_eabi\bin/arm-none-eabi-ar: creating C:\cygwin\home\BSP_For_Nuduino\BSP_DriverTolibrary-20131230\BSP_DriverTolibrary\Release\compiler\data/libchip_NUC131_gcc_rel.a
