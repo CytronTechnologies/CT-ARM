@@ -54,16 +54,15 @@ recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build
 recipe.size.regex=\.text\s+([0-9]+).*
 
 
-# Nuvotn MCU Uploader tools
+# Nuvoton MCU Uploader tools
 # -------------------
 
 tools.nulinkburn.path={runtime.tools.nulinkburn.path}
+tools.nulinkburn.cmd.path={path}/nuvodude
 #tools.nulinkburn.cmd=nulinkb
 #tools.nulinkburn.cmd.windows=nulinkb.bat
-tools.nulinkburn.cmd.path={path}/nuvodude
-#tools.nulinkburn.path={runtime.ide.path}/hardware/tools/nuvoton/nulinkburn/bin
 
 tools.nulinkburn.upload.params.verbose=
 tools.nulinkburn.upload.params.quiet=
+tools.nulinkburn.upload.pattern="{cmd.path}" "{serial.port}" "{build.path}/{build.project_name}.bin"
 #tools.nulinkburn.upload.pattern="{path}/{cmd}" "{path}" "{build.path}/{build.project_name}.bin"
-tools.nulinkburn.upload.pattern="{cmd.path}" "{serial.port}" "{build.path}/{build.project_name}.bin" "{upload.DataType}"
