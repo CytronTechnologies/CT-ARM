@@ -25,9 +25,9 @@
 
 #include <HardwareTimer.h>
 
-#if(NR_TIMERS>0)
-        extern HardwareTimer Timer1;
-        #endif
+//#if(NR_TIMERS>0)
+//        extern HardwareTimer Timer1;
+//       #endif
 
 #endif
 
