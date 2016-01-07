@@ -22,122 +22,58 @@
 
 #include "Arduino.h"
 
-extern void pinMode( uint32_t ulPin, uint32_t ulMode )
+extern void pinMode(uint32_t ulPin, uint32_t ulMode)
 {
-	uint32_t len;	
-	#ifdef USE_BoardToPin
+	uint32_t len;
+
 	if(ulPin > BoardToPin_MAX_COUNT) return;
 	if(BoardToPinInfo[ulPin].pin == -1) return;
-	ulPin=BoardToPinInfo[ulPin].pin;
-	#else
-  if(ulPin>GPIO_MAX_COUNT || GPIO_Desc[ulPin].P==NULL) return;
-  #endif  
-  GPIO_Config(GPIO_Desc[ulPin]); 
-  #if defined(__M451__)	
-	switch ( ulMode )
-    {
-        case INPUT:                        
-            GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_MODE_INPUT);
-        break ;
+	ulPin = BoardToPinInfo[ulPin].pin;
 
-        case INPUT_PULLUP:            
-            GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_MODE_QUASI);                    
-        break ;
+  GPIO_Config(GPIO_Desc[ulPin]);
 
-        case OUTPUT:
-        		GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_MODE_OUTPUT); 
-        break ;
+	switch(ulMode)
+  {
+    case INPUT:                        
+      GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_INPUT);
+      break ;
 
-        default:
-        break ;
-    }
-  #elif defined(__NUC240__)
-	switch ( ulMode )
-    {
-        case INPUT:                        
-            GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_INPUT);
-        break ;
+    case INPUT_PULLUP:            
+      GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_QUASI);                    
+      break ;
 
-        case INPUT_PULLUP:            
-            GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_QUASI);                    
-        break ;
+    case OUTPUT:
+    	GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_OUTPUT);
+      (GPIO_Desc[ulPin].P)->DOUT &= ~GPIO_Desc[ulPin].bit; // By default, set LOW
+      break ;
 
-        case OUTPUT:
-        		GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_OUTPUT); 
-        break ;
-
-        default:
-        break ;
-    }
-  #elif defined(__NANO100__) || defined(__NANO1X2__)
-	switch ( ulMode )
-    {
-        case INPUT:                        
-            GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_INPUT);
-        break ;
-
-        case INPUT_PULLUP:            
-            GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_INPUT);                    
-            (GPIO_Desc[ulPin].P)->PUEN |= GPIO_Desc[ulPin].bit;
-        break ;
-
-        case OUTPUT:
-        		GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_OUTPUT); 
-        break ;
-
-        default:
-        break ;
-    }
-  #elif defined(__NUC131__)
-	switch ( ulMode )
-    {
-        case INPUT:                        
-            GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_INPUT);
-        break ;
-
-        case INPUT_PULLUP:            
-            GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_QUASI);                    
-        break ;
-
-        case OUTPUT:
-        		GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_OUTPUT); 
-        break ;
-
-        default:
-        break ;
-    }
-  #endif
+    default:
+      break ;
+  }
 }
 
-extern void digitalWrite( uint32_t ulPin, uint32_t ulVal )
+extern void digitalWrite(uint32_t ulPin, uint32_t ulVal)
 {
-	#ifdef USE_BoardToPin
 	if(ulPin > BoardToPin_MAX_COUNT) return;
 	if(BoardToPinInfo[ulPin].pin == -1) return;
-	ulPin=BoardToPinInfo[ulPin].pin;
-	#else	
-	if(ulPin>GPIO_MAX_COUNT || GPIO_Desc[ulPin].P==NULL) return;
-	#endif
-		
-	if(ulVal==HIGH)
-		(GPIO_Desc[ulPin].P)->DOUT |= GPIO_Desc[ulPin].bit;	
+	ulPin = BoardToPinInfo[ulPin].pin;
+
+  GPIO_Config(GPIO_Desc[ulPin]);
+
+	if(ulVal == HIGH)
+		(GPIO_Desc[ulPin].P)->DOUT |= GPIO_Desc[ulPin].bit;
 	else
 		(GPIO_Desc[ulPin].P)->DOUT &= ~GPIO_Desc[ulPin].bit;
 }
 
-extern int digitalRead( uint32_t ulPin )
+extern int digitalRead(uint32_t ulPin)
 {
-	#ifdef USE_BoardToPin
 	if(ulPin > BoardToPin_MAX_COUNT) return;     
 	if(BoardToPinInfo[ulPin].pin == -1) return;
-	ulPin=BoardToPinInfo[ulPin].pin;
-	#else	
-	if(ulPin>GPIO_MAX_COUNT || GPIO_Desc[ulPin].P==NULL) return LOW;
-	#endif
-	return ((GPIO_Desc[ulPin].P)->PIN & GPIO_Desc[ulPin].bit)?HIGH:LOW;
+	ulPin = BoardToPinInfo[ulPin].pin;
+	return ((GPIO_Desc[ulPin].P)->PIN & GPIO_Desc[ulPin].bit)? HIGH:LOW;
 }
 
 #ifdef __cplusplus
 }
 #endif
-

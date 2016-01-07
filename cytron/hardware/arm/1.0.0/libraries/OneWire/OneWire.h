@@ -122,8 +122,6 @@
 #elif defined(__NUC240__) | defined(__NANO100__) | defined(__NUC131__)
 #define DIRECT_MODE_INPUT(base, mask)  	(GPIO_SetMode((GPIO_T *)base,mask,GPIO_PMD_INPUT))
 #define DIRECT_MODE_OUTPUT(base, mask)  (GPIO_SetMode((GPIO_T *)base,mask,GPIO_PMD_OUTPUT))
-#else
-#error "Please define I/O register types here"
 #endif
 #define DIRECT_WRITE_LOW(base, mask)    ( (*(base+0x2)) &= ~mask)
 #define DIRECT_WRITE_HIGH(base, mask)   ( (*(base+0x2)) |=  mask)
@@ -133,8 +131,10 @@
 #ifndef pgm_read_byte
 #define pgm_read_byte(addr) (*(const uint8_t *)(addr))
 #endif
-
+#else
+#error "Please define I/O register types here"
 #endif
+
 
 class OneWire
 {
