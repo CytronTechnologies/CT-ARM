@@ -200,7 +200,7 @@ extern UARTPinDescription UART_Desc[];
 #define UART_Config(Desc) \
 do { \
 	uint8_t i; \
-	for(i = 0;i < 2; i++) \
+	for(i = 0;i < 2; i++){ \
 		outp32(GPIO_Desc[Desc.pintype[i].num].Pin.MFP, (inp32(GPIO_Desc[Desc.pintype[i].num].Pin.MFP) & ~GPIO_Desc[Desc.pintype[i].num].Pin.Mask) | Desc.pintype[i].type); \
 		if(GPIO_Desc[Desc.pintype[i].num].Pin.ALTMsk!=NULL) \
 			outp32(&SYS->ALT_MFP,(inp32(&SYS->ALT_MFP) & ~GPIO_Desc[Desc.pintype[i].num].Pin.ALTMsk) | Desc.pintype[i].AMsk); \		
