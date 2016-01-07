@@ -25,6 +25,7 @@
  *****************************************************************************/
 
 #include "HardwareTimer.h"
+/*
 #if defined(__M451__)
 	#if(NR_TIMERS>0)
 	HardwareTimer Timer1(0,TMR0_MODULE,CLK_CLKSEL1_TMR0SEL_HXT);
@@ -79,23 +80,26 @@
         #endif
 #endif
 
+
 HardwareTimer* Timer[NR_TIMERS]={
-	#if(NR_TIMERS>0)
+	#if(NR_TIMERS>0)&&(TimerOne_h_)
 		&Timer1,
   #endif
-  #if(NR_TIMERS>1)		
+  #if(NR_TIMERS>1)&&(TimerTwo_h_)		
 		&Timer2,
 	#endif
-	#if(NR_TIMERS>2)
+	#if(NR_TIMERS>2)&&(TimerThree_h_)
 		&Timer3,
 	#endif
-	#if(NR_TIMERS>3)
+	#if(NR_TIMERS>3)&&(TimerFour_h_)
 		&Timer4
 	#endif
 };
+*/
 
 /** Timer channel numbers */
-static voidFuncPtr TimerFuncPtr[NR_TIMERS];
+//static voidFuncPtr TimerFuncPtr[NR_TIMERS];
+static void (*TimerFuncPtr[NR_TIMERS])() = {NULL, NULL, NULL, NULL};
 
 #ifdef __cplusplus
 extern "C"
@@ -103,28 +107,28 @@ extern "C"
 #endif
 	#if(NR_TIMERS>0)
 	void TMR0_IRQHandler(void) { 
-		if(TimerFuncPtr[0])	TimerFuncPtr[0](0); 
+		if(TimerFuncPtr[0])	(*TimerFuncPtr[0])(); 
 		TIMER_ClearIntFlag(TIMER0);
 	}
 	#endif
 	
 	#if(NR_TIMERS>1)
 	void TMR1_IRQHandler(void) { 
-		if(TimerFuncPtr[1])	TimerFuncPtr[1](1); 
+		if(TimerFuncPtr[1])	(*TimerFuncPtr[1])(); 
 		TIMER_ClearIntFlag(TIMER1);
 	}
 	#endif
 	
 	#if(NR_TIMERS>2)
 	void TMR2_IRQHandler(void) { 
-		if(TimerFuncPtr[2])	TimerFuncPtr[2](2); 
+		if(TimerFuncPtr[2])	(*TimerFuncPtr[2])(); 
 		TIMER_ClearIntFlag(TIMER2);
 	}	
 	#endif
 	
 	#if(NR_TIMERS>3)
 	void TMR3_IRQHandler(void) { 
-		if(TimerFuncPtr[3])	TimerFuncPtr[3](3); 
+		if(TimerFuncPtr[3])	(*TimerFuncPtr[3])(); 
 		TIMER_ClearIntFlag(TIMER3);
 	}	
 	#endif
@@ -150,7 +154,7 @@ HardwareTimer::HardwareTimer(uint8_t timerNum,uint32_t moduleIdx,uint32_t clksel
     };
     dev = devs[timerNum];
     channel=timerNum;      
-    TimerFuncPtr[0]=NULL; 
+    TimerFuncPtr[channel]=NULL; 
     CLK_EnableModuleClock(moduleIdx);
  		CLK_SetModuleClock(moduleIdx,clksel,NULL); 
 }
@@ -175,13 +179,15 @@ void HardwareTimer::setCompare(uint32_t val) {
      TIMER_SET_CMP_VALUE(dev, val);
 }
 
-void HardwareTimer::attachInterrupt(void (*callback)(uint8_t)) {
+void HardwareTimer::attachInterrupt(void (*callback)(void)) {//(uint8_t)
    TimerFuncPtr[channel]=callback;
    TIMER_EnableInt(dev);
    NVIC_EnableIRQ((IRQn_Type)((int)TMR0_IRQn+channel));
+   start();//
 }
 
 void HardwareTimer::detachInterrupt() {
+   close();//
    TimerFuncPtr[channel]=NULL;
    TIMER_DisableInt(dev);
    NVIC_DisableIRQ((IRQn_Type)((int)TMR0_IRQn+channel));

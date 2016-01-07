@@ -33,7 +33,7 @@
 
 #include "Arduino.h"
 
-typedef void (*voidFuncPtr)(uint8_t);
+//typedef void (*voidFuncPtr)(void);
 
 /** Timer mode. */
 #define ONESHOT 		TIMER_ONESHOT_MODE
@@ -81,6 +81,8 @@ public:
 		void open(uint32_t mode,uint32_t freq);
 		
 		void start(void);
+		
+		void initialize(uint32_t microseconds = 1000000) { open(CONTINUOUS, (1 * 1000000)/microseconds); }
 	/**
   	* @brief This API stops Timer counting and disable the Timer interrupt function  
   	* @return None
@@ -100,7 +102,7 @@ public:
      * @param handler The ISR to attach to the given channel.
      * @see voidFuncPtr
      */
-    void attachInterrupt(voidFuncPtr handler);
+    void attachInterrupt(void (*callback)());
 
     /**
      * @brief Remove the interrupt handler attached to the given
@@ -130,7 +132,7 @@ public:
 
 /* -- The rest of this file is deprecated. --------------------------------- */
 #define NR_TIMERS 4
-
+/*
 #if(NR_TIMERS>0)
 	extern HardwareTimer Timer1;
 #endif
@@ -143,7 +145,9 @@ public:
 #if(NR_TIMERS>3)
 	extern HardwareTimer Timer4;
 #endif
+
 extern HardwareTimer* Timer[NR_TIMERS];
+*/
 	#if 0
 	extern HardwareTimer* GetHardwareTimer(void);
 	extern void ReleaseHardwareTimer(HardwareTimer* timer);
