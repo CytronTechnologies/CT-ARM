@@ -21,7 +21,8 @@
 
 #include "Arduino.h"
 
-HardwareTimer *ToneTimer=Timer[1];
+//HardwareTimer *ToneTimer=Timer[1];
+HardwareTimer *ToneTimer= new HardwareTimer(1,TMR1_MODULE,CLK_CLKSEL1_TMR1_S_HXT); //Tone uses TMR1 which is timer2
 
 typedef struct {
   HardwareTimer* timer;
@@ -32,7 +33,7 @@ typedef struct {
 
 tone_t Tone={0};
 
-void tone_ISR(uint8_t num)
+void tone_ISR(void)
 {		
 	Tone.waitISR=0;	
         #if defined(__NANO100__) | defined(__NANO1X2__)
