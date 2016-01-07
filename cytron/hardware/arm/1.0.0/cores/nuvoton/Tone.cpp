@@ -32,7 +32,7 @@ typedef struct {
 
 tone_t Tone = {0};
 
-void tone_ISR(uint8_t num)
+void tone_ISR(void)
 {		
   Tone.waitISR = 0;
   Tone.timer->close();        

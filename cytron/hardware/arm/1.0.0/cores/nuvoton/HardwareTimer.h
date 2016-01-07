@@ -33,7 +33,7 @@
 
 #include "Arduino.h"
 
-typedef void (*voidFuncPtr)(uint8_t);
+typedef void (*voidFuncPtr)(void);
 
 /** Timer mode. */
 #define ONESHOT 		TIMER_ONESHOT_MODE
@@ -86,6 +86,7 @@ public:
     * @brief This API stops Timer counting and disable the Timer interrupt function  
     * @return None
     */
+  void initialize(uint32_t microseconds = 1000000) { open(ONESHOT, (1 * 1000000)/microseconds); }
   void close(void);
 
   void setPrescaleFactor(uint32_t factor);

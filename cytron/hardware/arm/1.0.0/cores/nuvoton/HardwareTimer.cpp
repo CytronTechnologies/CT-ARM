@@ -63,28 +63,28 @@ extern "C"
 #endif
 	#if(NR_TIMERS > 0)
 	void TMR0_IRQHandler(void) { 
-		if(TimerFuncPtr[0])	TimerFuncPtr[0](0); 
+		if(TimerFuncPtr[0])	TimerFuncPtr[0](); 
 		TIMER_ClearIntFlag(TIMER0);
 	}
 	#endif
 	
 	#if(NR_TIMERS > 1)
 	void TMR1_IRQHandler(void) { 
-		if(TimerFuncPtr[1])	TimerFuncPtr[1](1); 
+		if(TimerFuncPtr[1])	TimerFuncPtr[1](); 
 		TIMER_ClearIntFlag(TIMER1);
 	}
 	#endif
 	
 	#if(NR_TIMERS > 2)
 	void TMR2_IRQHandler(void) { 
-		if(TimerFuncPtr[2])	TimerFuncPtr[2](2); 
+		if(TimerFuncPtr[2])	TimerFuncPtr[2](); 
 		TIMER_ClearIntFlag(TIMER2);
 	}	
 	#endif
 	
 	#if(NR_TIMERS > 3)
 	void TMR3_IRQHandler(void) { 
-		if(TimerFuncPtr[3])	TimerFuncPtr[3](3); 
+		if(TimerFuncPtr[3])	TimerFuncPtr[3](); 
 		TIMER_ClearIntFlag(TIMER3);
 	}	
 	#endif
@@ -135,7 +135,7 @@ void HardwareTimer::setCompare(uint32_t val) {
   TIMER_SET_CMP_VALUE(dev, val);
 }
 
-void HardwareTimer::attachInterrupt(void (*callback)(uint8_t)) {
+void HardwareTimer::attachInterrupt(void (*callback)(void)) {
   TimerFuncPtr[channel] = callback;
   TIMER_EnableInt(dev);
   NVIC_EnableIRQ((IRQn_Type)((int)TMR0_IRQn + channel));
