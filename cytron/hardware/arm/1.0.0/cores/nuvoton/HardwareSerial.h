@@ -98,4 +98,24 @@ extern HardwareSerial Serial1;
 extern void serial1EventRun(void) __attribute__((weak));
 #endif
 
+#if(UART_MAX_COUNT>2)
+extern HardwareSerial Serial2;
+extern void serial2EventRun(void) __attribute__((weak));
+#endif
+
+#if(UART_MAX_COUNT>3)
+extern HardwareSerial Serial3;
+extern void serial3EventRun(void) __attribute__((weak));
+#endif
+
+#if(UART_MAX_COUNT>4)
+extern HardwareSerial Serial4;
+extern void serial4EventRun(void) __attribute__((weak));
+#endif
+
+#if(UART_MAX_COUNT>5)
+extern HardwareSerial Serial5;
+extern void serial5EventRun(void) __attribute__((weak));
+#endif
+
 #endif

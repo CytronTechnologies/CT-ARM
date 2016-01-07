@@ -194,6 +194,26 @@ ring_buffer rx_buffer1 = { { 0 }, 0, 0};
 HardwareSerial Serial1(UART_Desc[1].U,1,CLK_CLKSEL1_UART_S_HXT,1,UART_Desc[1].irq,&rx_buffer1);
 #endif
 
+#if(UART_MAX_COUNT>2)
+ring_buffer rx_buffer2 = { { 0 }, 0, 0};
+HardwareSerial Serial2(UART_Desc[2].U,2,CLK_CLKSEL1_UART_S_HXT,1,UART_Desc[2].irq,&rx_buffer2);
+#endif
+
+#if(UART_MAX_COUNT>3)
+ring_buffer rx_buffer3 = { { 0 }, 0, 0};
+HardwareSerial Serial3(UART_Desc[3].U,3,CLK_CLKSEL1_UART_S_HXT,1,UART_Desc[3].irq,&rx_buffer3);
+#endif
+
+#if(UART_MAX_COUNT>4)
+ring_buffer rx_buffer4 = { { 0 }, 0, 0};
+HardwareSerial Serial4(UART_Desc[4].U,4,CLK_CLKSEL1_UART_S_HXT,1,UART_Desc[4].irq,&rx_buffer4);
+#endif
+
+#if(UART_MAX_COUNT>5)
+ring_buffer rx_buffer5 = { { 0 }, 0, 0};
+HardwareSerial Serial5(UART_Desc[5].U,5,CLK_CLKSEL1_UART_S_HXT,1,UART_Desc[5].irq,&rx_buffer5);
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -209,11 +229,21 @@ void UART02_IRQHandler(void)
     	rx_buffer.head = i;
   	}
 	}
-		
+#if(UART_MAX_COUNT>2)	
+	while(UART_GET_INT_FLAG(UART2,UART_IER_RDA_IEN_Msk))
+	{
+		int i = (unsigned int)(rx_buffer2.head + 1) % SERIAL_BUFFER_SIZE;
+  	if (i != rx_buffer2.tail) {
+    	rx_buffer2.buffer[rx_buffer2.head] = UART2->RBR;
+    	rx_buffer2.head = i;
+  	}
+	}
+#endif		
 }
 #endif
 
 #if(UART_MAX_COUNT>1)
+
 void UART1_IRQHandler(void)
 {
 	while(UART_GET_INT_FLAG(UART1,UART_IER_RDA_IEN_Msk))
@@ -222,6 +252,54 @@ void UART1_IRQHandler(void)
   	if (i != rx_buffer1.tail) {
     	rx_buffer1.buffer[rx_buffer1.head] = UART1->RBR;
     	rx_buffer1.head = i;
+  	}
+	}
+		
+}
+#endif
+
+#if(UART_MAX_COUNT>3)
+
+void UART3_IRQHandler(void)
+{
+	while(UART_GET_INT_FLAG(UART3,UART_IER_RDA_IEN_Msk))
+	{
+		int i = (unsigned int)(rx_buffer3.head + 1) % SERIAL_BUFFER_SIZE;
+  	if (i != rx_buffer3.tail) {
+    	rx_buffer3.buffer[rx_buffer3.head] = UART3->RBR;
+    	rx_buffer3.head = i;
+  	}
+	}
+		
+}
+#endif
+
+#if(UART_MAX_COUNT>4)
+
+void UART4_IRQHandler(void)
+{
+	while(UART_GET_INT_FLAG(UART4,UART_IER_RDA_IEN_Msk))
+	{
+		int i = (unsigned int)(rx_buffer4.head + 1) % SERIAL_BUFFER_SIZE;
+  	if (i != rx_buffer4.tail) {
+    	rx_buffer4.buffer[rx_buffer4.head] = UART4->RBR;
+    	rx_buffer4.head = i;
+  	}
+	}
+		
+}
+#endif
+
+#if(UART_MAX_COUNT>5)
+
+void UART5_IRQHandler(void)
+{
+	while(UART_GET_INT_FLAG(UART5,UART_IER_RDA_IEN_Msk))
+	{
+		int i = (unsigned int)(rx_buffer5.head + 1) % SERIAL_BUFFER_SIZE;
+  	if (i != rx_buffer5.tail) {
+    	rx_buffer5.buffer[rx_buffer5.head] = UART5->RBR;
+    	rx_buffer5.head = i;
   	}
 	}
 		
