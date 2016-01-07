@@ -39,7 +39,7 @@ typedef void (*voidFuncPtr)(void);
 #define ONESHOT 		TIMER_ONESHOT_MODE
 #define PERIODIC 		TIMER_PERIODIC_MODE
 #define TOGGLE 			TIMER_TOGGLE_MODE
-#define CONTINUOUS	TIMER_CONTINUOUS_MODE 
+#define CONTINUOUS		TIMER_CONTINUOUS_MODE 
 
 /** @brief Deprecated; use TIMER_OUTPUT_COMPARE instead. */
 #define TIMER_OUTPUTCOMPARE TIMER_OUTPUT_COMPARE
@@ -86,7 +86,8 @@ public:
     * @brief This API stops Timer counting and disable the Timer interrupt function  
     * @return None
     */
-  void initialize(uint32_t microseconds = 1000000) { open(ONESHOT, (1 * 1000000)/microseconds); }
+  void initialize(uint32_t microseconds = 1000000);
+
   void close(void);
 
   void setPrescaleFactor(uint32_t factor);

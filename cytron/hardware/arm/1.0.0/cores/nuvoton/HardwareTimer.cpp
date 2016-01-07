@@ -119,6 +119,15 @@ void HardwareTimer::open(uint32_t mode, uint32_t freq) {
   TIMER_Open(dev, mode, freq);		
 }
 
+void HardwareTimer::initialize(uint32_t microseconds){
+	
+	//open(PERIODIC, 1000000 / microseconds);
+	uint32_t u32ClkInMHz = 0;
+	u32ClkInMHz = getModuleClock() / 1000000;
+	dev->TCSR = PERIODIC | (u32ClkInMHz - 1);	// 
+	setCompare(microseconds);  // range - 2us - 16,777,216 us
+}
+
 void HardwareTimer::close() { 
   TIMER_Close(dev);		
 }
@@ -139,9 +148,11 @@ void HardwareTimer::attachInterrupt(void (*callback)(void)) {
   TimerFuncPtr[channel] = callback;
   TIMER_EnableInt(dev);
   NVIC_EnableIRQ((IRQn_Type)((int)TMR0_IRQn + channel));
+  start();
 }
 
 void HardwareTimer::detachInterrupt() {
+  close();
   TimerFuncPtr[channel] = NULL;
   TIMER_DisableInt(dev);
   NVIC_DisableIRQ((IRQn_Type)((int)TMR0_IRQn + channel));
