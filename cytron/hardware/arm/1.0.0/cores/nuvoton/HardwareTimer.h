@@ -33,7 +33,7 @@
 
 #include "Arduino.h"
 
-//typedef void (*voidFuncPtr)(void);
+typedef void (*voidFuncPtr)(uint8_t);
 
 /** Timer mode. */
 #define ONESHOT 		TIMER_ONESHOT_MODE
@@ -51,88 +51,86 @@ extern uint32_t TimeClock;
 class HardwareTimer {
 //private:
 public:
-    TIMER_T *dev;
-		int channel;
+  TIMER_T *dev;
+  int channel;
+
 public:
-    /**
-     * @brief Construct a new HardwareTimer instance.
-     * @param timerNum number of the timer to control.
-     * @param moduleIdx is including TMR0_MODULE,TMR1_MODULE,TMR2_MODULE and TMR3_MODULE
-     * @param clkse is including CLK_CLKSEL1_TMRx_S_XTAL       
-  	 *													 CLK_CLKSEL1_TMRx_S_IRC10K       
-  	 *													 CLK_CLKSEL1_TMRx_S_HCLK         
-  	 *													 CLK_CLKSEL1_TMRx_S_IRC22M 
-     */
-    HardwareTimer(uint8_t timerNum,uint32_t moduleIdx,uint32_t clksel);
- /**
-  * @brief This API is used to configure timer to operate in specified mode
-  *        and frequency. If timer cannot work in target frequency, a closest
-  *        frequency will be chose and returned.  
-  * @param[in] u32Mode Operation mode. Possible options are
-  *                 - \ref ONESHOT
-  *                 - \ref PERIODIC
-  *                 - \ref TOGGLE
-  *                 - \ref CONTINUOUS
-  * @param[in] u32Freq Target working frequency
-  * @return Real Timer working frequency
-  * @note After calling this API, Timer is \b NOT running yet. But could start timer running be calling
-  *       \ref TIMER_Start macro or program registers directly
-  */
-		void open(uint32_t mode,uint32_t freq);
-		
-		void start(void);
-		
-		void initialize(uint32_t microseconds = 1000000) { open(CONTINUOUS, (1 * 1000000)/microseconds); }
-	/**
-  	* @brief This API stops Timer counting and disable the Timer interrupt function  
-  	* @return None
-  	*/		
-    void close(void);
-    
-		void setPrescaleFactor(uint32_t factor);
-		void setCompare(uint32_t compare);
+  /**
+    * @brief Construct a new HardwareTimer instance.
+    * @param timerNum number of the timer to control.
+    * @param moduleIdx is including TMR0_MODULE,TMR1_MODULE,TMR2_MODULE and TMR3_MODULE
+    * @param clkse is including CLK_CLKSEL1_TMRx_S_XTAL       
+    *													 CLK_CLKSEL1_TMRx_S_IRC10K       
+    *													 CLK_CLKSEL1_TMRx_S_HCLK         
+    *													 CLK_CLKSEL1_TMRx_S_IRC22M 
+    */
+  HardwareTimer(uint8_t timerNum, uint32_t moduleIdx, uint32_t clksel);
+  /**
+    * @brief This API is used to configure timer to operate in specified mode
+    *        and frequency. If timer cannot work in target frequency, a closest
+    *        frequency will be chose and returned.  
+    * @param[in] u32Mode Operation mode. Possible options are
+    *                 - \ref ONESHOT
+    *                 - \ref PERIODIC
+    *                 - \ref TOGGLE
+    *                 - \ref CONTINUOUS
+    * @param[in] u32Freq Target working frequency
+    * @return Real Timer working frequency
+    * @note After calling this API, Timer is \b NOT running yet. But could start timer running be calling
+    *       \ref TIMER_Start macro or program registers directly
+    */
+  void open(uint32_t mode, uint32_t freq);
 
-    /**
-     * @brief Attach an interrupt handler to the given channel.
-     *
-     * This interrupt handler will be called when the timer's counter
-     * reaches the given channel compare value.
-     *
-     * @param channel the channel to attach the ISR to, from 1 to 4.
-     * @param handler The ISR to attach to the given channel.
-     * @see voidFuncPtr
-     */
-    void attachInterrupt(void (*callback)());
+  void start(void);
+  /**
+    * @brief This API stops Timer counting and disable the Timer interrupt function  
+    * @return None
+    */
+  void close(void);
 
-    /**
-     * @brief Remove the interrupt handler attached to the given
-     *        channel, if any.
-     *
-     * The handler will no longer be called by this timer.
-     *
-     * @param channel the channel whose interrupt to detach, from 1 to 4.
-     * @see HardwareTimer::attachInterrupt()
-     */
-    void detachInterrupt();
-    
-		/**
-	   * @brief This API is used to get the clock frequency of Timer	  
-	   * @return Timer clock frequency
-	   * @note This API cannot return correct clock rate if timer source is external clock input.
-	   */   
-    uint32_t getModuleClock();
-    
-		/**
-		  * @brief This function clears the Timer time-out interrupt flag.		  
-		  * @return None
-		  */
-    void clearIntFlag();
+  void setPrescaleFactor(uint32_t factor);
+  void setCompare(uint32_t compare);
 
+  /**
+    * @brief Attach an interrupt handler to the given channel.
+    *
+    * This interrupt handler will be called when the timer's counter
+    * reaches the given channel compare value.
+    *
+    * @param channel the channel to attach the ISR to, from 1 to 4.
+    * @param handler The ISR to attach to the given channel.
+    * @see voidFuncPtr
+    */
+  void attachInterrupt(voidFuncPtr handler);
+
+  /**
+    * @brief Remove the interrupt handler attached to the given
+    *        channel, if any.
+    *
+    * The handler will no longer be called by this timer.
+    *
+    * @param channel the channel whose interrupt to detach, from 1 to 4.
+    * @see HardwareTimer::attachInterrupt()
+    */
+  void detachInterrupt();
+    
+  /**
+    * @brief This API is used to get the clock frequency of Timer	  
+    * @return Timer clock frequency
+    * @note This API cannot return correct clock rate if timer source is external clock input.
+    */   
+  uint32_t getModuleClock();
+    
+  /**
+    * @brief This function clears the Timer time-out interrupt flag.		  
+    * @return None
+    */
+  void clearIntFlag();
 };
 
 /* -- The rest of this file is deprecated. --------------------------------- */
 #define NR_TIMERS 4
-/*
+
 #if(NR_TIMERS>0)
 	extern HardwareTimer Timer1;
 #endif
@@ -145,9 +143,7 @@ public:
 #if(NR_TIMERS>3)
 	extern HardwareTimer Timer4;
 #endif
-
 extern HardwareTimer* Timer[NR_TIMERS];
-*/
 	#if 0
 	extern HardwareTimer* GetHardwareTimer(void);
 	extern void ReleaseHardwareTimer(HardwareTimer* timer);
