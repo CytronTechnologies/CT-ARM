@@ -676,6 +676,7 @@ void GPDEF_IRQHandler(void)
 #endif
 
 #elif(__NUC131__)
+/*
 typedef void (*interruptCB)(void);
 
 static interruptCB callbacksPA[8];
@@ -684,12 +685,12 @@ static interruptCB callbacksPC[8];
 static interruptCB callbacksPD[8];
 static interruptCB callbacksPE[8];
 static interruptCB callbacksPF[8];
-
+*/
 
 /* Configure PIO interrupt sources */
 static void __initialize() {
 	int i;
-	for (i=0; i<8; i++) {
+	for (i=0; i<GNUM; i++) {
 		callbacksPA[i] = NULL;
 		callbacksPB[i] = NULL;
 		callbacksPC[i] = NULL;
@@ -787,7 +788,7 @@ extern "C" {
 void GPAB_IRQHandler(void)
 {
 		uint32_t i;		
-	  for (i=0; i<8; i++) {
+	  for (i=0; i<GNUM; i++) {
 	  	if(PA->ISRC & (1<<i))
 	  	{ 
 	  		if (callbacksPA[i]) callbacksPA[i]();	  		
@@ -803,7 +804,7 @@ void GPAB_IRQHandler(void)
 void GPCDEF_IRQHandler(void)
 {
 		uint32_t i;	
-	  for (i=0; i<8; i++) {
+	  for (i=0; i<GNUM; i++) {
 	  	if(PC->ISRC & (1<<i))
 	  	{
 	  		if (callbacksPC[i]) callbacksPC[i]();	  		
