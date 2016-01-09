@@ -50,16 +50,9 @@ class SoftwareSerial : public Stream
 private:
   // per object data
   uint8_t _receivePin;
-  GPIO_T *_receivePortRegister;
-  uint32_t  _receiveBitMask;
-  
   uint8_t _transmitPin;
-  //uint8_t _receiveBitMask;
-  //volatile uint8_t *_receivePortRegister;
-  //uint8_t _transmitBitMask;
-  //volatile uint8_t *_transmitPortRegister;
-  //volatile uint8_t *_pcint_maskreg;
-  //uint8_t _pcint_maskvalue;
+  uint8_t _receiveBitMask;
+  GPIO_T *_receivePortRegister;
 
   // Expressed as 4-cycle delays (must never be 0!)
   uint16_t _rx_delay_centering;
@@ -84,14 +77,12 @@ private:
   void setRX(uint8_t receivePin);
   void setRxIntMsk(bool enable) __attribute__((__always_inline__));
 
-  // Return num - sub, or 1 if the result would be < 1
-  static uint16_t subtract_cap(uint16_t num, uint16_t sub);
-
   // private static method for timing
-  static inline void tunedDelay(uint16_t delay);
+  static inline void tunedDelay(uint32_t delay);
 
 public:
   // public methods
+
   SoftwareSerial(uint8_t receivePin, uint8_t transmitPin, bool inverse_logic = false);
   ~SoftwareSerial();
   void begin(long speed);

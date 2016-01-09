@@ -39,10 +39,8 @@ http://arduiniana.org.
 // Includes
 // 
 #include <WInterrupts.h>
-//#include <avr/pgmspace.h>
 #include <Arduino.h>
 #include <SoftwareSerial.h>
-//#include <util/delay_basic.h>
 
 //
 // Statics
@@ -52,6 +50,29 @@ char SoftwareSerial::_receive_buffer[_SS_MAX_RX_BUFF];
 volatile uint8_t SoftwareSerial::_receive_buffer_tail = 0;
 volatile uint8_t SoftwareSerial::_receive_buffer_head = 0;
 
+typedef struct _DELAY_TABLE
+{
+  long baud;
+  uint16_t rx_delay_centering;
+  uint16_t rx_delay_intrabit;
+  uint16_t rx_delay_stopbit;
+  uint16_t tx_delay;
+} DELAY_TABLE;
+
+// Need to adjust all the values
+static const DELAY_TABLE table[] =
+{
+  //baud    |rxcenter|rxintra |rxstop  |tx
+  { 115200,  60,       63,       80,       100,   }, // Not Done - use oscillascope
+  { 57600,   140,      150,      180,      208,  }, // Not Done //99, 162, 150, 198 - use oscillascope
+  { 38400,   210,      279,      290,      317,  }, // Done
+  { 19200,   462,      592,      629,      629,  }, // Done //25, 32, 33, 34
+  { 9600,    1082,      1210,      1266,      1266,  }, // Done //59,66,69,69
+  { 4800,    2371,     2559,     2570,     2597, }, // Done //126,136,138,138
+  { 2400,    4968,     5156,     5170,     5194, }, // Done //265,275,279,277
+  { 1200,    10144,     10331,     10350,     10388, }, // Done //542,552,557,555
+};
+
 //
 // Debugging
 //
@@ -60,13 +81,13 @@ volatile uint8_t SoftwareSerial::_receive_buffer_head = 0;
 inline void DebugPulse(uint8_t pin, uint8_t count)
 {
 #if _DEBUG
-  volatile uint8_t *pport = portOutputRegister(digitalPinToPort(pin));
+  GPIO_T *port = digitalPinToPort(pin);
 
-  uint8_t val = *pport;
+  uint32_t val = port->DOUT;
   while (count--)
   {
-    *pport = val | digitalPinToBitMask(pin);
-    *pport = val;
+    port->DOUT = val | digitalPinToBitMask(pin); // set HIGH
+    port->DOUT = val;
   }
 #endif
 }
@@ -76,9 +97,20 @@ inline void DebugPulse(uint8_t pin, uint8_t count)
 //
 
 /* static */ 
-inline void SoftwareSerial::tunedDelay(uint16_t delay) { 
-  //_delay_loop_2(delay);
-  delayMicroseconds(delay);
+inline void SoftwareSerial::tunedDelay(uint32_t count) { 
+    
+	asm volatile(   
+  
+    "mov r3, %[loopsPerMicrosecond] \n\t" //load the initial loop counter
+    "1: \n\t"
+    "sub r3, r3, #1 \n\t"
+    "bne 1b \n\t"
+  
+    ://empty output list
+    :[loopsPerMicrosecond] "r" (count)
+    :"r3", "cc" //clobber list
+  );
+  
 }
 
 // This function sets the current object as the "listening"
@@ -121,23 +153,6 @@ bool SoftwareSerial::stopListening()
 //
 void SoftwareSerial::recv()
 {
-/*
-#if GCC_VERSION < 40302
-// Work-around for avr-gcc 4.3.0 OSX version bug
-// Preserve the registers that the compiler misses
-// (courtesy of Arduino forum user *etracer*)
-  asm volatile(
-    "push r18 \n\t"
-    "push r19 \n\t"
-    "push r20 \n\t"
-    "push r21 \n\t"
-    "push r22 \n\t"
-    "push r23 \n\t"
-    "push r26 \n\t"
-    "push r27 \n\t"
-    ::);
-#endif  
-*/
   uint8_t d = 0;
 
   // If RX line is high, then we don't see any start bit
@@ -147,8 +162,8 @@ void SoftwareSerial::recv()
     // Disable further interrupts during reception, this prevents
     // triggering another interrupt directly after we return, which can
     // cause problems at higher baudrates.
-    setRxIntMsk(false);
-
+    __disable_irq();//setRxIntMsk(false);//
+	
     // Wait approximately 1/2 of a bit width to "center" the sample
     tunedDelay(_rx_delay_centering);
     DebugPulse(_DEBUG_PIN2, 1);
@@ -156,11 +171,20 @@ void SoftwareSerial::recv()
     // Read each of the 8 bits
     for (uint8_t i=8; i > 0; --i)
     {
-      tunedDelay(_rx_delay_intrabit);
+      if (rx_pin_read())
+        d |= 0x80;
+	  //else
+      //  d &= 0x7F;
+	  d >>= 1;
+	  DebugPulse(_DEBUG_PIN2, 1);
+	  tunedDelay(_rx_delay_intrabit);
+	/* 
+	  tunedDelay(_rx_delay_intrabit);
       d >>= 1;
       DebugPulse(_DEBUG_PIN2, 1);
       if (rx_pin_read())
         d |= 0x80;
+	*/
     }
 
     if (_inverse_logic)
@@ -179,36 +203,22 @@ void SoftwareSerial::recv()
       DebugPulse(_DEBUG_PIN1, 1);
       _buffer_overflow = true;
     }
+	
+	while(!rx_pin_read()); // added this line to make sure it skips the last bit
 
     // skip the stop bit
     tunedDelay(_rx_delay_stopbit);
     DebugPulse(_DEBUG_PIN1, 1);
 
     // Re-enable interrupts when we're sure to be inside the stop bit
-    setRxIntMsk(true);
+    __enable_irq();//setRxIntMsk(true);//
 
   }
-/*
-#if GCC_VERSION < 40302
-// Work-around for avr-gcc 4.3.0 OSX version bug
-// Restore the registers that the compiler misses
-  asm volatile(
-    "pop r27 \n\t"
-    "pop r26 \n\t"
-    "pop r23 \n\t"
-    "pop r22 \n\t"
-    "pop r21 \n\t"
-    "pop r20 \n\t"
-    "pop r19 \n\t"
-    "pop r18 \n\t"
-    ::);
-#endif
-*/
 }
 
 uint8_t SoftwareSerial::rx_pin_read()
 {
-  return ((GPIO_Desc[_receivePin].P)->PIN & GPIO_Desc[_receivePin].bit)? HIGH:LOW;
+  return ( portInputRegister(digitalPinToPort(_receivePin)) & digitalPinToBitMask(_receivePin));
 }
 
 //
@@ -224,27 +234,6 @@ inline void SoftwareSerial::handle_interrupt()
   }
 }
 
-/*
-#if defined(PCINT0_vect)
-ISR(PCINT0_vect)
-{
-  SoftwareSerial::handle_interrupt();
-}
-#endif
-
-#if defined(PCINT1_vect)
-ISR(PCINT1_vect, ISR_ALIASOF(PCINT0_vect));
-#endif
-
-#if defined(PCINT2_vect)
-ISR(PCINT2_vect, ISR_ALIASOF(PCINT0_vect));
-#endif
-
-#if defined(PCINT3_vect)
-ISR(PCINT3_vect, ISR_ALIASOF(PCINT0_vect));
-#endif
-*/
-
 //
 // Constructor
 //
@@ -254,35 +243,10 @@ SoftwareSerial::SoftwareSerial(uint8_t receivePin, uint8_t transmitPin, bool inv
   _rx_delay_stopbit(0),
   _tx_delay(0),
   _buffer_overflow(false),
-  _inverse_logic(inverse_logic),
-  _receiveBitMask(0)
+  _inverse_logic(inverse_logic)
 {
   setTX(transmitPin);
   setRX(receivePin);
-  
-  
-  //initialise callback function
-  if (_receivePortRegister == PA )
-	  callbacksPA[_receiveBitMask] = NULL;
-  
-  else if (_receivePortRegister == PB )
-	  callbacksPB[_receiveBitMask] = NULL;
-
-  else if (_receivePortRegister == PC )
-	  callbacksPC[_receiveBitMask] = NULL;
-		
-  else if (_receivePortRegister == PD )
-	  callbacksPD[_receiveBitMask] = NULL;
-		
-  else if (_receivePortRegister == PE )
-	  callbacksPE[_receiveBitMask] = NULL;
-		
-  else if (_receivePortRegister == PF )
-	  callbacksPF[_receiveBitMask] = NULL;
-   
-  //Enable IRQn
-  NVIC_EnableIRQ(GPAB_IRQn);
-  NVIC_EnableIRQ(GPCDEF_IRQn);
 
 }
 
@@ -302,7 +266,7 @@ void SoftwareSerial::setTX(uint8_t tx)
   // is fine. With inverse logic, either order is fine.
   pinMode(tx, OUTPUT);
   digitalWrite(tx, _inverse_logic ? LOW : HIGH);
-  _transmitPin = BoardToPinInfo[tx].pin;
+  _transmitPin = tx;
 
 }
 
@@ -310,16 +274,13 @@ void SoftwareSerial::setRX(uint8_t rx)
 {
   pinMode(rx, INPUT_PULLUP); // pullup for normal logic!
   //if (!_inverse_logic)
-  // digitalWrite(rx, HIGH);  
-  _receivePin = BoardToPinInfo[rx].pin;
+  // digitalWrite(rx, HIGH); 
+  _receivePin = rx;
   
-  //get information of RX pin
-  _receivePortRegister = GPIO_Desc[_receivePin].P;
-  uint32_t mask = GPIO_Desc[_receivePin].bit;
+  _receivePortRegister = digitalPinToPort(_receivePin);
   _receiveBitMask = 0;
-  uint32_t t;
 	
-  for (t = mask; t>1; t>>=1, _receiveBitMask++);
+  for (uint32_t t = digitalPinToBitMask(_receivePin); t>1; t>>=1, _receiveBitMask++);
 
 }
 
@@ -331,51 +292,39 @@ void SoftwareSerial::begin(long speed)
 {
   _rx_delay_centering = _rx_delay_intrabit = _rx_delay_stopbit = _tx_delay = 0;
 
-  _tx_delay = round(1000000 / speed) + 8;
-  
-  if(_tx_delay > 10) _rx_delay_centering= _tx_delay / 2;
-  else _rx_delay_centering = _tx_delay;
-  
-  _rx_delay_intrabit = _rx_delay_centering;
-  _rx_delay_stopbit = _rx_delay_centering;
-  
-  
-  if (_receivePortRegister == PA )
-	  callbacksPA[_receiveBitMask] = this->handle_interrupt;
-  
-  else if (_receivePortRegister == PB )
-	  callbacksPB[_receiveBitMask] = this->handle_interrupt;
+  for(uint8_t i = 0; i < sizeof(table)/sizeof(table[0]); ++i)
+  {
+    long baud = table[i].baud;
+    if(baud == speed)
+    {
+      _rx_delay_centering = table[i].rx_delay_centering;
+      _rx_delay_intrabit = table[i].rx_delay_intrabit;
+      _rx_delay_stopbit = table[i].rx_delay_stopbit;
+      _tx_delay = table[i].tx_delay;
+      break;
+    }
+  }
 
-  else if (_receivePortRegister == PC )
-	  callbacksPC[_receiveBitMask] = this->handle_interrupt;
-		
-  else if (_receivePortRegister == PD )
-	  callbacksPD[_receiveBitMask] = this->handle_interrupt;
-		
-  else if (_receivePortRegister == PE )
-	  callbacksPE[_receiveBitMask] = this->handle_interrupt;
-		
-  else if (_receivePortRegister == PF )
-	  callbacksPF[_receiveBitMask] = this->handle_interrupt;
-
+  attachInterrupt(_receivePin, this->handle_interrupt, CHANGE);
+  
 #if _DEBUG
   pinMode(_DEBUG_PIN1, OUTPUT);
   pinMode(_DEBUG_PIN2, OUTPUT);
 #endif
 
   listen();
-  
-  tunedDelay(1000000); //TODO: must be tunedDelay, don't know why, need to test
 
 }
 
 void SoftwareSerial::setRxIntMsk(bool enable)
 {
     if (enable)
-      GPIO_EnableInt(_receivePortRegister,_receiveBitMask,GPIO_INT_BOTH_EDGE);
+		GPIO_EnableInt(_receivePortRegister,_receiveBitMask,GPIO_INT_BOTH_EDGE);
+	//attachInterrupt(_receivePin, this->handle_interrupt, CHANGE);
   
     else
-      GPIO_DisableInt(_receivePortRegister,_receiveBitMask);
+		GPIO_DisableInt(_receivePortRegister,_receiveBitMask);
+	//detachInterrupt(_receivePin);
 }
 
 void SoftwareSerial::end()
@@ -414,38 +363,47 @@ size_t SoftwareSerial::write(uint8_t b)
   // in registers _before_ disabling interrupts and entering the
   // critical timing sections below, which makes it a lot easier to
   // verify the cycle timings
-  
-  //bool inv = _inverse_logic;
+
+  uint32_t reg_mask = digitalPinToBitMask(_transmitPin);
+  uint32_t inv_mask = ~reg_mask;
+  GPIO_T* port = digitalPinToPort(_transmitPin); 
+  bool inv = _inverse_logic;
+  uint16_t delay = _tx_delay;
+   
+  if(inv)
+	  b = ~b;
   
   __disable_irq();//cli();  // turn off interrupts for a clean txmit
   
-  (GPIO_Desc[_transmitPin].P)->DOUT |= GPIO_Desc[_transmitPin].bit; //high
-  tunedDelay(_tx_delay);
-  
   // Write the start bit
- 
-  (GPIO_Desc[_transmitPin].P)->DOUT &= ~GPIO_Desc[_transmitPin].bit; //low
+  if (inv)
+    port->DOUT |= reg_mask;
+  else
+    port->DOUT &= inv_mask;
   
-  tunedDelay(_tx_delay);
+  tunedDelay(delay);
 
   // Write each of the 8 bits
   for (uint8_t i = 8; i > 0; --i)
   {
     if (b & 1) // choose bit
-      (GPIO_Desc[_transmitPin].P)->DOUT |= GPIO_Desc[_transmitPin].bit;//*reg |= reg_mask; // send 1
+      port->DOUT |= reg_mask; // send 1 //(GPIO_Desc[_transmitPin].P)->DOUT |= GPIO_Desc[_transmitPin].bit;
     else
-      (GPIO_Desc[_transmitPin].P)->DOUT &= ~GPIO_Desc[_transmitPin].bit;//*reg &= inv_mask; // send 0
+      port->DOUT &= inv_mask; // send 0 //(GPIO_Desc[_transmitPin].P)->DOUT &= ~GPIO_Desc[_transmitPin].bit;
 
-    tunedDelay(_tx_delay);
+    tunedDelay(delay);
     b >>= 1;
   }
 
   // restore pin to natural state
-  (GPIO_Desc[_transmitPin].P)->DOUT |= GPIO_Desc[_transmitPin].bit; //high
-  
-  tunedDelay(_tx_delay);
-  
+  if (inv)
+    port->DOUT &= inv_mask;
+  else
+    port->DOUT |= reg_mask;
+
   __enable_irq(); // turn interrupts back on
+  
+  tunedDelay(delay);
   
   return 1;
 }
