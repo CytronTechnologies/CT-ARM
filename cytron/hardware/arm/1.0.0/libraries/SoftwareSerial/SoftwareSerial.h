@@ -40,7 +40,7 @@ http://arduiniana.org.
 * Definitions
 ******************************************************************************/
 
-#define _SS_MAX_RX_BUFF 64 // RX buffer size
+#define _SS_MAX_RX_BUFF 128 // RX buffer size
 #ifndef GCC_VERSION
 #define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #endif
@@ -59,6 +59,7 @@ private:
   uint16_t _rx_delay_intrabit;
   uint16_t _rx_delay_stopbit;
   uint16_t _tx_delay;
+  bool _skip_rx_stopbit;
 
   uint16_t _buffer_overflow:1;
   uint16_t _inverse_logic:1;
@@ -79,10 +80,10 @@ private:
 
   // private static method for timing
   static inline void tunedDelay(uint32_t delay);
-
+  static inline void tunedDelay2(); //for baudrate for 115200 and more
+  
 public:
   // public methods
-
   SoftwareSerial(uint8_t receivePin, uint8_t transmitPin, bool inverse_logic = false);
   ~SoftwareSerial();
   void begin(long speed);

@@ -59,18 +59,19 @@ typedef struct _DELAY_TABLE
   uint16_t tx_delay;
 } DELAY_TABLE;
 
-// Need to adjust all the values
+// rough delay estimation
 static const DELAY_TABLE table[] =
 {
   //baud    |rxcenter|rxintra |rxstop  |tx
-  { 115200,  60,       63,       80,       100,   }, // Not Done - use oscillascope
-  { 57600,   140,      150,      180,      208,  }, // Not Done //99, 162, 150, 198 - use oscillascope
-  { 38400,   210,      279,      290,      317,  }, // Done
-  { 19200,   462,      592,      629,      629,  }, // Done //25, 32, 33, 34
-  { 9600,    1082,      1210,      1266,      1266,  }, // Done //59,66,69,69
-  { 4800,    2371,     2559,     2570,     2597, }, // Done //126,136,138,138
-  { 2400,    4968,     5156,     5170,     5194, }, // Done //265,275,279,277
-  { 1200,    10144,     10331,     10350,     10388, }, // Done //542,552,557,555
+  { 115200,   8,       84,       1,        99,   }, // Done but not good due to instruction cycle error
+  //{ 74880,   69,       139,       62,      162,  }, // estimation
+  { 57600,   130,      185,      100,      208,  }, // Done
+  { 38400,   135,      298,      150,      317,  }, // Done
+  { 19200,   290,      625,      560,      629,  }, // Done
+  { 9600,    600,      1282,     1200,     1266, }, // Done
+  { 4800,    1974,     2559,     2570,     2597, }, // Done
+  { 2400,    4968,     5156,     5170,     5194, }, // Done 
+  { 1200,    10144,    10331,    10350,    10388,}, // Done 
 };
 
 //
@@ -86,7 +87,7 @@ inline void DebugPulse(uint8_t pin, uint8_t count)
   uint32_t val = port->DOUT;
   while (count--)
   {
-    port->DOUT = val | digitalPinToBitMask(pin); // set HIGH
+    port->DOUT |= digitalPinToBitMask(pin); // set HIGH
     port->DOUT = val;
   }
 #endif
@@ -109,6 +110,22 @@ inline void SoftwareSerial::tunedDelay(uint32_t count) {
     ://empty output list
     :[loopsPerMicrosecond] "r" (count)
     :"r3", "cc" //clobber list
+  );
+  
+}
+
+inline void SoftwareSerial::tunedDelay2() { 
+    
+	asm volatile(   
+    "nop \n\t" 
+    "nop \n\t"
+    "nop \n\t"
+	"nop \n\t"
+	"nop \n\t" 
+	"nop \n\t" 
+    "nop \n\t"
+
+	:::
   );
   
 }
@@ -162,7 +179,7 @@ void SoftwareSerial::recv()
     // Disable further interrupts during reception, this prevents
     // triggering another interrupt directly after we return, which can
     // cause problems at higher baudrates.
-    __disable_irq();//setRxIntMsk(false);//
+    setRxIntMsk(false);//__disable_irq();//
 	
     // Wait approximately 1/2 of a bit width to "center" the sample
     tunedDelay(_rx_delay_centering);
@@ -171,20 +188,11 @@ void SoftwareSerial::recv()
     // Read each of the 8 bits
     for (uint8_t i=8; i > 0; --i)
     {
-      if (rx_pin_read())
-        d |= 0x80;
-	  //else
-      //  d &= 0x7F;
-	  d >>= 1;
-	  DebugPulse(_DEBUG_PIN2, 1);
-	  tunedDelay(_rx_delay_intrabit);
-	/* 
 	  tunedDelay(_rx_delay_intrabit);
       d >>= 1;
       DebugPulse(_DEBUG_PIN2, 1);
       if (rx_pin_read())
         d |= 0x80;
-	*/
     }
 
     if (_inverse_logic)
@@ -204,14 +212,16 @@ void SoftwareSerial::recv()
       _buffer_overflow = true;
     }
 	
-	while(!rx_pin_read()); // added this line to make sure it skips the last bit
-
     // skip the stop bit
-    tunedDelay(_rx_delay_stopbit);
-    DebugPulse(_DEBUG_PIN1, 1);
+	if(!_skip_rx_stopbit)
+		tunedDelay(_rx_delay_stopbit);
+	else
+		tunedDelay2();
+	
+    DebugPulse(_DEBUG_PIN2, 1);
 
     // Re-enable interrupts when we're sure to be inside the stop bit
-    __enable_irq();//setRxIntMsk(true);//
+	setRxIntMsk(true);//__enable_irq();//
 
   }
 }
@@ -264,7 +274,12 @@ void SoftwareSerial::setTX(uint8_t tx)
   // the pin would be output low for a short while before switching to
   // output hihg. Now, it is input with pullup for a short while, which
   // is fine. With inverse logic, either order is fine.
-  pinMode(tx, OUTPUT);
+  //pinMode(tx, OUTPUT);
+  uint32_t _transmitBitMask = 0;
+  for (uint32_t t = digitalPinToBitMask(tx); t>1; t>>=1, _transmitBitMask++);
+  portModeRegister(digitalPinToPort(tx)) &= (0x3)<<(_transmitBitMask<<1);
+  portModeRegister(digitalPinToPort(tx)) |= (0x1)<<(_transmitBitMask<<1); // setting output
+  
   digitalWrite(tx, _inverse_logic ? LOW : HIGH);
   _transmitPin = tx;
 
@@ -304,6 +319,9 @@ void SoftwareSerial::begin(long speed)
       break;
     }
   }
+  
+  if(speed >= 115200) _skip_rx_stopbit = true;
+  else _skip_rx_stopbit = false;
 
   attachInterrupt(_receivePin, this->handle_interrupt, CHANGE);
   
@@ -320,11 +338,9 @@ void SoftwareSerial::setRxIntMsk(bool enable)
 {
     if (enable)
 		GPIO_EnableInt(_receivePortRegister,_receiveBitMask,GPIO_INT_BOTH_EDGE);
-	//attachInterrupt(_receivePin, this->handle_interrupt, CHANGE);
   
     else
 		GPIO_DisableInt(_receivePortRegister,_receiveBitMask);
-	//detachInterrupt(_receivePin);
 }
 
 void SoftwareSerial::end()
@@ -400,11 +416,10 @@ size_t SoftwareSerial::write(uint8_t b)
     port->DOUT &= inv_mask;
   else
     port->DOUT |= reg_mask;
-
-  __enable_irq(); // turn interrupts back on
-  
+	
+	__enable_irq(); // turn interrupts back on
   tunedDelay(delay);
-  
+ 
   return 1;
 }
 
@@ -413,11 +428,9 @@ void SoftwareSerial::flush()
   if (!isListening())
     return;
 
-  //uint8_t oldSREG = SREG;
-  __disable_irq();//cli();
+  __disable_irq();
   _receive_buffer_head = _receive_buffer_tail = 0;
   __enable_irq();
-  //SREG = oldSREG;
 }
 
 int SoftwareSerial::peek()
