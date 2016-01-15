@@ -128,6 +128,8 @@
 #define DIRECT_WRITE_LOW(base, mask)    ( (*(base+0x2)) &= ~mask)
 #define DIRECT_WRITE_HIGH(base, mask)   ( (*(base+0x2)) |=  mask)
 
+#endif
+
 class OneWire
 {
   private:
