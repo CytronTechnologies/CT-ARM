@@ -4,6 +4,7 @@ nuvoton_nuc131.name = CT-ARM
 nuvoton_nuc131.upload.tool = nulinkburn
 nuvoton_nuc131.upload.protocol = nuc-ba
 nuvoton_nuc131.upload.maximum_size = 65536
+nuvoton_nuc131.upload.maximum_data_size = 8192
 nuvoton_nuc131.upload.use_1200bps_touch = false
 nuvoton_nuc131.upload.wait_for_upload_port = false
 nuvoton_nuc131.upload.native_usb = false
