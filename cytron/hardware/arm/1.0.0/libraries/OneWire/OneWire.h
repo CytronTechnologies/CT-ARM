@@ -116,6 +116,8 @@
 #define IO_REG_TYPE uint32_t
 #define IO_REG_ASM
 #define DIRECT_READ(base, mask)         ( (*(base+0x4) & mask )? 1 : 0 )
+#endif
+
 #if defined(__M451__)
 #define DIRECT_MODE_INPUT(base, mask)  	(GPIO_SetMode((GPIO_T *)base,mask,GPIO_MODE_INPUT))
 #define DIRECT_MODE_OUTPUT(base, mask)  (GPIO_SetMode((GPIO_T *)base,mask,GPIO_MODE_OUTPUT))
