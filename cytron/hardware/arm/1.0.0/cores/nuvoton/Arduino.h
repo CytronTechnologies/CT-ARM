@@ -20,6 +20,7 @@
 #include "NUC131.h"
 #include "Pins_arduino.h"
 #include "wiring_constants.h"
+#include "pgmspace.h"
 
 #define ARDUINO 100
 
