@@ -22,7 +22,7 @@
 #include "Arduino.h"
 
 #if(__NUC131__)
-#define GNUM 16
+#define GNUM 8
 typedef void (*interruptCB)(void);
 
 static interruptCB callbacksPA[GNUM];
