@@ -104,7 +104,7 @@ typedef struct _I2CPinDescription {
 } I2CPinDescription;
 
 typedef struct _BoardToPin {
-	int32_t pin;
+	uint8_t pin;
 	uint8_t type;
   uint8_t num;
 } BoardToPin;
@@ -118,10 +118,10 @@ typedef struct _BoardToPin {
 #define PWM_TYPE 	5
 #define CAN_TYPE 	6
 #define BoardToPin_MAX_COUNT 44
-extern BoardToPin BoardToPinInfo[];
+extern const BoardToPin BoardToPinInfo[];
 
 #define GPIO_MAX_COUNT 48
-extern GPIOPinDescription GPIO_Desc[];
+extern const GPIOPinDescription GPIO_Desc[];
 #define GPIO_Config(Desc) \
 do { \
 	outp32(Desc.Pin.MFP,(inp32(Desc.Pin.MFP) & ~Desc.Pin.Mask) | Desc.Pin.Type); \		
@@ -132,7 +132,7 @@ do { \
 } while(0); 
 
 #define BPWM_MAX_COUNT 4
-extern BPWMPinDescription BPWM_Desc[];
+extern const BPWMPinDescription BPWM_Desc[];
 #define BPWM_Config(Desc) \
 do { \
   outp32(GPIO_Desc[Desc.pintype.num].Pin.MFP, (inp32(GPIO_Desc[Desc.pintype.num].Pin.MFP) & ~GPIO_Desc[Desc.pintype.num].Pin.Mask) | Desc.pintype.type); \ 
@@ -147,7 +147,7 @@ do { \
 } while(0);
 
 #define PWM_MAX_COUNT 12
-extern PWMPinDescription PWM_Desc[];
+extern const PWMPinDescription PWM_Desc[];
 #define PWM_Config(Desc) \
 do { \
 	outp32(GPIO_Desc[Desc.pintype.num].Pin.MFP, (inp32(GPIO_Desc[Desc.pintype.num].Pin.MFP) & ~GPIO_Desc[Desc.pintype.num].Pin.Mask) | Desc.pintype.type); \	
@@ -162,7 +162,7 @@ do { \
 } while(0);
 
 #define ADC_MAX_COUNT 6
-extern ADCPinDescription ADC_Desc[];
+extern const ADCPinDescription ADC_Desc[];
 #define ADC_Config(Desc) \
 do { \
 	outp32(GPIO_Desc[Desc.pintype.num].Pin.MFP, (inp32(GPIO_Desc[Desc.pintype.num].Pin.MFP) & ~GPIO_Desc[Desc.pintype.num].Pin.Mask) | Desc.pintype.type); \
@@ -179,7 +179,7 @@ do { \
 #define SPI_MAX_COUNT 1
 #define SPI_CHANNELS_NUM 1
 #endif
-extern SPIPinDescription SPI_Desc[];
+extern const SPIPinDescription SPI_Desc[];
 #define SPI_SCK   0
 #define SPI_MOSI  1
 #define SPI_MISO  2
@@ -194,7 +194,7 @@ do { \
 } while(0);
 
 #define UART_MAX_COUNT 6
-extern UARTPinDescription UART_Desc[];
+extern const UARTPinDescription UART_Desc[];
 #define UART_RX 0
 #define UART_TX 1
 #define UART_Config(Desc) \
@@ -215,7 +215,7 @@ do { \
 
 #if defined(__M451__) | defined(__NUC240__)
 #define CAN_MAX_COUNT 1
-extern CANPinDescription CAN_Desc[];
+extern const CANPinDescription CAN_Desc[];
 #define CAN_RX 0
 #define CAN_TX 1
 #define CAN_Config(Desc) \
@@ -228,7 +228,7 @@ do { \
 #endif
 
 #define I2C_MAX_COUNT 1
-extern I2CPinDescription I2C_Desc[];
+extern const I2CPinDescription I2C_Desc[];
 #define I2C_SCL 0
 #define I2C_SDA 1
 #define I2C_Config(Desc) \
