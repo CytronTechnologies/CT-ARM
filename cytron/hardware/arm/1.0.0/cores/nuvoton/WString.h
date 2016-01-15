@@ -57,6 +57,7 @@ public:
 	// be false).
 	String(const char *cstr = "");
 	String(const String &str);
+	String(const __FlashStringHelper *str);
 	#ifdef __GXX_EXPERIMENTAL_CXX0X__
 	String(String &&rval);
 	String(StringSumHelper &&rval);
@@ -67,6 +68,8 @@ public:
 	explicit String(unsigned int, unsigned char base=10);
 	explicit String(long, unsigned char base=10);
 	explicit String(unsigned long, unsigned char base=10);
+	explicit String(float, unsigned char decimalPlaces=2);
+	explicit String(double, unsigned char decimalPlaces=2);
 	~String(void);
 
 	// memory management
@@ -174,6 +177,8 @@ public:
 	// modification
 	void replace(char find, char replace);
 	void replace(const String& find, const String& replace);
+	void remove(unsigned int index);
+	void remove(unsigned int index, unsigned int count);
 	void toLowerCase(void);
 	void toUpperCase(void);
 	void trim(void);
@@ -186,7 +191,7 @@ protected:
 	char *buffer;	        // the actual char array
 	unsigned int capacity;  // the array length minus one (for the '\0')
 	unsigned int len;       // the String length (not counting the '\0')
-	unsigned char flags;    // unused, for future features
+
 protected:
 	void init(void);
 	void invalidate(void);
@@ -212,6 +217,8 @@ public:
 	StringSumHelper(unsigned int num) : String(num) {}
 	StringSumHelper(long num) : String(num) {}
 	StringSumHelper(unsigned long num) : String(num) {}
+	StringSumHelper(float num) : String(num) {}
+	StringSumHelper(double num) : String(num) {}
 };
 
 #endif  // __cplusplus

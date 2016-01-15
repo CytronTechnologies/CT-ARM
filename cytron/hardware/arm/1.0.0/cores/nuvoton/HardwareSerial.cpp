@@ -35,155 +35,6 @@
 #include <inttypes.h>
 #include "Arduino.h"
 
-#if defined(__M451__)
-  #if(UART_MAX_COUNT>0)
-  ring_buffer rx_buffer = { { 0 }, 0, 0};
-  HardwareSerial Serial(UART_Desc[0].U,0,CLK_CLKSEL1_UARTSEL_HXT,1,UART_Desc[0].irq,&rx_buffer);
-  #endif
-
-  #if(UART_MAX_COUNT>1)
-  ring_buffer rx_buffer1 = { { 0 }, 0, 0};
-  HardwareSerial Serial1(UART_Desc[1].U,1,CLK_CLKSEL1_UARTSEL_HXT,1,UART_Desc[1].irq,&rx_buffer1);
-  #endif
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#if(UART_MAX_COUNT>0)
-void UART0_IRQHandler(void)
-{
-	while(UART_GET_INT_FLAG(UART0,UART_INTEN_RDAIEN_Msk))
-	{
-		int i = (unsigned int)(rx_buffer.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer.tail) {
-    	rx_buffer.buffer[rx_buffer.head] = UART0->DAT;
-    	rx_buffer.head = i;
-  	}
-	}
-		
-}
-#endif
-
-#if(UART_MAX_COUNT>1)
-void UART1_IRQHandler(void)
-{
-	while(UART_GET_INT_FLAG(UART1,UART_INTEN_RDAIEN_Msk))
-	{
-		int i = (unsigned int)(rx_buffer1.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer1.tail) {
-    	rx_buffer1.buffer[rx_buffer1.head] = UART1->DAT;
-    	rx_buffer1.head = i;
-  	}
-	}
-		
-}
-#endif
-
-#ifdef __cplusplus
-}
-#endif
-
-#elif defined(__NUC240__)
-  #if(UART_MAX_COUNT>0)
-  ring_buffer rx_buffer = { { 0 }, 0, 0};
-  HardwareSerial Serial(UART_Desc[0].U,0,CLK_CLKSEL1_UART_S_HXT,1,UART_Desc[0].irq,&rx_buffer);
-  #endif
-
-  #if(UART_MAX_COUNT>1)
-  ring_buffer rx_buffer1 = { { 0 }, 0, 0};
-  HardwareSerial Serial1(UART_Desc[1].U,1,CLK_CLKSEL1_UART_S_HXT,1,UART_Desc[1].irq,&rx_buffer1);
-  #endif
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#if(UART_MAX_COUNT>0)
-void UART02_IRQHandler(void)
-{	 
-	while(UART_GET_INT_FLAG(UART0,UART_IER_RDA_IEN_Msk))
-	{
-		int i = (unsigned int)(rx_buffer.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer.tail) {
-    	rx_buffer.buffer[rx_buffer.head] = UART0->RBR;
-    	rx_buffer.head = i;
-  	}
-	}
-		
-}
-#endif
-
-#if(UART_MAX_COUNT>1)
-void UART1_IRQHandler(void)
-{
-	while(UART_GET_INT_FLAG(UART1,UART_IER_RDA_IEN_Msk))
-	{
-		int i = (unsigned int)(rx_buffer1.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer1.tail) {
-    	rx_buffer1.buffer[rx_buffer1.head] = UART1->RBR;
-    	rx_buffer1.head = i;
-  	}
-	}
-		
-}
-#endif
-
-#ifdef __cplusplus
-}
-#endif
-
-#elif defined(__NANO100__)
-  #if(UART_MAX_COUNT>0)
-  ring_buffer rx_buffer1 = { { 0 }, 0, 0};  /* for UAR1_IRQ */
-  HardwareSerial Serial(UART_Desc[0].U,0,CLK_CLKSEL1_UART_S_HXT,1,UART_Desc[0].irq,&rx_buffer1);
-  #endif
-
-  #if(UART_MAX_COUNT>1)
-  ring_buffer rx_buffer = { { 0 }, 0, 0}; /* for UAR0_IRQ */
-  HardwareSerial Serial1(UART_Desc[1].U,1,CLK_CLKSEL1_UART_S_HXT,1,UART_Desc[1].irq,&rx_buffer);
-  #endif
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#if(UART_MAX_COUNT>1)
-void UART0_IRQHandler(void)
-{        	                   
-	while(UART_GET_INT_FLAG(UART0,UART_IER_RDA_IE_Msk))
-	{
-		int i = (unsigned int)(rx_buffer.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer.tail) {
-    	rx_buffer.buffer[rx_buffer.head] = UART0->RBR;
-    	rx_buffer.head = i;
-  	}
-	}
-		
-}
-#endif
-
-#if(UART_MAX_COUNT>0)
-void UART1_IRQHandler(void)
-{		 
-	while(UART_GET_INT_FLAG(UART1,UART_IER_RDA_IE_Msk))
-	{
-		int i = (unsigned int)(rx_buffer1.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer1.tail) {
-    	rx_buffer1.buffer[rx_buffer1.head] = UART1->RBR;
-    	rx_buffer1.head = i;
-  	}
-	}
-		
-}
-#endif
-
-#ifdef __cplusplus
-}
-#endif
-
-#elif defined(__NUC131__)
-
 #if(UART_MAX_COUNT>0)
 ring_buffer rx_buffer = { { 0 }, 0, 0};
 HardwareSerial Serial(UART_Desc[0].U,0,CLK_CLKSEL1_UART_S_HXT,1,UART_Desc[0].irq,&rx_buffer);
@@ -310,75 +161,56 @@ void UART5_IRQHandler(void)
 }
 #endif
 
-#elif defined(__NANO1X2__)
-
-  #if(UART_MAX_COUNT>0)
-  ring_buffer rx_buffer = { { 0 }, 0, 0};  /* for UART0_IRQ */
-  HardwareSerial Serial(UART_Desc[0].U,0,CLK_CLKSEL1_UART_S_HIRC,1,UART_Desc[0].irq,&rx_buffer);
-  #endif
-
-  #if(UART_MAX_COUNT>1)
-  ring_buffer rx_buffer1 = { { 0 }, 0, 0}; /* for UART1_IRQ */
-  HardwareSerial Serial1(UART_Desc[1].U,1,CLK_CLKSEL1_UART_S_HIRC,1,UART_Desc[1].irq,&rx_buffer1);
-  #endif
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#if(UART_MAX_COUNT>0)
-void UART0_IRQHandler(void)
-{        	                   
-	while(UART_GET_INT_FLAG(UART0,UART_IER_RDA_IE_Msk))
-	{
-		int i = (unsigned int)(rx_buffer.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer.tail) {
-    	rx_buffer.buffer[rx_buffer.head] = UART0->RBR;
-    	rx_buffer.head = i;
-  	}
-	}
-		
-}
-#endif
-
-#if(UART_MAX_COUNT>1)
-void UART1_IRQHandler(void)
-{		 
-	while(UART_GET_INT_FLAG(UART1,UART_IER_RDA_IE_Msk))
-	{
-		int i = (unsigned int)(rx_buffer1.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer1.tail) {
-    	rx_buffer1.buffer[rx_buffer1.head] = UART1->RBR;
-    	rx_buffer1.head = i;
-  	}
-	}
-		
-}
-#endif
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif
-
 #if(UART_MAX_COUNT>0)
 void serialEvent() __attribute__((weak));
 #endif
 
 #if(UART_MAX_COUNT>1)
-void serial1Event() __attribute__((weak));
+void serialEvent1() __attribute__((weak));
+#endif
+
+#if(UART_MAX_COUNT>2)
+void serialEvent2() __attribute__((weak));
+#endif
+
+#if(UART_MAX_COUNT>3)
+void serialEvent3() __attribute__((weak));
+#endif
+
+#if(UART_MAX_COUNT>4)
+void serialEvent4() __attribute__((weak));
+#endif
+
+#if(UART_MAX_COUNT>5)
+void serialEvent5() __attribute__((weak));
 #endif
 
 void serialEventRun(void)
 {
-		#if(UART_MAX_COUNT>0)
+	#if(UART_MAX_COUNT>0)
     if (Serial.available()) serialEvent();
     #endif
     	
     #if(UART_MAX_COUNT>1)
-    if (Serial1.available()) serial1Event();
-    #endif	
+    if (Serial1.available()) serialEvent1();
+    #endif
+	
+	#if(UART_MAX_COUNT>2)
+    if (Serial2.available()) serialEvent2();
+    #endif
+	
+	#if(UART_MAX_COUNT>3)
+    if (Serial3.available()) serialEvent3();
+    #endif
+	
+	#if(UART_MAX_COUNT>4)
+    if (Serial4.available()) serialEvent4();
+    #endif
+	
+	#if(UART_MAX_COUNT>5)
+    if (Serial5.available()) serialEvent5();
+    #endif
+      	
 }
 
 HardwareSerial::HardwareSerial(UART_T *uart_device,
@@ -402,23 +234,6 @@ HardwareSerial::HardwareSerial(UART_T *uart_device,
 void HardwareSerial::begin(uint32_t baud) {
     
     UART_Config(UART_Desc[u32Idx]);
-#if defined(__M451__)    
-    /* Enable IP clock */       
-    CLK_EnableModuleClock(UART_Desc[u32Idx].module);    	
-  	
-    /* Select IP clock source and clock divider */
-    CLK_SetModuleClock(UART_Desc[u32Idx].module,u32ClkSrc,CLK_CLKDIV0_UART(u32ClkDiv));
-
-    /* Reset IP */
-    //SYS_ResetModule(UART_Desc[u32Idx].module);
-    
-    /* Enable Interrupt */
-    UART_ENABLE_INT(uart_device,UART_INTEN_RDAIEN_Msk);
-    NVIC_EnableIRQ(u32IrqId);
-    
-    /* Configure UART and set UART Baudrate */
-    UART_Open(uart_device, baud);
-#elif defined(__NUC240__) | defined(__NUC131__)
 		/* Enable IP clock */       
     CLK_EnableModuleClock(UART_Desc[u32Idx].module);    	
    	
@@ -434,23 +249,7 @@ void HardwareSerial::begin(uint32_t baud) {
     
     /* Configure UART and set UART Baudrate */
     UART_Open(uart_device, baud);
-#elif defined(__NANO100__) | defined(__NANO1X2__)
-    CLK_EnableModuleClock(UART_Desc[u32Idx].module);    	
-   	
-   	/* Select IP clock source and clock divider */
-		CLK_SetModuleClock(UART_Desc[u32Idx].module,u32ClkSrc,CLK_UART_CLK_DIVIDER(u32ClkDiv));
 
-    /* Reset IP */
-    //SYS_ResetModule(UART_Desc[u32Idx].module);
-    
-    /* Enable Interrupt */
-    UART_ENABLE_INT(uart_device,UART_IER_RDA_IE_Msk);
-    
-    NVIC_EnableIRQ(u32IrqId);
-    
-    /* Configure UART and set UART Baudrate */
-    UART_Open(uart_device, baud);
-#endif
 }
 
 void HardwareSerial::end(void) {
@@ -477,36 +276,14 @@ int HardwareSerial::available(void) {
 }
 
 size_t HardwareSerial::write(const uint8_t ch) {
-#if defined(__M451__)
-	while(uart_device->FIFOSTS & UART_FIFOSTS_TXFULL_Msk);
-	uart_device->DAT = ch;
-	if(ch == '\n'){
-		while(uart_device->FIFOSTS & UART_FIFOSTS_TXFULL_Msk);
-		uart_device->DAT = '\r';
-	}
-#elif defined(__NUC240__) | defined(__NUC131__)
+
 	while(uart_device->FSR & UART_FSR_TX_FULL_Msk);
 	uart_device->THR = ch;
-	if(ch == '\n'){
-		while(uart_device->FSR & UART_FSR_TX_FULL_Msk);
-		uart_device->THR = '\r';
-	}
-	return 0;
-#elif defined(__NANO100__)
-	while(uart_device->FSR & UART_FSR_TX_FULL_F_Msk);
-	uart_device->THR = ch;
-	if(ch == '\n'){
-		while(uart_device->FSR & UART_FSR_TX_FULL_F_Msk);
-		uart_device->THR = '\r';
-	}
-#elif defined(__NANO1X2__)
-	while(UART_IS_TX_FULL(uart_device));	
-	UART_WRITE(uart_device,ch);
-	if(ch == '\n'){
-		while(UART_IS_TX_FULL(uart_device));		
-		UART_WRITE(uart_device,'\r');
-	}
-#endif
+	/*if(ch == '\n'){
+	//	while(uart_device->FSR & UART_FSR_TX_FULL_Msk);
+	//	uart_device->THR = '\r';
+	}*/
+	return 1;
 }
 
 void HardwareSerial::flush(void) {
