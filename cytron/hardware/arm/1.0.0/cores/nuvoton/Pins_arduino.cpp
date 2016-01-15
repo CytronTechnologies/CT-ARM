@@ -19,7 +19,7 @@
 #include "Arduino.h"
 #include "Pins_arduino.h"
 
-BoardToPin BoardToPinInfo[] = {
+const BoardToPin BoardToPinInfo[] = {
   {13, UART_TYPE, 0},  // 0:  PB.0  UART0_RXD UART_RXD
   {14, UART_TYPE, 0},  // 1:  PB.1  UART0_TXD UART_TXD
   {2,  PWM_TYPE,  0},  // 2:  PF.5  PWM1_CH5  PWM0
@@ -57,7 +57,7 @@ BoardToPin BoardToPinInfo[] = {
   {35, PWM_TYPE,  11}, // 29: PA.3  PWM1_CH1  PWM11
 };
 
-GPIOPinDescription GPIO_Desc[] = {
+const GPIOPinDescription GPIO_Desc[] = {
 	{NULL, NULL, {NULL, NULL, NULL, NULL, NULL, NULL, NULL}},                                                                                      // 0
 	{PB, BIT12, {(uint32_t)&SYS->GPB_MFP, SYS_GPB_MFP_PB12_Msk, NULL, NULL, NULL,                  NULL,                  SYS_GPB_MFP_PB12_GPIO}}, // 1
 	{PF, BIT5,  {(uint32_t)&SYS->GPF_MFP, SYS_GPF_MFP_PF5_Msk,  NULL, NULL, SYS_ALT_MFP3_PF5_Msk,  NULL,                  SYS_GPF_MFP_PF5_GPIO}},  // 2
@@ -112,7 +112,7 @@ GPIOPinDescription GPIO_Desc[] = {
 	{PB, BIT8,  {(uint32_t)&SYS->GPB_MFP, SYS_GPB_MFP_PB8_Msk,  NULL, NULL, NULL,                  NULL,                  SYS_GPB_MFP_PB8_GPIO}},  // 48
 };
 
-BPWMPinDescription BPWM_Desc[] = {
+const BPWMPinDescription BPWM_Desc[] = {
 //{BPWMx, BPWMx_MODULE, BPWMx_IRQn, Chan, freq, {Pin, SYS_GPx_MFP_Pxx_PWMx_CHx,   ...,  ...,  ...,  ...}}
   {BPWM1, BPWM1_MODULE, BPWM1_IRQn, 1,    500,  {17,  SYS_GPD_MFP_PD6_BPWM1_CH1,  NULL, NULL, SYS_ALT_MFP3_PD6_BPWM1_CH1,  NULL}}, // 0
   {BPWM1, BPWM1_MODULE, BPWM1_IRQn, 0,    500,  {18,  SYS_GPD_MFP_PD7_BPWM1_CH0,  NULL, NULL, SYS_ALT_MFP3_PD7_BPWM1_CH0,  NULL}}, // 1
@@ -120,7 +120,7 @@ BPWMPinDescription BPWM_Desc[] = {
   {BPWM0, BPWM0_MODULE, BPWM0_IRQn, 4,    500,  {20,  SYS_GPD_MFP_PD15_BPWM0_CH4, NULL, NULL, SYS_ALT_MFP3_PD15_BPWM0_CH4, NULL}}, // 3
 };
 
-PWMPinDescription PWM_Desc[] = {
+const PWMPinDescription PWM_Desc[] = {
 //{PWMx, PWMx_MODULE, PWMx_IRQn, Chan, freq, {Pin, SYS_GPx_MFP_Pxx_PWMx_CHx,  ...,  ...,  SYS_ALT_MFP3,               SYS_ALT_MFP4}}
 	{PWM1, PWM1_MODULE, PWM1_IRQn, 5,    500,  {2,   SYS_GPF_MFP_PF5_PWM1_CH5,  NULL, NULL, SYS_ALT_MFP3_PF5_PWM1_CH5,  NULL}}, // 0
 	{PWM1, PWM1_MODULE, PWM1_IRQn, 4,    500,  {3,   SYS_GPF_MFP_PF4_PWM1_CH4,  NULL, NULL, SYS_ALT_MFP3_PF4_PWM1_CH4,  NULL}}, // 1
@@ -138,7 +138,7 @@ PWMPinDescription PWM_Desc[] = {
   {PWM1, PWM1_MODULE, PWM0_IRQn, 1,    500,  {35,  SYS_GPA_MFP_PA3_PWM1_CH1,  NULL, NULL, SYS_ALT_MFP3_PA3_PWM1_CH1,  SYS_ALT_MFP4_PA3_PWM1_CH1}}, // 11
 };
 
-ADCPinDescription ADC_Desc[] = {
+const ADCPinDescription ADC_Desc[] = {
 //{ADC, ADC_MODULE, Channel, {Pin, SYS_GPx_MFP_PAx_ADCx, ...,  ...,  ...,  ... }}
 	{ADC, ADC_MODULE, 0,       {32,  SYS_GPA_MFP_PA0_ADC0, NULL, NULL, NULL, NULL}}, // 0
 	{ADC, ADC_MODULE, 1,       {33,  SYS_GPA_MFP_PA1_ADC1, NULL, NULL, NULL, NULL}}, // 1
@@ -148,7 +148,7 @@ ADCPinDescription ADC_Desc[] = {
 	{ADC, ADC_MODULE, 6,       {38,  SYS_GPA_MFP_PA5_ADC5, NULL, NULL, NULL, NULL}}, // 5
 };
 
-SPIPinDescription SPI_Desc[] = {
+const SPIPinDescription SPI_Desc[] = {
 	{SPI0, SPI0_MODULE, SPI0_IRQn, CLK_CLKSEL1_SPI0_S_HCLK, {
     {23, SYS_GPC_MFP_PC1_SPI0_CLK,   NULL, NULL, NULL, NULL},
     {22, SYS_GPC_MFP_PC2_SPI0_MISO0, NULL, NULL, NULL, NULL},
@@ -156,7 +156,7 @@ SPIPinDescription SPI_Desc[] = {
     {24, SYS_GPC_MFP_PC0_SPI0_SS0,   NULL, NULL, NULL, NULL},}},
 };
 
-UARTPinDescription UART_Desc[] = {
+const UARTPinDescription UART_Desc[] = {
   {UART0, UART0_MODULE, UART02_IRQn, {
     {13, SYS_GPB_MFP_PB0_UART0_RXD, NULL, NULL, NULL, NULL},
     {14, SYS_GPB_MFP_PB1_UART0_TXD, NULL, NULL, NULL, NULL}}},
@@ -177,7 +177,7 @@ UARTPinDescription UART_Desc[] = {
 	{27,SYS_GPA_MFP_PA13_UART5_TXD, NULL, NULL, NULL, SYS_ALT_MFP4_PA13_UART5_TXD}}},		
 };
 
-I2CPinDescription I2C_Desc[] = {
+const I2CPinDescription I2C_Desc[] = {
   {I2C0, I2C0_MODULE, {
     {7, SYS_GPA_MFP_PA8_I2C0_SDA, NULL, NULL, NULL, NULL},
     {6, SYS_GPA_MFP_PA9_I2C0_SCL, NULL, NULL, NULL, NULL}}},
