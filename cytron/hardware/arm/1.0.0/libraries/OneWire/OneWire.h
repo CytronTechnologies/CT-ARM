@@ -116,6 +116,8 @@
 #define IO_REG_TYPE uint32_t
 #define IO_REG_ASM
 #define DIRECT_READ(base, mask)         ( (*(base+0x4) & mask )? 1 : 0 )
+#endif
+
 #if defined(__M451__)
 #define DIRECT_MODE_INPUT(base, mask)  	(GPIO_SetMode((GPIO_T *)base,mask,GPIO_MODE_INPUT))
 #define DIRECT_MODE_OUTPUT(base, mask)  (GPIO_SetMode((GPIO_T *)base,mask,GPIO_MODE_OUTPUT))
@@ -125,16 +127,8 @@
 #endif
 #define DIRECT_WRITE_LOW(base, mask)    ( (*(base+0x2)) &= ~mask)
 #define DIRECT_WRITE_HIGH(base, mask)   ( (*(base+0x2)) |=  mask)
-#ifndef PROGMEM
-#define PROGMEM
-#endif
-#ifndef pgm_read_byte
-#define pgm_read_byte(addr) (*(const uint8_t *)(addr))
-#endif
-#else
-#error "Please define I/O register types here"
-#endif
 
+#endif
 
 class OneWire
 {
