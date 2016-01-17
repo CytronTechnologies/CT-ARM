@@ -14,8 +14,8 @@
  */
 
 #include <stdint.h>
-#include "nvtIRremote.h"
-#include "nvtIRremoteInt.h"
+#include "IRremote.h"
+#include "IRremoteInt.h"
 
 HardwareTimer *RecvTimer=Timer[0];
 

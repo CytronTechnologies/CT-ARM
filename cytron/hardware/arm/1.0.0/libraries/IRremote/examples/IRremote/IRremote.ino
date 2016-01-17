@@ -9,7 +9,7 @@
 //  http://www.arcfn.com/2009/08/multi-protocol-infrared-remote-library.html
 //  https://github.com/shirriff/Arduino-IRremote
 
-#include "nvtIRremote.h"
+#include <IRremote.h>
 
 int RECV_PIN = 9;
 
