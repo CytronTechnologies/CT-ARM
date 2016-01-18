@@ -276,7 +276,7 @@ void SoftwareSerial::setTX(uint8_t tx)
   // is fine. With inverse logic, either order is fine.
   //pinMode(tx, OUTPUT);
   uint32_t _transmitBitMask = 0;
-  for (uint32_t t = digitalPinToBitMask(tx); t>1; t>>=1, _transmitBitMask++);
+  _transmitBitMask = GPIO_Desc[BoardToPinInfo[tx].pin].bit;
   portModeRegister(digitalPinToPort(tx)) &= (0x3)<<(_transmitBitMask<<1);
   portModeRegister(digitalPinToPort(tx)) |= (0x1)<<(_transmitBitMask<<1); // setting output
   
@@ -295,8 +295,8 @@ void SoftwareSerial::setRX(uint8_t rx)
   _receivePortRegister = digitalPinToPort(_receivePin);
   _receiveBitMask = 0;
 	
-  for (uint32_t t = digitalPinToBitMask(_receivePin); t>1; t>>=1, _receiveBitMask++);
-
+  //for (uint32_t t = digitalPinToBitMask(_receivePin); t>1; t>>=1, _receiveBitMask++);
+  _receiveBitMask = GPIO_Desc[BoardToPinInfo[rx].pin].bit;
 }
 
 //

@@ -35,16 +35,16 @@ extern void pinMode(uint32_t ulPin, uint32_t ulMode)
 	switch(ulMode)
   {
     case INPUT:                        
-      GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_INPUT);
+      GPIO_SetMode(GPIO_Desc[ulPin].P, 1<<GPIO_Desc[ulPin].bit, GPIO_PMD_INPUT);
       break ;
 
     case INPUT_PULLUP:            
-      GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_QUASI);                    
+      GPIO_SetMode(GPIO_Desc[ulPin].P, 1<<GPIO_Desc[ulPin].bit, GPIO_PMD_QUASI);                    
       break ;
 
     case OUTPUT:
-    	GPIO_SetMode(GPIO_Desc[ulPin].P, GPIO_Desc[ulPin].bit, GPIO_PMD_OUTPUT);
-      (GPIO_Desc[ulPin].P)->DOUT &= ~GPIO_Desc[ulPin].bit; // By default, set LOW
+    	GPIO_SetMode(GPIO_Desc[ulPin].P, 1<<GPIO_Desc[ulPin].bit, GPIO_PMD_OUTPUT);
+      (GPIO_Desc[ulPin].P)->DOUT &= ~(1<<GPIO_Desc[ulPin].bit); // By default, set LOW
       break ;
 
     default:
@@ -61,9 +61,9 @@ extern void digitalWrite(uint32_t ulPin, uint32_t ulVal)
   GPIO_Config(GPIO_Desc[ulPin]);
 
 	if(ulVal == HIGH)
-		(GPIO_Desc[ulPin].P)->DOUT |= GPIO_Desc[ulPin].bit;
+		(GPIO_Desc[ulPin].P)->DOUT |= (1<<GPIO_Desc[ulPin].bit);
 	else
-		(GPIO_Desc[ulPin].P)->DOUT &= ~GPIO_Desc[ulPin].bit;
+		(GPIO_Desc[ulPin].P)->DOUT &= ~(1<<GPIO_Desc[ulPin].bit);
 }
 
 extern int digitalRead(uint32_t ulPin)
@@ -71,7 +71,7 @@ extern int digitalRead(uint32_t ulPin)
 	if(ulPin > BoardToPin_MAX_COUNT) return;     
 	if(BoardToPinInfo[ulPin].pin == -1) return;
 	ulPin = BoardToPinInfo[ulPin].pin;
-	return ((GPIO_Desc[ulPin].P)->PIN & GPIO_Desc[ulPin].bit)? HIGH:LOW;
+	return ((GPIO_Desc[ulPin].P)->PIN & (1<<GPIO_Desc[ulPin].bit))? HIGH:LOW;
 }
 
 #ifdef __cplusplus

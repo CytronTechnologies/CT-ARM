@@ -45,7 +45,7 @@ extern uint32_t pulseIn( uint32_t pin, uint32_t state, uint32_t timeout )
   #endif  
 	// wait for any previous pulse to end		
 	do{
-		tmp=((GPIO_Desc[pin].P)->PIN & GPIO_Desc[pin].bit)?HIGH:LOW;	
+		tmp=((GPIO_Desc[pin].P)->PIN & (1<<GPIO_Desc[pin].bit))?HIGH:LOW;	
 		if(tmp == state)
 		{
 			if (numloops++ == maxloops) 			
@@ -57,7 +57,7 @@ extern uint32_t pulseIn( uint32_t pin, uint32_t state, uint32_t timeout )
 	
 	// wait for the pulse to start
 	do{
-		tmp=((GPIO_Desc[pin].P)->PIN & GPIO_Desc[pin].bit)?HIGH:LOW;
+		tmp=((GPIO_Desc[pin].P)->PIN & (1<<GPIO_Desc[pin].bit))?HIGH:LOW;
 		if(tmp != state)
 		{
 			if (numloops++ == maxloops) 
@@ -68,7 +68,7 @@ extern uint32_t pulseIn( uint32_t pin, uint32_t state, uint32_t timeout )
 			
 	// wait for the pulse to stop
 		do{
-		tmp=((GPIO_Desc[pin].P)->PIN & GPIO_Desc[pin].bit)?HIGH:LOW;
+		tmp=((GPIO_Desc[pin].P)->PIN & (1<<GPIO_Desc[pin].bit))?HIGH:LOW;
 		if(tmp == state)
 		{
 			if (numloops++ == maxloops) 
