@@ -21,7 +21,7 @@
 
 #include "WString.h"
 #include "itoa.h"
-#include "pgmspace.h"
+#include "avr/pgmspace.h"
 
 /*********************************************/
 /*  Constructors                             */
