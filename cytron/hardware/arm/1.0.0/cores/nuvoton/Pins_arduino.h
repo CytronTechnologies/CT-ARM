@@ -256,7 +256,7 @@ static const uint8_t A4 = 22;
 static const uint8_t A5 = 23;
 
 #define digitalPinToPort(_P) ( GPIO_Desc[BoardToPinInfo[_P].pin].P )
-#define digitalPinToBitMask(_P) ( GPIO_Desc[BoardToPinInfo[_P].pin].bit )
+#define digitalPinToBitMask(_P) ( 1 << GPIO_Desc[BoardToPinInfo[_P].pin].bit )
 #define analogInPinToBit(_P) (_P < 4 ? _P : _P + 1)
 #define portOutputRegister(port) ( (port)->DOUT )
 #define portInputRegister(port) ( (port)->PIN )
