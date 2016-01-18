@@ -290,7 +290,7 @@ void detachInterrupt(uint32_t pin)
   	
 	// Retrieve pin information
 	GPIO_T *pio = GPIO_Desc[pin].P;
-	uint32_t mask = GPIO_Desc[pin].bit;
+	uint32_t mask = 1<<GPIO_Desc[pin].bit;
 	uint32_t pos = 0;
 	uint32_t t;
 	for (t = mask; t>1; t>>=1, pos++);	
@@ -676,16 +676,16 @@ void GPDEF_IRQHandler(void)
 #endif
 
 #elif(__NUC131__)
-/*
+#define GNUM 8
+
 typedef void (*interruptCB)(void);
 
-static interruptCB callbacksPA[8];
-static interruptCB callbacksPB[8];
-static interruptCB callbacksPC[8];
-static interruptCB callbacksPD[8];
-static interruptCB callbacksPE[8];
-static interruptCB callbacksPF[8];
-*/
+static interruptCB callbacksPA[GNUM];
+static interruptCB callbacksPB[GNUM];
+static interruptCB callbacksPC[GNUM];
+static interruptCB callbacksPD[GNUM];
+static interruptCB callbacksPE[GNUM];
+static interruptCB callbacksPF[GNUM];
 
 /* Configure PIO interrupt sources */
 static void __initialize() {
@@ -711,7 +711,7 @@ void attachInterrupt(uint32_t pin, void (*callback)(void), uint32_t mode)
 	pin=BoardToPinInfo[pin].pin;
 #else
   if(pin>GPIO_MAX_COUNT || GPIO_Desc[pin].P==NULL) return;
- #endif
+#endif
   		
 	if (!enabled) {
 		__initialize();
@@ -719,11 +719,11 @@ void attachInterrupt(uint32_t pin, void (*callback)(void), uint32_t mode)
 	}
 	// Retrieve pin information
 	GPIO_T *pio = GPIO_Desc[pin].P;
-	uint32_t mask = GPIO_Desc[pin].bit;
-	uint32_t pos = 0;
-	uint32_t t;
+	//uint32_t mask = 1<<GPIO_Desc[pin].bit;
+	uint32_t pos = GPIO_Desc[pin].bit;
+	//uint32_t t;
 	
-	for (t = mask; t>1; t>>=1, pos++);
+	//for (t = mask; t>1; t>>=1, pos++);
 	// Set callback function
 	
 	if (pio == PA )
@@ -759,10 +759,10 @@ void detachInterrupt(uint32_t pin)
   	
 	// Retrieve pin information
 	GPIO_T *pio = GPIO_Desc[pin].P;
-	uint32_t mask = GPIO_Desc[pin].bit;
-	uint32_t pos = 0;
-	uint32_t t;
-	for (t = mask; t>1; t>>=1, pos++);	
+	//uint32_t mask = 1<<GPIO_Desc[pin].bit;
+	uint32_t pos = GPIO_Desc[pin].bit;
+	//uint32_t t;
+	//for (t = mask; t>1; t>>=1, pos++);	
 
 	// Disable interrupt
 	GPIO_DisableInt(pio,pos);

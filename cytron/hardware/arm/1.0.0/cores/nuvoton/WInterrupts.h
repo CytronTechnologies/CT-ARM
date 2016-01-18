@@ -21,18 +21,6 @@
 
 #include "Arduino.h"
 
-#if(__NUC131__)
-#define GNUM 8
-typedef void (*interruptCB)(void);
-
-static interruptCB callbacksPA[GNUM];
-static interruptCB callbacksPB[GNUM];
-static interruptCB callbacksPC[GNUM];
-static interruptCB callbacksPD[GNUM];
-static interruptCB callbacksPE[GNUM];
-static interruptCB callbacksPF[GNUM];
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif
