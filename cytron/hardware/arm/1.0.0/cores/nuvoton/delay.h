@@ -62,8 +62,51 @@ extern void delay( uint32_t dwMs ) ;
  *
  * \param dwUs the number of microseconds to pause (uint32_t)
  */
-extern void delayMicroseconds( uint32_t dwUs ) ;
+static inline void delayMicroseconds( uint32_t ) __attribute__((always_inline, unused)) ;
+static inline void delayMicroseconds( uint32_t us )
+{
+	if ( us == 0 ) return ;
+#if 0
 
+#if defined(__M451__)
+	#define INSTRUCTION_DELAY 8
+#elif defined(__NUC240__)
+	#define INSTRUCTION_DELAY 20
+#elif defined(__NANO100__) | defined(__NANO1X2__)
+	#define INSTRUCTION_DELAY 16
+#elif defined(__NUC131__)
+	#define INSTRUCTION_DELAY 20
+#endif
+
+#if 1	
+	  /* The error of the instruction delay mesurement is 3 us */	  
+	  if(us>INSTRUCTION_DELAY)
+	  { 
+	  	
+	  	us-=INSTRUCTION_DELAY;
+	  	#if defined(__M451__)
+	  	if(us>200) 
+	  		us+=INSTRUCTION_DELAY;	  	
+	  	#endif
+	  }
+	  else
+	  	return;	
+#endif	  		    
+    uint32_t start = micros();
+    while ((micros() - start) < us);
+
+#else
+	uint32_t n = us * (SystemCoreClock / 1000000) / 3;
+	__asm__ __volatile__( 
+	"1:              \n"
+    "   sub %0, #1   \n" // substract 1 from %0 (n)
+    "   bne 1b       \n" // if result is not 0 jump to 1
+    : "+r" (n)           // '%0' is n variable with RW constraints
+    :                    // no input
+    :                    // no clobber
+  );
+#endif	
+}
 
 #ifdef __cplusplus
 }

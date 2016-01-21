@@ -22,8 +22,6 @@
 extern "C" {
 #endif
 
-
-
 extern uint32_t GetTickCount( void );
 
 uint32_t millis( void )
@@ -50,34 +48,6 @@ void delay( uint32_t ms )
 {
     uint32_t end = GetTickCount() + ms;
     while (GetTickCount() < end);
-}
-#if defined(__M451__)
-	#define INSTRUCTION_DELAY 8
-#elif defined(__NUC240__)
-	#define INSTRUCTION_DELAY 20
-#elif defined(__NANO100__) | defined(__NANO1X2__)
-	#define INSTRUCTION_DELAY 16
-#elif defined(__NUC131__)
-	#define INSTRUCTION_DELAY 20
-#endif
-void delayMicroseconds( uint32_t us )
-{
-#if 1	
-	  /* The error of the instruction delay mesurement is 3 us */	  
-	  if(us>INSTRUCTION_DELAY)
-	  { 
-	  	
-	  	us-=INSTRUCTION_DELAY;
-	  	#if defined(__M451__)
-	  	if(us>200) 
-	  		us+=INSTRUCTION_DELAY;	  	
-	  	#endif
-	  }
-	  else
-	  	return;	
-#endif	  		    
-    uint32_t start = micros();
-    while ((micros() - start) < us);         
 }
 
 #if defined ( __ICCARM__ ) /* IAR Ewarm 5.41+ */

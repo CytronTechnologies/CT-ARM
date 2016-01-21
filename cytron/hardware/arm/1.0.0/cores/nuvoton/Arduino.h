@@ -32,7 +32,7 @@ extern uint32_t SystemTickClock;
 #ifdef __cplusplus
 extern "C" {
 #endif
-  #include "wiring.h"
+  #include "delay.h"
   #include "wiring_digital.h"
   #include "wiring_analog.h"
   //#include "wiring_shift.h"
