@@ -65,7 +65,7 @@ static const DELAY_TABLE table[] =
   //baud    |rxcenter|rxintra |rxstop  |tx
   { 115200,   8,       84,       1,        99,   }, // Done but not good due to instruction cycle error
   //{ 74880,   69,       139,       62,      162,  }, // estimation
-  { 57600,   130,      185,      100,      208,  }, // Done
+  { 57600,    50,      185,        1,      208,  }, // Done
   { 38400,   135,      298,      150,      317,  }, // Done
   { 19200,   290,      625,      560,      629,  }, // Done
   { 9600,    600,      1282,     1200,     1266, }, // Done
@@ -216,7 +216,8 @@ void SoftwareSerial::recv()
 	if(!_skip_rx_stopbit)
 		tunedDelay(_rx_delay_stopbit);
 	else
-		tunedDelay2();
+	//	tunedDelay2();
+		while(_inverse_logic ? rx_pin_read() : !rx_pin_read());
 	
     DebugPulse(_DEBUG_PIN2, 1);
 
