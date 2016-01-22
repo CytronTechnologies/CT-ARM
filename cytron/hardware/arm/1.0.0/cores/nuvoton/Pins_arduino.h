@@ -234,9 +234,17 @@ extern I2CPinDescription I2C_Desc[];
 #define I2C_Config(Desc) \
 do { \
 	uint8_t i; \
-	for(i = 0; i < 2; i++) \
-		outp32(GPIO_Desc[Desc.pintype[i].num].Pin.MFP, (inp32(GPIO_Desc[Desc.pintype[i].num].Pin.MFP) & \
-           ~GPIO_Desc[Desc.pintype[i].num].Pin.Mask) | Desc.pintype[i].type); \
+	for(i = 0; i < 2; i++){ \
+		outp32(GPIO_Desc[Desc.pintype[i].num].Pin.MFP, (inp32(GPIO_Desc[Desc.pintype[i].num].Pin.MFP) & ~GPIO_Desc[Desc.pintype[i].num].Pin.Mask) | Desc.pintype[i].type); \
+		if(GPIO_Desc[Desc.pintype[i].num].Pin.ALTMsk!=NULL) \
+			outp32(&SYS->ALT_MFP,(inp32(&SYS->ALT_MFP) & ~GPIO_Desc[Desc.pintype[i].num].Pin.ALTMsk) | Desc.pintype[i].AMsk); \		
+		if(GPIO_Desc[Desc.pintype[i].num].Pin.ALT2Msk!=NULL) \                                                            
+			outp32(&SYS->ALT_MFP2,(inp32(&SYS->ALT_MFP2) & ~GPIO_Desc[Desc.pintype[i].num].Pin.ALT2Msk) | Desc.pintype[i].AMsk2); \		
+		if(GPIO_Desc[Desc.pintype[i].num].Pin.ALT3Msk!=NULL) \                                                            
+			outp32(&SYS->ALT_MFP3,(inp32(&SYS->ALT_MFP3) & ~GPIO_Desc[Desc.pintype[i].num].Pin.ALT3Msk) | Desc.pintype[i].AMsk3); \
+		if(GPIO_Desc[Desc.pintype[i].num].Pin.ALT4Msk!=NULL) \                                                            
+			outp32(&SYS->ALT_MFP4,(inp32(&SYS->ALT_MFP4) & ~GPIO_Desc[Desc.pintype[i].num].Pin.ALT4Msk) | Desc.pintype[i].AMsk4); \
+	} \
 } while(0);
 
 static const uint8_t SS   = 17;
