@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define BOARD_SPI_DEFAULT_SS 43
+#define BOARD_SPI_DEFAULT_SS SS
 
 #define SPI_MODE0 SPI_MODE_0
 #define SPI_MODE1 SPI_MODE_1
@@ -45,9 +45,9 @@ private:
 		init_AlwaysInline(clock, bitOrder, dataMode);
 	}
 	void init_AlwaysInline(uint32_t clock, BitOrder bitOrder, uint8_t dataMode) __attribute__((__always_inline__)) {
-		border = bitOrder;
-		clock = clock;
-		datmode = dataMode;
+		this->border = bitOrder;
+		this->clock = clock;
+		this->datmode = dataMode;
 	}
 	uint32_t datmode;
 	uint32_t clock;
