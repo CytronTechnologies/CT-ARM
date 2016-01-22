@@ -23,7 +23,7 @@
 
 /* Types used for the tables below */
 typedef struct _PinType {
-	uint32_t num;
+	uint8_t num;
 	uint32_t type;
 	uint32_t AMsk;
   uint32_t AMsk2;
@@ -43,7 +43,7 @@ typedef struct _PinDescription {
 
 typedef struct _GPIOPinDescription {
 	GPIO_T *P;
-	uint32_t bit;
+	uint16_t bit;
   PinDescription Pin;
 } GPIOPinDescription;
 
@@ -132,7 +132,7 @@ do { \
 } while(0); 
 
 #define BPWM_MAX_COUNT 4
-extern const BPWMPinDescription BPWM_Desc[];
+extern BPWMPinDescription BPWM_Desc[];
 #define BPWM_Config(Desc) \
 do { \
   outp32(GPIO_Desc[Desc.pintype.num].Pin.MFP, (inp32(GPIO_Desc[Desc.pintype.num].Pin.MFP) & ~GPIO_Desc[Desc.pintype.num].Pin.Mask) | Desc.pintype.type); \ 
@@ -147,7 +147,7 @@ do { \
 } while(0);
 
 #define PWM_MAX_COUNT 12
-extern const PWMPinDescription PWM_Desc[];
+extern PWMPinDescription PWM_Desc[];
 #define PWM_Config(Desc) \
 do { \
 	outp32(GPIO_Desc[Desc.pintype.num].Pin.MFP, (inp32(GPIO_Desc[Desc.pintype.num].Pin.MFP) & ~GPIO_Desc[Desc.pintype.num].Pin.Mask) | Desc.pintype.type); \	
@@ -162,7 +162,7 @@ do { \
 } while(0);
 
 #define ADC_MAX_COUNT 6
-extern const ADCPinDescription ADC_Desc[];
+extern ADCPinDescription ADC_Desc[];
 #define ADC_Config(Desc) \
 do { \
 	outp32(GPIO_Desc[Desc.pintype.num].Pin.MFP, (inp32(GPIO_Desc[Desc.pintype.num].Pin.MFP) & ~GPIO_Desc[Desc.pintype.num].Pin.Mask) | Desc.pintype.type); \
@@ -179,7 +179,7 @@ do { \
 #define SPI_MAX_COUNT 1
 #define SPI_CHANNELS_NUM 1
 #endif
-extern const SPIPinDescription SPI_Desc[];
+extern SPIPinDescription SPI_Desc[];
 #define SPI_SCK   0
 #define SPI_MOSI  1
 #define SPI_MISO  2
@@ -194,7 +194,7 @@ do { \
 } while(0);
 
 #define UART_MAX_COUNT 6
-extern const UARTPinDescription UART_Desc[];
+extern UARTPinDescription UART_Desc[];
 #define UART_RX 0
 #define UART_TX 1
 #define UART_Config(Desc) \
@@ -228,7 +228,7 @@ do { \
 #endif
 
 #define I2C_MAX_COUNT 1
-extern const I2CPinDescription I2C_Desc[];
+extern I2CPinDescription I2C_Desc[];
 #define I2C_SCL 0
 #define I2C_SDA 1
 #define I2C_Config(Desc) \
@@ -256,10 +256,10 @@ static const uint8_t A4 = 22;
 static const uint8_t A5 = 23;
 
 #define digitalPinToPort(_P) ( GPIO_Desc[BoardToPinInfo[_P].pin].P )
-#define digitalPinToBitMask(_P) ( 1 << GPIO_Desc[BoardToPinInfo[_P].pin].bit )
+#define digitalPinToBitMask(_P) ( 1<<GPIO_Desc[BoardToPinInfo[_P].pin].bit )
 #define analogInPinToBit(_P) (_P < 4 ? _P : _P + 1)
-#define portOutputRegister(port) ( (port)->DOUT )
-#define portInputRegister(port) ( (port)->PIN )
-#define portModeRegister(port) ( (port)->PMD )
+#define portOutputRegister(port) (&(port->DOUT) )
+#define portInputRegister(port) ( &(port->PIN) )
+#define portModeRegister(port) ( &(port->PMD) )
 
 #endif

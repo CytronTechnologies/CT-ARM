@@ -346,14 +346,14 @@ private:
     #endif
   #elif defined (__NUVOTON__)
 	inline static void initSS() {
-      portModeRegister(digitalPinToPort(ETHERNET_SHIELD_SPI_CS)) &= ~(0x3 << (GPIO_Desc[BoardToPinInfo[ETHERNET_SHIELD_SPI_CS].pin].bit << 1));
-	  portModeRegister(digitalPinToPort(ETHERNET_SHIELD_SPI_CS)) |= (0x1 << (GPIO_Desc[BoardToPinInfo[ETHERNET_SHIELD_SPI_CS].pin].bit << 1));
+      *portModeRegister(digitalPinToPort(ETHERNET_SHIELD_SPI_CS)) &= ~(0x3 << (GPIO_Desc[BoardToPinInfo[ETHERNET_SHIELD_SPI_CS].pin].bit << 1));
+	  *portModeRegister(digitalPinToPort(ETHERNET_SHIELD_SPI_CS)) |= (0x1 << (GPIO_Desc[BoardToPinInfo[ETHERNET_SHIELD_SPI_CS].pin].bit << 1));
     }
     inline static void setSS()   {
-      portOutputRegister(digitalPinToPort(ETHERNET_SHIELD_SPI_CS)) &= ~digitalPinToBitMask(ETHERNET_SHIELD_SPI_CS);
+      *portOutputRegister(digitalPinToPort(ETHERNET_SHIELD_SPI_CS)) &= ~digitalPinToBitMask(ETHERNET_SHIELD_SPI_CS);
     }
     inline static void resetSS() {
-      portOutputRegister(digitalPinToPort(ETHERNET_SHIELD_SPI_CS)) |= digitalPinToBitMask(ETHERNET_SHIELD_SPI_CS);
+      *portOutputRegister(digitalPinToPort(ETHERNET_SHIELD_SPI_CS)) |= digitalPinToBitMask(ETHERNET_SHIELD_SPI_CS);
     }
   #else
     inline static void initSS() {
