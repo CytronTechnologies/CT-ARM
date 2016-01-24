@@ -5,7 +5,6 @@
  * These values will stay in the EEPROM when the board is
  * turned off and may be retrieved later by another sketch.
  */
-#include <Wire.h>
 #include <EEPROM.h>
 
 // the current address in the EEPROM (i.e. which byte
