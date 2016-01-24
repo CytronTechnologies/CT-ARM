@@ -24,11 +24,10 @@
 #include <inttypes.h>
 #include <fmc.h>
 
-#define TEMP_DATA_START 0xF000
-#define DATA_FLASH_START 0xF200
-#define DATA_FLASH_TEST_END 0x11000
-#define DATA_FLASH_SIZE 8192
-#define max_addr_size 1920
+#define TEMP_DATA_START 0x1F000
+#define DATA_FLASH_START 0x1F200
+#define DATA_FLASH_SIZE 4096
+#define max_addr_size 896
 
 class EEPROMClass //emulated eeprom
 {
@@ -53,25 +52,45 @@ class EEPROMClass //emulated eeprom
     void write(uint16_t addr, uint32_t data){
 		if(addr < max_addr_size)
 		{
-			if(!findValidPage(addr))
+			bool isOtherData = false;
+			if(!findValidPage(addr)){
 				copyToPage(addr);
+				isOtherData = true;
+			}		
 			erasePage(addr);
-			uint16_t offset = (addr >> 7) << 9;
-			uint32_t _start = DATA_FLASH_START + offset;
 			begin();
-			for(uint16_t idx = 0; idx < 512; idx+=4)
-			{
-				if((addr*4 - offset) == idx)
-					FMC_Write(_start + idx, data);	
-				else
-					FMC_Write(_start + idx, FMC_Read(TEMP_DATA_START + idx));
+			if(!isOtherData){
+				FMC_Write(DATA_FLASH_START + addr*4, data);
 			}
+			else
+			{
+				uint16_t offset = (addr >> 7) << 9;
+				uint32_t _start = DATA_FLASH_START + offset;
+				for(uint16_t idx = 0; idx < 512; idx+=4)
+				{
+					if((addr*4 - offset) == idx)
+						FMC_Write(_start + idx, data);	
+					else
+						FMC_Write(_start + idx, FMC_Read(TEMP_DATA_START + idx));
+				}
+			}	
 			end();
 		}			
 	}
 	void update(uint16_t addr, uint32_t data){
 		if(addr < max_addr_size && read(addr) != data)
 			write(addr, data);
+	}
+	void eraseAddressBlock(uint8_t idx){
+		if(idx > 6) return;
+		begin();
+		FMC_Erase(DATA_FLASH_START + idx*512);
+		end();
+	}
+	void fastWrite(uint16_t addr, uint32_t data){
+		begin();
+		FMC_Write(DATA_FLASH_START + addr*4, data);
+		end();
 	}
 	
 	template< typename T > T get(uint8_t addr, T &t ){    
@@ -123,7 +142,7 @@ private:
 		begin();
 		for(uint32_t start = DATA_FLASH_START + idx*512; count; --count, start += 4)
 		{
-			if(FMC_Read(start)!=0xFFFFFFFF)
+			if(FMC_Read(start)!=0xFFFFFFFF&& (start!=(DATA_FLASH_START + addr*4)))
 			{
 				end();
 				return 0;

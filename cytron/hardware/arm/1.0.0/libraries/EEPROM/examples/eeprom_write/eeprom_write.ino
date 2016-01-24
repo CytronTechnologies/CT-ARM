@@ -32,6 +32,5 @@ void loop()
   addr = addr + 1;
   if (addr == 512)
     addr = 0;
-  
-  delay(100);
+
 }

@@ -38,5 +38,4 @@ void loop()
   if (address == 512)
     address = 0;
     
-  delay(500);
 }
