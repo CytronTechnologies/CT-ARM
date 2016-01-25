@@ -24,10 +24,10 @@
 #include <inttypes.h>
 #include <fmc.h>
 
-#define TEMP_DATA_START 0x1F000
-#define DATA_FLASH_START 0x1F200
+//#define TEMP_DATA_START 0x1F000
+#define DATA_FLASH_START 0x1F000
 #define DATA_FLASH_SIZE 4096
-#define max_addr_size 896
+#define max_addr_size 1024
 
 class EEPROMClass //emulated eeprom
 {
@@ -35,7 +35,7 @@ class EEPROMClass //emulated eeprom
   	EEPROMClass();
 	
     uint16_t length(){ 
-		return max_addr_size*4; 
+		return DATA_FLASH_SIZE; 
 	}
     uint32_t read(uint16_t addr){
 		
@@ -49,12 +49,15 @@ class EEPROMClass //emulated eeprom
 			
 		else return 0;
 	}
+	//todo: find possible way to make the process faster if user needs only update a few addresses
     void write(uint16_t addr, uint32_t data){
 		if(addr < max_addr_size)
 		{
 			bool isOtherData = false;
+			uint32_t _buffer[512];
 			if(!findValidPage(addr)){
-				copyToPage(addr);
+				//copyToPage(addr);
+				copyToPage2(addr, _buffer);
 				isOtherData = true;
 			}		
 			erasePage(addr);
@@ -71,7 +74,8 @@ class EEPROMClass //emulated eeprom
 					if((addr*4 - offset) == idx)
 						FMC_Write(_start + idx, data);	
 					else
-						FMC_Write(_start + idx, FMC_Read(TEMP_DATA_START + idx));
+						//FMC_Write(_start + idx, FMC_Read(TEMP_DATA_START + idx));
+						FMC_Write(_start + idx, _buffer[idx]);
 				}
 			}	
 			end();
@@ -104,6 +108,19 @@ class EEPROMClass //emulated eeprom
         return t;
     }
     template< typename T > const T put(uint8_t addr, const T &t ){
+		//uint32_t idx = DATA_FLASH_START + (addr*4);
+		uint32_t idx = addr;
+        const uint8_t *ptr = (const uint8_t*) &t;
+        //begin();
+		//for( int count = sizeof(T) ; count ; --count, idx+=4 ) {
+		for( int count = sizeof(T) ; count ; --count, idx+=1 ) {
+			//FMC_Write(idx, *ptr++ );
+			update(idx, *ptr++);
+		}
+		//end();
+        return t;
+    }
+	template< typename T > const T fastPut(uint8_t addr, const T &t ){
 		uint32_t idx = DATA_FLASH_START + (addr*4);
         const uint8_t *ptr = (const uint8_t*) &t;
         begin();
@@ -124,6 +141,8 @@ private:
 		SYS_LockReg();
 		FMC_Close();
 	} 
+	// use rom as temporarily storage
+	/*
 	void copyToPage(uint16_t addr){
 		addr = (addr*4)/512;
 		begin();
@@ -136,6 +155,16 @@ private:
 		}
 		end();
 	}
+	*/
+	// use ram as temporarily storage
+	void copyToPage2(uint16_t addr, uint32_t* _buf){
+		addr = (addr*4)/512;
+		begin();
+		for(uint16_t idx = 0; idx < 512; idx+=4)
+			_buf[idx] = FMC_Read(DATA_FLASH_START + addr*512 + idx);
+		end();
+	}
+	
 	bool findValidPage(uint16_t addr){
 		uint16_t idx = (addr*4)/512;
 		uint8_t count = 128;
