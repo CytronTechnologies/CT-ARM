@@ -74,20 +74,32 @@ void UART02_IRQHandler(void)
 {	 
 	while(UART_GET_INT_FLAG(UART0,UART_IER_RDA_IEN_Msk))
 	{
+		unsigned char c = UART0->RBR;
+		// if we should be storing the received character into the location
+		// just before the tail (meaning that the head would advance to the
+		// current location of the tail), we're about to overflow the buffer
+		// and so we don't write the character or advance the head.
 		int i = (unsigned int)(rx_buffer.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer.tail) {
-    	rx_buffer.buffer[rx_buffer.head] = UART0->RBR;
-    	rx_buffer.head = i;
-  	}
+		if (i != rx_buffer.tail) {
+			rx_buffer.buffer[rx_buffer.head] = c;
+			rx_buffer.head = i;
+		}
+		else{//read byte but discard it
+			UART0->RBR;
+		}
 	}
 #if(UART_MAX_COUNT>2)	
 	while(UART_GET_INT_FLAG(UART2,UART_IER_RDA_IEN_Msk))
 	{
+		unsigned char c = UART2->RBR;
 		int i = (unsigned int)(rx_buffer2.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer2.tail) {
-    	rx_buffer2.buffer[rx_buffer2.head] = UART2->RBR;
-    	rx_buffer2.head = i;
-  	}
+		if (i != rx_buffer2.tail) {
+			rx_buffer2.buffer[rx_buffer2.head] = c;
+			rx_buffer2.head = i;
+		}
+		else{
+			UART2->RBR;
+		}
 	}
 #endif		
 }
@@ -99,11 +111,15 @@ void UART1_IRQHandler(void)
 {
 	while(UART_GET_INT_FLAG(UART1,UART_IER_RDA_IEN_Msk))
 	{
+		unsigned char c = UART1->RBR;
 		int i = (unsigned int)(rx_buffer1.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer1.tail) {
-    	rx_buffer1.buffer[rx_buffer1.head] = UART1->RBR;
-    	rx_buffer1.head = i;
-  	}
+		if (i != rx_buffer1.tail) {
+			rx_buffer1.buffer[rx_buffer1.head] = c;
+			rx_buffer1.head = i;
+		}
+		else{
+			UART1->RBR;
+		}
 	}
 		
 }
@@ -115,11 +131,15 @@ void UART3_IRQHandler(void)
 {
 	while(UART_GET_INT_FLAG(UART3,UART_IER_RDA_IEN_Msk))
 	{
+		unsigned char c = UART3->RBR;
 		int i = (unsigned int)(rx_buffer3.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer3.tail) {
-    	rx_buffer3.buffer[rx_buffer3.head] = UART3->RBR;
-    	rx_buffer3.head = i;
-  	}
+		if (i != rx_buffer3.tail) {
+			rx_buffer3.buffer[rx_buffer3.head] = c;
+			rx_buffer3.head = i;
+		}
+		else{
+			UART3->RBR;
+		}
 	}
 		
 }
@@ -131,11 +151,15 @@ void UART4_IRQHandler(void)
 {
 	while(UART_GET_INT_FLAG(UART4,UART_IER_RDA_IEN_Msk))
 	{
+		unsigned char c = UART4->RBR;
 		int i = (unsigned int)(rx_buffer4.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer4.tail) {
-    	rx_buffer4.buffer[rx_buffer4.head] = UART4->RBR;
-    	rx_buffer4.head = i;
-  	}
+		if (i != rx_buffer4.tail) {
+			rx_buffer4.buffer[rx_buffer4.head] = c;
+			rx_buffer4.head = i;
+		}
+		else{
+			UART4->RBR;
+		}
 	}
 		
 }
@@ -147,13 +171,16 @@ void UART5_IRQHandler(void)
 {
 	while(UART_GET_INT_FLAG(UART5,UART_IER_RDA_IEN_Msk))
 	{
+		unsigned char c = UART5->RBR;
 		int i = (unsigned int)(rx_buffer5.head + 1) % SERIAL_BUFFER_SIZE;
-  	if (i != rx_buffer5.tail) {
-    	rx_buffer5.buffer[rx_buffer5.head] = UART5->RBR;
-    	rx_buffer5.head = i;
-  	}
-	}
-		
+		if (i != rx_buffer5.tail) {
+			rx_buffer5.buffer[rx_buffer5.head] = c;
+			rx_buffer5.head = i;
+		}
+		else{
+			UART5->RBR;
+		}
+	}		
 }
 #endif
 
@@ -190,7 +217,7 @@ void serialEventRun(void)
 	#if(UART_MAX_COUNT>0)
     if (Serial.available()) serialEvent();
     #endif
-    	
+   	
     #if(UART_MAX_COUNT>1)
     if (Serial1.available()) serialEvent1();
     #endif
