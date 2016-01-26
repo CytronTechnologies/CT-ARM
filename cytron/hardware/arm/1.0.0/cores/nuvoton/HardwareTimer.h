@@ -43,11 +43,13 @@ typedef void (*voidFuncPtr)(void);
 
 /** @brief Deprecated; use TIMER_OUTPUT_COMPARE instead. */
 #define TIMER_OUTPUTCOMPARE TIMER_OUTPUT_COMPARE
+#define NR_TIMERS 4
 
 extern uint32_t TimeClock;
 /**
  * @brief Interface to one of the 16-bit timer peripherals.
  */
+
 class HardwareTimer {
 //private:
 public:
@@ -86,7 +88,13 @@ public:
     * @brief This API stops Timer counting and disable the Timer interrupt function  
     * @return None
     */
-  void initialize(uint32_t microseconds = 1000000);
+  void initialize(uint32_t microseconds = 1000000)__attribute__((always_inline)){
+		
+		uint32_t u32ClkInMHz = 0;
+		u32ClkInMHz = getModuleClock() / 1000000;
+		dev->TCSR = (dev->TCSR & ~TIMER_TCSR_PRESCALE_Msk)| PERIODIC |(u32ClkInMHz - 1);
+		dev->TCMPR = microseconds;// range - 2us - 16,777,216 us
+  }
 
   void close(void);
 
@@ -131,7 +139,6 @@ public:
 };
 
 /* -- The rest of this file is deprecated. --------------------------------- */
-#define NR_TIMERS 4
 
 #if(NR_TIMERS>0)
 	extern HardwareTimer Timer1;
@@ -146,8 +153,5 @@ public:
 	extern HardwareTimer Timer4;
 #endif
 extern HardwareTimer* Timer[NR_TIMERS];
-	#if 0
-	extern HardwareTimer* GetHardwareTimer(void);
-	extern void ReleaseHardwareTimer(HardwareTimer* timer);
-	#endif
+
 #endif

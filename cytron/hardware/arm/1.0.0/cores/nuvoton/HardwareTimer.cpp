@@ -26,6 +26,9 @@
 
 #include "HardwareTimer.h"
 
+/** Timer channel numbers */
+static voidFuncPtr TimerFuncPtr[NR_TIMERS];
+
 #if(NR_TIMERS > 0)
 HardwareTimer Timer1(0, TMR0_MODULE, CLK_CLKSEL1_TMR0_S_HXT);
 #endif
@@ -54,38 +57,35 @@ HardwareTimer* Timer[NR_TIMERS] = {
   #endif
 };
 
-/** Timer channel numbers */
-static voidFuncPtr TimerFuncPtr[NR_TIMERS];
-
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 	#if(NR_TIMERS > 0)
 	void TMR0_IRQHandler(void) { 
-		if(TimerFuncPtr[0])	TimerFuncPtr[0](); 
 		TIMER_ClearIntFlag(TIMER0);
+		if(TimerFuncPtr[0])	TimerFuncPtr[0]();
 	}
 	#endif
 	
 	#if(NR_TIMERS > 1)
 	void TMR1_IRQHandler(void) { 
-		if(TimerFuncPtr[1])	TimerFuncPtr[1](); 
 		TIMER_ClearIntFlag(TIMER1);
+		if(TimerFuncPtr[1])	TimerFuncPtr[1](); 		
 	}
 	#endif
 	
 	#if(NR_TIMERS > 2)
 	void TMR2_IRQHandler(void) { 
-		if(TimerFuncPtr[2])	TimerFuncPtr[2](); 
 		TIMER_ClearIntFlag(TIMER2);
+		if(TimerFuncPtr[2])	TimerFuncPtr[2](); 
 	}	
 	#endif
 	
 	#if(NR_TIMERS > 3)
 	void TMR3_IRQHandler(void) { 
-		if(TimerFuncPtr[3])	TimerFuncPtr[3](); 
 		TIMER_ClearIntFlag(TIMER3);
+		if(TimerFuncPtr[3])	TimerFuncPtr[3](); 	
 	}	
 	#endif
 #ifdef __cplusplus
@@ -110,7 +110,7 @@ HardwareTimer::HardwareTimer(uint8_t timerNum, uint32_t moduleIdx, uint32_t clks
   };
   dev = devs[timerNum];
   channel = timerNum;      
-  TimerFuncPtr[0] = NULL; 
+  TimerFuncPtr[channel] = NULL; 
   CLK_EnableModuleClock(moduleIdx);
   CLK_SetModuleClock(moduleIdx, clksel, NULL); 
 }
@@ -118,16 +118,17 @@ HardwareTimer::HardwareTimer(uint8_t timerNum, uint32_t moduleIdx, uint32_t clks
 void HardwareTimer::open(uint32_t mode, uint32_t freq) { 
   TIMER_Open(dev, mode, freq);		
 }
-
+/*
 void HardwareTimer::initialize(uint32_t microseconds){
-	
 	//open(PERIODIC, 1000000 / microseconds);
 	uint32_t u32ClkInMHz = 0;
 	u32ClkInMHz = getModuleClock() / 1000000;
-	dev->TCSR = PERIODIC | (u32ClkInMHz - 1);	// 
-	setCompare(microseconds);  // range - 2us - 16,777,216 us
+	//dev->TCSR = PERIODIC | (u32ClkInMHz - 1);	// 
+	dev->TCSR = (dev->TCSR & ~TIMER_TCSR_PRESCALE_Msk)| PERIODIC |(u32ClkInMHz - 1);
+	//setCompare(microseconds);  
+	dev->TCMPR = microseconds;// range - 2us - 16,777,216 us
 }
-
+*/
 void HardwareTimer::close() { 
   TIMER_Close(dev);		
 }
@@ -144,17 +145,20 @@ void HardwareTimer::setCompare(uint32_t val) {
   TIMER_SET_CMP_VALUE(dev, val);
 }
 
-void HardwareTimer::attachInterrupt(void (*callback)(void)) {
-  TimerFuncPtr[channel] = callback;
-  TIMER_EnableInt(dev);
-  NVIC_EnableIRQ((IRQn_Type)((int)TMR0_IRQn + channel));
-  start();
+void HardwareTimer::attachInterrupt(void (*callback)(void))
+{
+  TimerFuncPtr[this->channel] = callback;
+  TIMER_EnableInt(dev); //dev->TCSR |= TIMER_TCSR_IE_Msk;	
+  NVIC_EnableIRQ((IRQn_Type)((int)TMR0_IRQn + this->channel));
+  dev->TCSR |= TIMER_TCSR_CEN_Msk; //enable timer counting    
 }
 
 void HardwareTimer::detachInterrupt() {
-  close();
-  TimerFuncPtr[channel] = NULL;
-  TIMER_DisableInt(dev);
+  
+  close(); //dev->TCSR = 0; dev->TEXCON = 0;
+  //TimerFuncPtr[channel] = NULL;
+  //dev->TCSR &= ~TIMER_TCSR_CEN_Msk; // stop/suspend timer counting
+  //dev->TCSR &= ~TIMER_TCSR_IE_Msk; //disable interrupt function
   NVIC_DisableIRQ((IRQn_Type)((int)TMR0_IRQn + channel));
 }
 
@@ -165,35 +169,3 @@ uint32_t HardwareTimer::getModuleClock(){
 void HardwareTimer::clearIntFlag(){
 	TIMER_ClearIntFlag(dev);
 }
-
-/* -- Deprecated predefined instances -------------------------------------- */
-uint8_t TimerEnabled[NR_TIMERS]={0};
-
-#if 0
-HardwareTimer* GetHardwareTimer(void)
-{
-	uint8_t i;
-	for(i=0;i<NR_TIMERS;i++)
-	{
-	  if(TimerEnabled[i]==0)
-	  {
-	  	TimerEnabled[i]=1;
-	  	return Timer[i];
-	  }
-	}	
-	return NULL;	  	
-}
-
-void ReleaseHardwareTimer(HardwareTimer* timer)
-{
-	uint8_t i;
-	for(i=0;i<NR_TIMERS;i++)
-	{
-		if(&Timer[i]==&timer)
-		{
-			timer->close();
-			TimerEnabled[i]=0;			
-		}
-	}
-}
-#endif
