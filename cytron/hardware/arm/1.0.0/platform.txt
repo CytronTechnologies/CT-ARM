@@ -63,7 +63,7 @@ tools.nulinkburn.cmd.path={path}/nuvodude
 #tools.nulinkburn.cmd=nulinkb
 #tools.nulinkburn.cmd.windows=nulinkb.bat
 
-tools.nulinkburn.upload.params.verbose=
+tools.nulinkburn.upload.params.verbose=-vv
 tools.nulinkburn.upload.params.quiet=
-tools.nulinkburn.upload.pattern="{cmd.path}" "{serial.port}" "{build.path}/{build.project_name}.bin"
+tools.nulinkburn.upload.pattern="{cmd.path}" {upload.verbose} -np "{serial.port}" -nf "{build.path}/{build.project_name}.bin"
 #tools.nulinkburn.upload.pattern="{path}/{cmd}" "{path}" "{build.path}/{build.project_name}.bin"
