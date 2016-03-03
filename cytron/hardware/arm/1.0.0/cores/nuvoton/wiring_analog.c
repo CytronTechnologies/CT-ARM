@@ -71,7 +71,7 @@ uint32_t analogRead(uint32_t ulPin)
 	
 	// Read the value
 	ulValue = ADC_GET_CONVERSION_DATA(ADC_Desc[ulPin].A, ADC_Desc[ulPin].ch);	
-	ulValue = mapResolution(ulValue, 12, _readResolution);
+	//ulValue = mapResolution(ulValue, 12, _readResolution); // Convert 12 to 10 bit
   
   //GPIO_DISABLE_DIGITAL_PATH(GPIO_Desc[ADC_Desc[ulPin-1].pintype.num].P,GPIO_Desc[ADC_Desc[ulPin].pintype.num-1].bit);
   ADC_Close(ADC_Desc[ulPin].A); // Close ADC
