@@ -82,5 +82,7 @@ extern uint32_t pulseIn( uint32_t pin, uint32_t state, uint32_t timeout )
 	// to be 52 clock cycles long and have about 16 clocks between the edge
 	// and the start of the loop. There will be some error introduced by
 	// the interrupt handlers.
-	return clockCyclesToMicroseconds(width * 52 + 16);
+	
+	//temporary fix by divided 52/3 = 17 to give more accurate result
+	return clockCyclesToMicroseconds(width * 52/3 + 16);
 }
