@@ -150,7 +150,7 @@ uint8_t TwoWire::endTransmission(uint8_t sendStop) {
 		I2C_SET_DATA(i2c, txAddress);
 		I2C_SET_CONTROL_REG(i2c, I2C_SI);
 		I2C_WAIT_READY(i2c);			
-		if(I2C_GET_STATUS(i2c)!=0x18) 
+		if(I2C_GET_STATUS(i2c)!=0x18 && I2C_GET_STATUS(i2c)!=0x20) //0x18=transmit address with ack; 0x20=transmit address with nack
 		{ 
 			I2C_SET_CONTROL_REG(i2c, I2C_STO | I2C_SI);
 			continue;
@@ -160,7 +160,8 @@ uint8_t TwoWire::endTransmission(uint8_t sendStop) {
 			I2C_SET_DATA(i2c, txBuffer[sent++]);
 			I2C_SET_CONTROL_REG(i2c, I2C_SI);
 			I2C_WAIT_READY(i2c);	
-			if(I2C_GET_STATUS(i2c)!=0x28) { 
+			if(I2C_GET_STATUS(i2c)!=0x28 && I2C_GET_STATUS(i2c)!=0x30) //0x28=transmit data with ack; 0x30=transmit data with nack
+			{
 				I2C_SET_CONTROL_REG(i2c, I2C_STO | I2C_SI);
 				continue;
 			}			
@@ -349,7 +350,7 @@ void TwoWire::onService(void) {
 #if I2C_MAX_COUNT > 0
 static void Wire_Init(void) {
 	
-	IRQn_Type irq=I2C1_IRQn;
+	IRQn_Type irq=I2C0_IRQn;
 	I2C_Config(I2C_Desc[0]);	
 	/* Enable IP clock */       
 	CLK_EnableModuleClock(I2C_Desc[0].module);    	
@@ -366,7 +367,7 @@ static void Wire_Init(void) {
 TwoWire Wire = TwoWire(I2C_Desc[0].I, Wire_Init);
 
 #ifdef __cplusplus
-extern "C" void I2C1_IRQHandler(void) {
+extern "C" void I2C0_IRQHandler(void) {
 	Wire.onService();
 }
 #endif
@@ -378,7 +379,7 @@ extern "C" void I2C1_IRQHandler(void) {
 #if I2C_MAX_COUNT > 1
 static void Wire1_Init(void) {
 	
-	IRQn_Type irq=I2C0_IRQn;
+	IRQn_Type irq=I2C1_IRQn;
 	
 	I2C_Config(I2C_Desc[1]);
 	
@@ -396,7 +397,7 @@ static void Wire1_Init(void) {
 
 TwoWire Wire1 = TwoWire(I2C_Desc[1].I, Wire1_Init);
 #ifdef __cplusplus
-extern "C" void I2C0_IRQHandler(void) {
+extern "C" void I2C1_IRQHandler(void) {
 	Wire1.onService();
 }
 #endif
