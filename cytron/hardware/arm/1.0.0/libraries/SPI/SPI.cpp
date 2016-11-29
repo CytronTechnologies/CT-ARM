@@ -150,11 +150,12 @@ void SPIClass::setDataMode(uint8_t _pin, uint8_t _mode) {
 #endif
 }
 
-void SPIClass::setClockDivider(uint8_t _pin, uint8_t _divider) {
+void SPIClass::setClockDivider(uint8_t _pin, uint32_t _divider) {
 	#if 0
 	_divider=((_divider+1)>>1)-1;
 	spi->DIVIDER = (spi->DIVIDER & ~0xffff) | _divider;
 	#endif
+	SPI_SetBusClock(spi, _divider);
 }
 
 byte SPIClass::transfer(byte _pin, uint8_t _data, SPITransferMode _mode) {	
