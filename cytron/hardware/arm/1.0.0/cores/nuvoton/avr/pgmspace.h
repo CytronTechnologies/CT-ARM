@@ -67,4 +67,10 @@ size_t strnlen_P(const char *s, size_t size);
 #define strlen_P(strP)          strnlen_P((strP), SIZE_IRRELEVANT)
 #define sprintf_P(s, f, ...) sprintf((s), (f), __VA_ARGS__)
 
+//newly added these lines for testing
+#define snprintf_P(s, f, ...) snprintf((s), (f), __VA_ARGS__)
+#define printf_P printf
+
+//TODO: add more stdio functions
+
 #endif
