@@ -269,5 +269,6 @@ static const uint8_t A5 = 23;
 #define portOutputRegister(port) (&(port->DOUT) )
 #define portInputRegister(port) ( &(port->PIN) )
 #define portModeRegister(port) ( &(port->PMD) )
+#define _BV(x) (1<<(x))
 
 #endif
