@@ -21,6 +21,16 @@
 #define SPI_MODE3 SPI_MODE_3
 #define SPI_MODE_Msk (SPI_MODE_0|SPI_MODE_1|SPI_MODE_2|SPI_MODE_3)
 
+//with reference to Arduino FOSC 16MHz
+//by default SPI_CLOCK_DIV4 is used
+#define SPI_CLOCK_DIV4 4000000
+#define SPI_CLOCK_DIV16 1000000
+#define SPI_CLOCK_DIV64 250000
+#define SPI_CLOCK_DIV128 62500
+#define SPI_CLOCK_DIV2 8000000
+#define SPI_CLOCK_DIV8 2000000
+#define SPI_CLOCK_DIV32 500000
+
 #if defined(__M451__)
 #define SPI_TRIGGER SPI_ENABLE
 #endif
@@ -85,12 +95,12 @@ class SPIClass {
 	// These methods sets a parameter on a single pin
 	void setBitOrder(uint8_t _pin, BitOrder);
 	void setDataMode(uint8_t _pin, uint8_t);
-	void setClockDivider(uint8_t _pin, uint8_t);
+	void setClockDivider(uint8_t _pin, uint32_t);
 
 	// These methods sets the same parameters but on default pin BOARD_SPI_DEFAULT_SS
 	void setBitOrder(BitOrder _order) { setBitOrder(SS, _order); };
 	void setDataMode(uint8_t _mode) { setDataMode(SS, _mode); };
-	void setClockDivider(uint8_t _div) { setClockDivider(SS, _div); };
+	void setClockDivider(uint32_t _div) { setClockDivider(SS, _div); };
 
   private:
 	SPI_T *spi;
