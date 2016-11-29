@@ -69,5 +69,6 @@ void loop(void);
 #include "USBCore.h"
 #include "USBAPI.h"
 
+#include "binary.h"
 
 #endif
