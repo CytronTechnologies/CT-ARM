@@ -70,5 +70,6 @@ void loop(void);
 #include "USBAPI.h"
 
 #include "binary.h"
+#include "itoa.h"
 
 #endif
