@@ -205,7 +205,7 @@ void SoftwareSerial::recv()
   }
 }
 
-uint8_t SoftwareSerial::rx_pin_read()
+uint32_t SoftwareSerial::rx_pin_read()
 {
   return *_receivePortRegister & _receiveBitMask;
 }
