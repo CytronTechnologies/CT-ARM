@@ -676,7 +676,7 @@ void GPDEF_IRQHandler(void)
 #endif
 
 #elif(__NUC131__)
-#define GNUM 8
+#define GNUM 16
 
 typedef void (*interruptCB)(void);
 
