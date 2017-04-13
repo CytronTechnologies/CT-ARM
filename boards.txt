@@ -1,0 +1,25 @@
+menu.UpdateDataType = Upload To
+
+nuvoton_nuc131.name = CT-ARM 
+nuvoton_nuc131.upload.tool = nulinkburn
+nuvoton_nuc131.upload.protocol = nuc-ba
+nuvoton_nuc131.upload.maximum_size = 65536
+nuvoton_nuc131.upload.maximum_data_size = 8192
+nuvoton_nuc131.upload.use_1200bps_touch = false
+nuvoton_nuc131.upload.wait_for_upload_port = false
+nuvoton_nuc131.upload.native_usb = false
+nuvoton_nuc131.build.mcu = cortex-m0
+nuvoton_nuc131.build.board = NUEDU_UNO
+nuvoton_nuc131.build.f_cpu = 50000000L
+nuvoton_nuc131.build.core = nuvoton
+nuvoton_nuc131.build.extra_flags = -D__NUC131__ -mthumb -DUSB_PID={build.pid} -DUSB_VID={build.vid} -DUSBCON
+nuvoton_nuc131.build.ldscript = linker_scripts/gcc/64K_8K_flash.ld
+nuvoton_nuc131.build.variant = NUC131
+nuvoton_nuc131.build.variant_system_lib = {runtime.platform.path}/system/{build.def}/libchip_NUC131_gcc_rel.a
+nuvoton_nuc131.build.vid = 0x2341
+nuvoton_nuc131.build.pid = 0x003e
+nuvoton_nuc131.build.def = NUC131
+#nuvoton_nuc131.menu.UpdateDataType.aprom = APROM
+#nuvoton_nuc131.menu.UpdateDataType.aprom.upload.DataType = APROM
+#nuvoton_nuc131.menu.UpdateDataType.dataflash = DataFlash
+#nuvoton_nuc131.menu.UpdateDataType.dataflash.upload.DataType= DataFlash
