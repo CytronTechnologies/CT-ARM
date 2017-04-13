@@ -35,13 +35,15 @@ extern "C" {
   #include "delay.h"
   #include "wiring_digital.h"
   #include "wiring_analog.h"
-  //#include "wiring_shift.h"
   #include "WInterrupts.h"
 
   void yield(void);
 
 #ifdef __cplusplus
 }
+
+void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val);
+uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder);
 
 #include "WCharacter.h"
 #include "WString.h"
@@ -54,7 +56,6 @@ void tone(uint8_t _pin, unsigned int frequency, unsigned long duration = 0);
 void noTone(uint8_t _pin);
 
 #endif
-	
 
 #define INPUT 0x0
 #define OUTPUT 0x1
