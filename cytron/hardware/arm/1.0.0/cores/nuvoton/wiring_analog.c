@@ -71,7 +71,7 @@ uint32_t analogRead(uint32_t ulPin)
 	
 	// Read the value
 	ulValue = ADC_GET_CONVERSION_DATA(ADC_Desc[ulPin].A, ADC_Desc[ulPin].ch);	
-	//ulValue = mapResolution(ulValue, 12, _readResolution); // Convert 12 to 10 bit
+	ulValue = mapResolution(ulValue, 12, _readResolution); // Convert from 12 bit to _readResolution
   
   	//GPIO_DISABLE_DIGITAL_PATH(GPIO_Desc[ADC_Desc[ulPin-1].pintype.num].P,GPIO_Desc[ADC_Desc[ulPin].pintype.num-1].bit);
   	ADC_Close(ADC_Desc[ulPin].A); // Close ADC
@@ -115,14 +115,9 @@ void analogWrite(uint32_t ulPin, uint32_t ulValue)
 
 	if(ulValue == 0) {
     		digitalWrite(ulPin, LOW);
-//		pinEnabled[ulPin] = 0;
-//		fixValue[ulPin] = ulValue;
-		return;
 	}
   	else if(ulValue == 255) {
     		digitalWrite(ulPin, HIGH);
-//    		pinEnabled[ulPin] = 0;
-//    		fixValue[ulPin] = ulValue;
   	}
   	else {
     		if(bpwm) {
