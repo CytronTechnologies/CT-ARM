@@ -37,12 +37,12 @@ extern uint32_t pulseIn( uint32_t pin, uint32_t state, uint32_t timeout )
 	uint32_t tmp;	
 
    
-	#ifdef USE_BoardToPin
+#ifdef USE_BoardToPin
 	if(pin > BoardToPin_MAX_COUNT) return 0;
 	pin=BoardToPinInfo[pin].pin;
-	#else
-  if(pin>GPIO_MAX_COUNT || GPIO_Desc[pin].P==NULL) return 0;
-  #endif  
+#else
+  	if(pin>GPIO_MAX_COUNT || GPIO_Desc[pin].P==NULL) return 0;
+#endif  
 	// wait for any previous pulse to end		
 	do{
 		tmp=((GPIO_Desc[pin].P)->PIN & (1<<GPIO_Desc[pin].bit))?HIGH:LOW;	
