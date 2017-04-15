@@ -34,7 +34,7 @@
             },
             {
               "packager": "cytron",
-              "name": "nulinkburn",
+              "name": "nuvodude",
               "version": "1.0.0"
             }
           ]
@@ -76,13 +76,13 @@
           ]
         },
         {
-          "name": "nulinkburn",
+          "name": "nuvodude",
           "version": "1.0.0",
           "systems": [
             {
               "host": "i686-mingw32",
               "archiveFileName": "nulinkburn.tar.bz2",
-              "url": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/nulinkburn.tar.bz2",
+              "url": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/nulinkburn/windows/nulinkburn.tar.bz2",
               "checksum": "SHA-256:E1D0BDF21F6B9A709783F49D7691ED0FF387B4AD457E7A6D5A86772AA9CC1F2C",
 
               "size": "469963"
@@ -90,14 +90,14 @@
             {
               "host": "x86_64-apple-darwin",
               "archiveFileName": "nulinkburn-mac.tar.bz2",
-              "url": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/nulinkburn-mac.tar.bz2",
+              "url": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/nulinkburn/mac/nulinkburn-mac.tar.bz2",
               "checksum": "SHA-256:40D02E45552208D7D594C41C5EC2031BFCBCA182BDFE0D1607484A886303F574",
               "size": "13399"
             },
             {
               "host": "x86_64-pc-linux-gnu",
               "archiveFileName": "nulinkburn-linux64.tar.gz",
-              "url": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/nulinkburn-linux64.tar.gz",
+              "url": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/nulinkburn/linux64/nulinkburn-linux64.tar.gz",
               "checksum": "SHA-256:085336DFC78011077342DC90374D175C20FA77B87057783C5809F2BE991F303F",
 
               "size": "8264"
@@ -105,7 +105,7 @@
             {
               "host": "i686-pc-linux-gnu",
               "archiveFileName": "nulinkburn-linux32.tar.gz",
-              "url": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/nulinkburn-linux32.tar.gz",
+              "url": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/nulinkburn/linux32/nulinkburn-linux32.tar.gz",
               "checksum": "SHA-256:3E9CF27C12EA9D641C97AE2B706DB8430748C9DEFD991BD2968BA89CDA795F40",
 
               "size": "7604"
