@@ -173,4 +173,3 @@ void GPCDEF_IRQHandler(void)
 #ifdef __cplusplus
 }
 #endif
-#endif
