@@ -1,0 +1,24 @@
+sudo: false
+language: bash
+os:
+- linux
+script:
+- ver=`git describe --tags --always`
+- cd package
+- "./build_boards_manager_package.sh"
+notifications:
+  email:
+    recipients:
+    - bengchet@cytron.com.my
+    on_success: change
+    on_failure: change
+deploy:
+  provider: releases
+  api_key:
+    secure: cGeIoUa/khDNki6c3T90F22OySEJyIvip82/FA8f20K6Gd+kIWF+U+HEZehF4ivOOGhayDXfUvcsgj3+TwzY4eupZ5/VROmj9qGpZU2wpA0YUSuf1HMY1xZIsM0C7ye8sd9ylzENyAQvMsoEQ6gCiOzuv4tuw61uoJKGeL1WVV/1eAR1NKYAzZ30dTUR7/R3t4RIZXwL1GcTJte/VUXz2H6bP+HVLIJAl8mC/F1FAsobaPg/c/guMXpKpPyLqP1SClKUbXoVwhtgg2HN3Yu8rbQ7u8yuzqi2uTFTo66TqjBeXUWzD/+O7YWa7nab4nlxcuEFYNVy3JNxPc66qptBQLPEezXUVgVQAkt5mPUkCoid/2NslX7Ii0ltwlZKnFESDYmSHXJGYhm3ucU3THh0FHTkgMuK9mgMdLcpLrg0hFJcfEDCozooJlF1QhrX6ulAhq2m2aiRq5DY2335MF4HL/d6vIDPn65jLpdmEav85R5VFlf5m3ERI82GpSOePVgI0gLCBn/iIi4tm6m9BO8lED6w4LahDMYqHG4IrOa37QXWSO12F+rk+nMQrV/FmsiZHUflghHzHE88FraAedwQii3SDa3evoIQ4Bp0+xnuxgVZHuT470DEacliB55Y4T01VYgpQa19mbIOKAul3v2byLN9RK5SOvcIEw5GLT8nkMI=
+  file_glob: true
+  file: "$TRAVIS_BUILD_DIR/package/versions/$ver/*"
+  skip_cleanup: true
+  on:
+    repo: CytronTechnologies/CT-ARM
+    tags: true
