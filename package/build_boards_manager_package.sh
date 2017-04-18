@@ -7,9 +7,6 @@ package_name=cytron-arm-$ver
 echo "Version: $ver"
 echo "Package name: $package_name"
 
-CT_ARM_URL_REPO=CytronTechnologies/CT-ARM
-NUVODUDE_REPO=CytronTechnologies/nuvodude
-JSON_REPO=CytronTechnologies/Cytron-ARM-Arduino-URL
 JSON_URL=https://raw.githubusercontent.com/$JSON_REPO/master/package_cytron_arm_index.json
 
 PKG_URL=https://github.com/$CT_ARM_URL_REPO/releases/download/$ver/$package_name.zip
@@ -151,6 +148,16 @@ fi
 
 set +e
 python ../../merge_packages.py $new_json $old_json >tmp && mv tmp $new_json && rm $old_json
+
+# deploy key
+echo -n $CT_ARM_DEPLOY_KEY > ~/.ssh/ct_arm_deploy_b64
+base64 --decode --ignore-garbage ~/.ssh/ct_arm_deploy_b64 > ~/.ssh/ct_arm_deploy
+chmod 600 ~/.ssh/ct_arm_deploy
+echo -e "Host $DEPLOY_HOST_NAME\n\tHostname github.com\n\tUser $DEPLOY_USER_NAME\n\tStrictHostKeyChecking no\n\tIdentityFile ~/.ssh/ct_arm_deploy" >> ~/.ssh/config
+
+#update package_cytron_arm_index.json
+git clone $DEPLOY_USER_NAME@$DEPLOY_HOST_NAME:$JSON_REPO.git ~/tmp
+cp $new_json ~/tmp/
 
 popd
 popd
