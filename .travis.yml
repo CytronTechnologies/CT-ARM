@@ -1,17 +1,29 @@
 sudo: false
+
 language: bash
+
 os:
 - linux
+
+before_script:
+- git config --global user.email "bengchet@cytron.com.my"
+- git config --global user.name "bengchet (via TravisCI)"
+
 script:
 - ver=`git describe --tags --always`
 - cd package
 - "./build_boards_manager_package.sh"
+- cd ~/tmp
+- git add package_cytron_arm_index.json
+- git commit -m "CT-ARM version $ver release"
+
 notifications:
   email:
     recipients:
     - bengchet@cytron.com.my
     on_success: change
     on_failure: change
+    
 deploy:
   provider: releases
   api_key:
@@ -22,3 +34,7 @@ deploy:
   on:
     repo: CytronTechnologies/CT-ARM
     tags: true
+    
+after_deploy:
+  - cd ~/tmp
+  - git push origin master
