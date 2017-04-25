@@ -10,7 +10,7 @@ echo "Package name: $package_name"
 JSON_URL=https://raw.githubusercontent.com/$JSON_REPO/master/package_cytron_arm_index.json
 
 PKG_URL=https://github.com/$CT_ARM_URL_REPO/releases/download/$ver/$package_name.zip
-DOC_URL=http://forum.cytron.com.my/
+DOC_URL=https://cytrontechnologies.github.io/CT-ARM/
 
 pushd ..
 
