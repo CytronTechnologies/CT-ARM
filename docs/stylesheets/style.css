@@ -1,0 +1,20 @@
+.md-logo.md-header-nav__button > img {
+  width:auto;
+  height:30px;
+}
+
+.md-content {
+  text-align:justify;
+}
+
+.md-content article {
+  padding-bottom:50px;
+}
+
+.md-typeset .md-typeset__table {
+  display:block;
+}
+
+h2 {
+  color:#009688;
+}

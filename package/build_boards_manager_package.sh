@@ -25,6 +25,7 @@ cat << EOF > exclude.txt
 .git
 .gitignore
 .travis.yml
+mkdocs.yml
 exclude.txt
 package
 docs

@@ -1,0 +1,78 @@
+# Project Information
+site_name: CT-ARM
+site_description: Nuvoton ARM Cortex M0+ microcontroller with Arduino Uno form-factor
+site_author: Cytron Technologies
+site_url: https://www.cytron.com.my
+
+# Repository
+repo_url: https://github.com/CytronTechnologies/CT-ARM
+
+#theme directory
+theme: 'material'
+
+# Copyright
+copyright: 'Copyright &copy; 2016 - 2017 Cytron Technologies'
+
+pages:
+  - Introduction: index.md
+  - How to Install: How_to_Install.md
+  - Getting Started: Getting_Started.md
+  - Libraries: 
+    - Analog: libraries/Analog.md
+    - Digital: libraries/Digital.md
+    - EEPROM: libraries/EEPROM.md
+    - Interrupt: libraries/Interrupt.md
+    - Wire: libraries/Wire.md
+    - Serial: libraries/Serial.md
+    - SoftwareSerial: libraries/SoftwareSerial.md
+    - SPI: libraries/SPI.md
+    - Timer: libraries/Timer.md
+  - FAQs: FAQs.md
+  - Bugs and Fixes: Bugs_and_Fixes.md
+  - License: LICENSE.md
+
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite(guess_lang=false)
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc(permalink=true)
+  - pymdownx.arithmatex
+  - pymdownx.betterem(smart_enable=all)
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist(custom_checkbox=true)
+  - pymdownx.tilde
+
+extra:
+  logo: 'img/cytron.png'
+  feature:
+    tabs: false
+  palette:
+    primary: Teal
+    accent: Teal
+  social:
+    - type: 'github'
+      link: 'https://github.com/CytronTechnologies'
+    - type: 'facebook'
+      link: 'https://www.facebook.com/cytrontech/'
+    - type: 'instagram'
+      link: 'https://instagram.com/cytrontech/'
+    - type: 'google-plus'
+      link: 'https://plus.google.com/112639852007306050798/'
+    - type: 'youtube'
+      link: 'https://www.youtube.com/user/cytrontech'
+
+extra_css:
+  - 'stylesheets/style.css'
+
+extra_javascript:
+  - 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML'
