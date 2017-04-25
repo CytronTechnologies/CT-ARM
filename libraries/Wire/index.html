@@ -1,0 +1,892 @@
+
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Nuvoton ARM Cortex M0+ microcontroller with Arduino Uno form-factor">
+      
+      
+        <link rel="canonical" href="https://www.cytron.com.my/libraries/Wire/">
+      
+      
+        <meta name="author" content="Cytron Technologies">
+      
+      
+        <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      
+      <meta name="generator" content="mkdocs-0.16.2, mkdocs-material-1.5.5">
+    
+    
+      
+        <title>Wire - CT-ARM</title>
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr-56ade86843.js"></script>
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application-b1a1975878.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-f78e5cb881.palette.css">
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/style.css">
+    
+    
+  </head>
+  
+  
+  
+  
+    <body data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <a href="https://www.cytron.com.my" title="CT-ARM" class="md-logo md-header-nav__button">
+            <img src="../../img/cytron.png" width="24" height="24">
+          </a>
+        
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+                <span class="md-header-nav__parent">
+                  Libraries
+                </span>
+              
+            
+            Wire
+          
+        </span>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+          
+<div class="md-search" data-md-component="search">
+  <div class="md-search__overlay"></div>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">close</button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <div class="md-header-nav__source">
+          
+            
+
+
+  
+
+
+  <a href="https://github.com/CytronTechnologies/CT-ARM" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    
+      <i class="md-logo md-nav__button">
+        <img src="../../img/cytron.png">
+      </i>
+    
+    CT-ARM
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/CytronTechnologies/CT-ARM" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../How_to_Install/" title="How to Install" class="md-nav__link">
+      How to Install
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Getting_Started/" title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Libraries
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Libraries
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Analog/" title="Analog" class="md-nav__link">
+      Analog
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Digital/" title="Digital" class="md-nav__link">
+      Digital
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../EEPROM/" title="EEPROM" class="md-nav__link">
+      EEPROM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Interrupt/" title="Interrupt" class="md-nav__link">
+      Interrupt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Wire
+      </label>
+    
+    <a href="./" title="Wire" class="md-nav__link md-nav__link--active">
+      Wire
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#begin" title="begin()" class="md-nav__link">
+    begin()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requestfrom" title="requestFrom()" class="md-nav__link">
+    requestFrom()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#begintransmission" title="beginTransmission()" class="md-nav__link">
+    beginTransmission()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endtransmission" title="endTransmission()" class="md-nav__link">
+    endTransmission()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#write" title="write()" class="md-nav__link">
+    write()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available" title="available()" class="md-nav__link">
+    available()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#read" title="read()" class="md-nav__link">
+    read()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#onreceive" title="onReceive()" class="md-nav__link">
+    onReceive()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#onrequest" title="onRequest()" class="md-nav__link">
+    onRequest()
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Serial/" title="Serial" class="md-nav__link">
+      Serial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../SoftwareSerial/" title="SoftwareSerial" class="md-nav__link">
+      SoftwareSerial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../SPI/" title="SPI" class="md-nav__link">
+      SPI
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Timer/" title="Timer" class="md-nav__link">
+      Timer
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../FAQs/" title="FAQs" class="md-nav__link">
+      FAQs
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Bugs_and_Fixes/" title="Bugs and Fixes" class="md-nav__link">
+      Bugs and Fixes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../LICENSE/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#begin" title="begin()" class="md-nav__link">
+    begin()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requestfrom" title="requestFrom()" class="md-nav__link">
+    requestFrom()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#begintransmission" title="beginTransmission()" class="md-nav__link">
+    beginTransmission()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endtransmission" title="endTransmission()" class="md-nav__link">
+    endTransmission()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#write" title="write()" class="md-nav__link">
+    write()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available" title="available()" class="md-nav__link">
+    available()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#read" title="read()" class="md-nav__link">
+    read()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#onreceive" title="onReceive()" class="md-nav__link">
+    onReceive()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#onrequest" title="onRequest()" class="md-nav__link">
+    onRequest()
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/CytronTechnologies/CT-ARM/edit/master/docs/libraries/Wire.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
+                
+                
+                <h1 id="wire-i2c">Wire (I2C)<a class="headerlink" href="#wire-i2c" title="Permanent link">&para;</a></h1>
+<p>This library allows you to communicate with I2C / TWI devices. On CT-ARM board, the SDA (data line) and SCL (clock line) are on the pin headers close to the AREF pin. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>There are both 7- and 8-bit versions of I2C addresses. 7 bits identify the device, and the eighth bit determines if it's being written to or read from. The Wire library uses 7 bit addresses throughout. If you have a datasheet or sample code that uses 8 bit address, you'll want to drop the low bit (i.e. shift the value one bit to the right), yielding an address between 0 and 127. However the addresses from 0 to 7 are not used because are reserved so the first address that can be used is 8. </li>
+<li><strong>Pull-up resistors</strong> are needed when connecting SDA/SCL pins. </li>
+</ul>
+</div>
+<h2 id="begin">begin()<a class="headerlink" href="#begin" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Initiate the Wire library and join the I2C bus as a master or slave. This should normally be called only once.</p>
+<p><strong>Syntax</strong></p>
+<p><code>Wire.begin()</code></p>
+<p><code>Wire.begin(address)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>address: the 7-bit slave address (optional); if not specified, join the bus as a master.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>None</p>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;Wire.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">(){</span> <span class="cm">/* Empty loop */</span> <span class="p">}</span>
+</pre></div>
+
+
+<h2 id="requestfrom">requestFrom()<a class="headerlink" href="#requestfrom" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Used by the master to request bytes from a slave device. The bytes may then be retrieved with the available() and read() functions.</p>
+<p>As of Arduino 1.0.1, requestFrom() accepts a boolean argument changing its behavior for compatibility with certain I2C devices.</p>
+<p>If true, requestFrom() sends a stop message after the request, releasing the I2C bus.</p>
+<p>If false, requestFrom() sends a restart message after the request. The bus will not be released, which prevents another master device from requesting between messages. This allows one master device to send multiple requests while in control.</p>
+<p>The default value is true.</p>
+<p><strong>Syntax</strong></p>
+<p><code>Wire.requestFrom(address, quantity)</code></p>
+<p><code>Wire.requestFrom(address, quantity, stop)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p>address: the 7-bit address of the device to request bytes from</p>
+</li>
+<li>
+<p>quantity: the number of bytes to request</p>
+</li>
+<li>
+<p>stop : boolean. true will send a stop message after the request, releasing the bus. false will continually send a restart after the request, keeping the connection active.</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>byte : the number of bytes returned from the slave device</p>
+<h2 id="begintransmission">beginTransmission()<a class="headerlink" href="#begintransmission" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Begin a transmission to the I2C slave device with the given address. Subsequently, queue bytes for transmission with the write() function and transmit them by calling endTransmission().</p>
+<p><strong>Syntax</strong></p>
+<p><code>Wire.beginTransmission(address)</code></p>
+<p><strong>Parameters</strong></p>
+<p>address: the 7-bit address of the device to transmit to</p>
+<p><strong>Returns</strong></p>
+<p>None</p>
+<h2 id="endtransmission">endTransmission()<a class="headerlink" href="#endtransmission" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Ends a transmission to a slave device that was begun by beginTransmission() and transmits the bytes that were queued by write().</p>
+<p>As of Arduino 1.0.1, endTransmission() accepts a boolean argument changing its behavior for compatibility with certain I2C devices.</p>
+<p>If true, endTransmission() sends a stop message after transmission, releasing the I2C bus.</p>
+<p>If false, endTransmission() sends a restart message after transmission. The bus will not be released, which prevents another master device from transmitting between messages. This allows one master device to send multiple transmissions while in control.</p>
+<p>The default value is true.</p>
+<p><strong>Syntax</strong></p>
+<p><code>Wire.endTransmission()</code></p>
+<p><code>Wire.endTransmission(stop)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>stop : boolean. true will send a stop message, releasing the bus after transmission. false will send a restart, keeping the connection active.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>None</p>
+<h2 id="write">write()<a class="headerlink" href="#write" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Writes data from a slave device in response to a request from a master, or queues bytes for transmission from a master to slave device (in-between calls to beginTransmission() and endTransmission()).</p>
+<p><strong>Syntax</strong></p>
+<p><code>Wire.write(value)</code> </p>
+<p><code>Wire.write(string)</code> </p>
+<p><code>Wire.write(data, length)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p>value: a value to send as a single byte</p>
+</li>
+<li>
+<p>string: a string to send as a series of bytes</p>
+</li>
+<li>
+<p>data: an array of data to send as bytes</p>
+</li>
+<li>
+<p>length: the number of bytes to transmit</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>byte: write() will return the number of bytes written, though reading that number is optional</p>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;Wire.h&gt;</span><span class="cp"></span>
+
+<span class="n">byte</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="c1">// join i2c bus</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="mi">44</span><span class="p">);</span> <span class="c1">// transmit to device #44 (0x2c)</span>
+                              <span class="c1">// device address is specified in datasheet</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>             <span class="c1">// sends value byte  </span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>     <span class="c1">// stop transmitting</span>
+
+  <span class="n">val</span><span class="o">++</span><span class="p">;</span>        <span class="c1">// increment value</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mi">64</span><span class="p">)</span> <span class="c1">// if reached 64th position (max)</span>
+  <span class="p">{</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>    <span class="c1">// start over from lowest value</span>
+  <span class="p">}</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="available">available()<a class="headerlink" href="#available" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Returns the number of bytes available for retrieval with read(). This should be called on a master device after a call to requestFrom() or on a slave inside the onReceive() handler.</p>
+<p>available() inherits from the Stream utility class.</p>
+<p><strong>Parameters</strong></p>
+<p>None</p>
+<p><strong>Returns</strong></p>
+<p>The number of bytes available for reading.</p>
+<p><strong>Example</strong></p>
+<blockquote>
+<p>Refer to example from <a href="#read">read()</a></p>
+</blockquote>
+<h2 id="read">read()<a class="headerlink" href="#read" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Reads a byte that was transmitted from a slave device to a master after a call to requestFrom() or was transmitted from a master to a slave. read() inherits from the Stream utility class.</p>
+<p><strong>Syntax</strong></p>
+<p><code>Wire.read()</code></p>
+<p><strong>Parameters</strong></p>
+<p>None</p>
+<p><strong>Returns</strong></p>
+<p>The next byte received</p>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;Wire.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>        <span class="c1">// join i2c bus (address optional for master)</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span>  <span class="c1">// start serial for output</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>    <span class="c1">// request 6 bytes from slave device #2</span>
+
+  <span class="k">while</span><span class="p">(</span><span class="n">Wire</span><span class="p">.</span><span class="n">available</span><span class="p">())</span>    <span class="c1">// slave may send less than requested</span>
+  <span class="p">{</span> 
+    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>    <span class="c1">// receive a byte as character</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>         <span class="c1">// print the character</span>
+  <span class="p">}</span>
+
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="onreceive">onReceive()<a class="headerlink" href="#onreceive" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Registers a function to be called when a slave device receives a transmission from a master.</p>
+<p><strong>Syntax</strong></p>
+<p><code>Wire.onReceive(handler)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>handler: the function to be called when the slave receives data; this should take a single int parameter (the number of bytes read from the master) and return nothing, e.g.: void myHandler(int numBytes)</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>None</p>
+<h2 id="onrequest">onRequest()<a class="headerlink" href="#onrequest" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Register a function to be called when a master requests data from this slave device.</p>
+<p><strong>Syntax</strong></p>
+<p><code>Wire.onRequest(handler)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>handler: the function to be called, takes no parameters and returns nothing, e.g.: void myHandler()</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>None</p>
+                
+                  
+                
+              
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../Interrupt/" title="Interrupt" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Interrupt
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../Serial/" title="Serial" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Serial
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2016 - 2017 Cytron Technologies
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
+        and
+        <a href="http://squidfunk.github.io/mkdocs-material/" title="Material for MkDocs">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/CytronTechnologies" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://www.facebook.com/cytrontech/" class="md-footer-social__link fa fa-facebook"></a>
+    
+      <a href="https://instagram.com/cytrontech/" class="md-footer-social__link fa fa-instagram"></a>
+    
+      <a href="https://plus.google.com/112639852007306050798/" class="md-footer-social__link fa fa-google-plus"></a>
+    
+      <a href="https://www.youtube.com/user/cytrontech" class="md-footer-social__link fa fa-youtube"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application-ad1183cb07.js"></script>
+      <script>app.initialize({url:{base:"../.."}})</script>
+      
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+    
+      
+    
+  </body>
+</html>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    
+    <url>
+     <loc>https://www.cytron.com.my/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://www.cytron.com.my/How_to_Install/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://www.cytron.com.my/Getting_Started/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+        
+    <url>
+     <loc>https://www.cytron.com.my/libraries/Analog/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://www.cytron.com.my/libraries/Digital/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://www.cytron.com.my/libraries/EEPROM/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://www.cytron.com.my/libraries/Interrupt/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://www.cytron.com.my/libraries/Wire/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://www.cytron.com.my/libraries/Serial/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://www.cytron.com.my/libraries/SoftwareSerial/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://www.cytron.com.my/libraries/SPI/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://www.cytron.com.my/libraries/Timer/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+    <url>
+     <loc>https://www.cytron.com.my/FAQs/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://www.cytron.com.my/Bugs_and_Fixes/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://www.cytron.com.my/LICENSE/</loc>
+     <lastmod>2017-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+</urlset>

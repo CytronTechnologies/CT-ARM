@@ -1,0 +1,907 @@
+
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Nuvoton ARM Cortex M0+ microcontroller with Arduino Uno form-factor">
+      
+      
+        <link rel="canonical" href="https://www.cytron.com.my/libraries/EEPROM/">
+      
+      
+        <meta name="author" content="Cytron Technologies">
+      
+      
+        <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      
+      <meta name="generator" content="mkdocs-0.16.2, mkdocs-material-1.5.5">
+    
+    
+      
+        <title>EEPROM - CT-ARM</title>
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr-56ade86843.js"></script>
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application-b1a1975878.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-f78e5cb881.palette.css">
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/style.css">
+    
+    
+  </head>
+  
+  
+  
+  
+    <body data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <a href="https://www.cytron.com.my" title="CT-ARM" class="md-logo md-header-nav__button">
+            <img src="../../img/cytron.png" width="24" height="24">
+          </a>
+        
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+                <span class="md-header-nav__parent">
+                  Libraries
+                </span>
+              
+            
+            EEPROM
+          
+        </span>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+          
+<div class="md-search" data-md-component="search">
+  <div class="md-search__overlay"></div>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">close</button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <div class="md-header-nav__source">
+          
+            
+
+
+  
+
+
+  <a href="https://github.com/CytronTechnologies/CT-ARM" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    
+      <i class="md-logo md-nav__button">
+        <img src="../../img/cytron.png">
+      </i>
+    
+    CT-ARM
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/CytronTechnologies/CT-ARM" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../How_to_Install/" title="How to Install" class="md-nav__link">
+      How to Install
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Getting_Started/" title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Libraries
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Libraries
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Analog/" title="Analog" class="md-nav__link">
+      Analog
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Digital/" title="Digital" class="md-nav__link">
+      Digital
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        EEPROM
+      </label>
+    
+    <a href="./" title="EEPROM" class="md-nav__link md-nav__link--active">
+      EEPROM
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#read" title="read()" class="md-nav__link">
+    read()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#write" title="write()" class="md-nav__link">
+    write()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update" title="update()" class="md-nav__link">
+    update()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get" title="get()" class="md-nav__link">
+    get()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#put" title="put()" class="md-nav__link">
+    put()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eraseaddressblock" title="eraseAddressBlock()" class="md-nav__link">
+    eraseAddressBlock()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fastwrite" title="fastWrite()" class="md-nav__link">
+    fastWrite()
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Interrupt/" title="Interrupt" class="md-nav__link">
+      Interrupt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Wire/" title="Wire" class="md-nav__link">
+      Wire
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Serial/" title="Serial" class="md-nav__link">
+      Serial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../SoftwareSerial/" title="SoftwareSerial" class="md-nav__link">
+      SoftwareSerial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../SPI/" title="SPI" class="md-nav__link">
+      SPI
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Timer/" title="Timer" class="md-nav__link">
+      Timer
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../FAQs/" title="FAQs" class="md-nav__link">
+      FAQs
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Bugs_and_Fixes/" title="Bugs and Fixes" class="md-nav__link">
+      Bugs and Fixes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../LICENSE/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#read" title="read()" class="md-nav__link">
+    read()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#write" title="write()" class="md-nav__link">
+    write()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update" title="update()" class="md-nav__link">
+    update()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get" title="get()" class="md-nav__link">
+    get()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#put" title="put()" class="md-nav__link">
+    put()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eraseaddressblock" title="eraseAddressBlock()" class="md-nav__link">
+    eraseAddressBlock()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fastwrite" title="fastWrite()" class="md-nav__link">
+    fastWrite()
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/CytronTechnologies/CT-ARM/edit/master/docs/libraries/EEPROM.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
+                
+                
+                <h1 id="eeprom-emulated">EEPROM - Emulated<a class="headerlink" href="#eeprom-emulated" title="Permanent link">&para;</a></h1>
+<p>CT-ARM does not have actual EEPROM, instead it has data flash memory which size is up to 4KB. Here we are using EEPROM-like library to gain read/write access to the data flash. There are total of 1024 EEPROM addresses, each address is able to store up to 4 bytes.</p>
+<h2 id="read">read()<a class="headerlink" href="#read" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Reads value (in form of 4 bytes) from the EEPROM. Locations that have never been written to have the value of 0xFFFF.</p>
+<p><strong>Syntax</strong></p>
+<p><code>EEPROM.read(address)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>address: the location to read from, starting from 0 (int) to 1023</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>the value stored in that location (4 bytes)</p>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;EEPROM.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">value</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">value</span> <span class="o">=</span> <span class="n">EEPROM</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+
+  <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">();</span>
+
+  <span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">1024</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="write">write()<a class="headerlink" href="#write" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Write value to the EEPROM.</p>
+<p><strong>Syntax</strong></p>
+<p><code>EEPROM.write(address, value)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p>address: the location to write to, starting from 0 (int) to 1023</p>
+</li>
+<li>
+<p>value: the value to write, from 0 to <span>\(2^{32}\)</span> (4 bytes)</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>None</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The data flash memory has a specified life of write/erase cycles, so you may need to be careful about how often you write to it.</p>
+</div>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;EEPROM.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">255</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">EEPROM</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="update">update()<a class="headerlink" href="#update" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Write value to the EEPROM. The value is written only if differs from the one already saved at the same address.</p>
+<p><strong>Syntax</strong></p>
+<p><code>EEPROM.update(address, value)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p>address: the location to write to, starting from 0 (int) to 1023</p>
+</li>
+<li>
+<p>value: the value to write, from 0 to <span>\(2^{32}\)</span> (4 bytes)</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>None</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The data flash memory has a specified life of write/erase cycles, using this function instead of <a href="#write">write()</a> can save cycles if the written data does not change often.</p>
+</div>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;EEPROM.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">255</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// this performs as EEPROM.write(i, i)</span>
+    <span class="n">EEPROM</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">255</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// write value &quot;12&quot; to cell 3 only the first time</span>
+    <span class="c1">// will not write the cell the remaining 254 times</span>
+    <span class="n">EEPROM</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="get">get()<a class="headerlink" href="#get" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Read any data type or object from the EEPROM.</p>
+<p><strong>Syntax</strong></p>
+<p><code>EEPROM.get(address, data)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p>address: the location to read from, starting from 0 (int)</p>
+</li>
+<li>
+<p>data: the data to read, can be a primitive type (eg. float) or a custom struct</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>A reference to the data passed in</p>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;EEPROM.h&gt;</span><span class="cp"></span>
+
+<span class="k">struct</span> <span class="n">MyObject</span><span class="p">{</span>
+  <span class="kt">float</span> <span class="n">field1</span><span class="p">;</span>
+  <span class="n">byte</span> <span class="n">field2</span><span class="p">;</span>
+  <span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">(){</span>
+
+  <span class="kt">float</span> <span class="n">f</span> <span class="o">=</span> <span class="mf">0.00f</span><span class="p">;</span>   <span class="c1">//Variable to store data read from EEPROM.</span>
+  <span class="kt">int</span> <span class="n">eeAddress</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//EEPROM address to start reading from</span>
+
+  <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span> <span class="mi">9600</span> <span class="p">);</span>
+  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">Serial</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">;</span> <span class="c1">// wait for serial port to connect. Needed for Leonardo only</span>
+  <span class="p">}</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span> <span class="s">&quot;Read float from EEPROM: &quot;</span> <span class="p">);</span>
+
+  <span class="c1">//Get the float data from the EEPROM at position &#39;eeAddress&#39;</span>
+  <span class="n">EEPROM</span><span class="p">.</span><span class="n">get</span><span class="p">(</span> <span class="n">eeAddress</span><span class="p">,</span> <span class="n">f</span> <span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span> <span class="n">f</span><span class="p">,</span> <span class="mi">3</span> <span class="p">);</span>  <span class="c1">//This may print &#39;ovf, nan&#39; if the data inside the EEPROM is not a valid float.</span>
+
+  <span class="c1">// get() can be used with custom structures too. </span>
+  <span class="n">eeAddress</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span> <span class="c1">//Move address to the next byte after float &#39;f&#39;.</span>
+  <span class="n">MyObject</span> <span class="n">customVar</span><span class="p">;</span> <span class="c1">//Variable to store custom object read from EEPROM.</span>
+  <span class="n">EEPROM</span><span class="p">.</span><span class="n">get</span><span class="p">(</span> <span class="n">eeAddress</span><span class="p">,</span> <span class="n">customVar</span> <span class="p">);</span>
+
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span> <span class="s">&quot;Read custom object from EEPROM: &quot;</span> <span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span> <span class="n">customVar</span><span class="p">.</span><span class="n">field1</span> <span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span> <span class="n">customVar</span><span class="p">.</span><span class="n">field2</span> <span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span> <span class="n">customVar</span><span class="p">.</span><span class="n">name</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">(){</span> <span class="cm">/* Empty loop */</span> <span class="p">}</span>
+</pre></div>
+
+
+<h2 id="put">put()<a class="headerlink" href="#put" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Write any data type or object to the EEPROM.</p>
+<p><strong>Syntax</strong></p>
+<p><code>EEPROM.put(address, data)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p>address: the location to write to, starting from 0 (int)</p>
+</li>
+<li>
+<p>data: the data to write, can be a primitive type (eg. float) or a custom struct</p>
+</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>A reference to the data passed in</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function uses EEPROM.update() to perform the write, so does not rewrites the value if it didn't change.</p>
+</div>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;EEPROM.h&gt;</span><span class="cp"></span>
+
+<span class="k">struct</span> <span class="n">MyObject</span> <span class="p">{</span>
+  <span class="kt">float</span> <span class="n">field1</span><span class="p">;</span>
+  <span class="n">byte</span> <span class="n">field2</span><span class="p">;</span>
+  <span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span>
+  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">Serial</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">;</span> <span class="c1">// wait for serial port to connect. Needed for native USB port only</span>
+  <span class="p">}</span>
+
+  <span class="kt">float</span> <span class="n">f</span> <span class="o">=</span> <span class="mf">123.456f</span><span class="p">;</span>  <span class="c1">//Variable to store in EEPROM.</span>
+  <span class="kt">int</span> <span class="n">eeAddress</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>   <span class="c1">//Location we want the data to be put.</span>
+
+
+  <span class="c1">//One simple call, with the address first and the object second.</span>
+  <span class="n">EEPROM</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">eeAddress</span><span class="p">,</span> <span class="n">f</span><span class="p">);</span>
+
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Written float data type!&quot;</span><span class="p">);</span>
+
+  <span class="cm">/** Put is designed for use with custom structures also. **/</span>
+
+  <span class="c1">//Data to store.</span>
+  <span class="n">MyObject</span> <span class="n">customVar</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mf">3.14f</span><span class="p">,</span>
+    <span class="mi">65</span><span class="p">,</span>
+    <span class="s">&quot;Working!&quot;</span>
+  <span class="p">};</span>
+
+  <span class="n">eeAddress</span> <span class="o">+=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span> <span class="c1">//Move address to the next byte after float &#39;f&#39;.</span>
+
+  <span class="n">EEPROM</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">eeAddress</span><span class="p">,</span> <span class="n">customVar</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Written custom data type! </span><span class="se">\n\n</span><span class="s">View the example sketch eeprom_get to see how you can retrieve the values!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span>
+  <span class="cm">/* Empty loop */</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="eraseaddressblock">eraseAddressBlock()<a class="headerlink" href="#eraseaddressblock" title="Permanent link">&para;</a></h2>
+<h2 id="fastwrite">fastWrite()<a class="headerlink" href="#fastwrite" title="Permanent link">&para;</a></h2>
+                
+                  
+                
+              
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../Digital/" title="Digital" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Digital
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../Interrupt/" title="Interrupt" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Interrupt
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2016 - 2017 Cytron Technologies
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
+        and
+        <a href="http://squidfunk.github.io/mkdocs-material/" title="Material for MkDocs">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/CytronTechnologies" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://www.facebook.com/cytrontech/" class="md-footer-social__link fa fa-facebook"></a>
+    
+      <a href="https://instagram.com/cytrontech/" class="md-footer-social__link fa fa-instagram"></a>
+    
+      <a href="https://plus.google.com/112639852007306050798/" class="md-footer-social__link fa fa-google-plus"></a>
+    
+      <a href="https://www.youtube.com/user/cytrontech" class="md-footer-social__link fa fa-youtube"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application-ad1183cb07.js"></script>
+      <script>app.initialize({url:{base:"../.."}})</script>
+      
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+    
+      
+    
+  </body>
+</html>

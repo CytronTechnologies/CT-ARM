@@ -1,0 +1,812 @@
+
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Nuvoton ARM Cortex M0+ microcontroller with Arduino Uno form-factor">
+      
+      
+        <link rel="canonical" href="https://www.cytron.com.my/libraries/SPI/">
+      
+      
+        <meta name="author" content="Cytron Technologies">
+      
+      
+        <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      
+      <meta name="generator" content="mkdocs-0.16.2, mkdocs-material-1.5.5">
+    
+    
+      
+        <title>SPI - CT-ARM</title>
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr-56ade86843.js"></script>
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application-b1a1975878.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-f78e5cb881.palette.css">
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/style.css">
+    
+    
+  </head>
+  
+  
+  
+  
+    <body data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <a href="https://www.cytron.com.my" title="CT-ARM" class="md-logo md-header-nav__button">
+            <img src="../../img/cytron.png" width="24" height="24">
+          </a>
+        
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+                <span class="md-header-nav__parent">
+                  Libraries
+                </span>
+              
+            
+            SPI
+          
+        </span>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+          
+<div class="md-search" data-md-component="search">
+  <div class="md-search__overlay"></div>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">close</button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <div class="md-header-nav__source">
+          
+            
+
+
+  
+
+
+  <a href="https://github.com/CytronTechnologies/CT-ARM" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    
+      <i class="md-logo md-nav__button">
+        <img src="../../img/cytron.png">
+      </i>
+    
+    CT-ARM
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/CytronTechnologies/CT-ARM" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../How_to_Install/" title="How to Install" class="md-nav__link">
+      How to Install
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Getting_Started/" title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Libraries
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Libraries
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Analog/" title="Analog" class="md-nav__link">
+      Analog
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Digital/" title="Digital" class="md-nav__link">
+      Digital
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../EEPROM/" title="EEPROM" class="md-nav__link">
+      EEPROM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Interrupt/" title="Interrupt" class="md-nav__link">
+      Interrupt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Wire/" title="Wire" class="md-nav__link">
+      Wire
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Serial/" title="Serial" class="md-nav__link">
+      Serial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../SoftwareSerial/" title="SoftwareSerial" class="md-nav__link">
+      SoftwareSerial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        SPI
+      </label>
+    
+    <a href="./" title="SPI" class="md-nav__link md-nav__link--active">
+      SPI
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#spisettings" title="SPISettings" class="md-nav__link">
+    SPISettings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#begin" title="begin()" class="md-nav__link">
+    begin()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end" title="end()" class="md-nav__link">
+    end()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#begintransaction" title="beginTransaction()" class="md-nav__link">
+    beginTransaction()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endtransaction" title="endTransaction()" class="md-nav__link">
+    endTransaction()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setbitorder" title="setBitOrder()" class="md-nav__link">
+    setBitOrder()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setclockdivider" title="setClockDivider()" class="md-nav__link">
+    setClockDivider()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setdatamode" title="setDataMode()" class="md-nav__link">
+    setDataMode()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transfer" title="transfer()" class="md-nav__link">
+    transfer()
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Timer/" title="Timer" class="md-nav__link">
+      Timer
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../FAQs/" title="FAQs" class="md-nav__link">
+      FAQs
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Bugs_and_Fixes/" title="Bugs and Fixes" class="md-nav__link">
+      Bugs and Fixes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../LICENSE/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#spisettings" title="SPISettings" class="md-nav__link">
+    SPISettings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#begin" title="begin()" class="md-nav__link">
+    begin()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end" title="end()" class="md-nav__link">
+    end()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#begintransaction" title="beginTransaction()" class="md-nav__link">
+    beginTransaction()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endtransaction" title="endTransaction()" class="md-nav__link">
+    endTransaction()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setbitorder" title="setBitOrder()" class="md-nav__link">
+    setBitOrder()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setclockdivider" title="setClockDivider()" class="md-nav__link">
+    setClockDivider()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setdatamode" title="setDataMode()" class="md-nav__link">
+    setDataMode()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transfer" title="transfer()" class="md-nav__link">
+    transfer()
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/CytronTechnologies/CT-ARM/edit/master/docs/libraries/SPI.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
+                
+                
+                  <h1>SPI</h1>
+                
+                <h2 id="spisettings">SPISettings<a class="headerlink" href="#spisettings" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>The SPISettings object is used to configure the SPI port for your SPI device. All 3 parameters are combined to a single SPISettings object, which is given to SPI.beginTransaction().</p>
+<p><strong>Syntax</strong></p>
+<p><code>SPISettings mySetting(speedMaximum, dataOrder, dataMode)</code></p>
+<p><code>SPI.beginTransaction(mySetting)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p>speedMaximum: The maximum speed of communication. For a SPI chip rated up to 20 MHz, use 20000000.</p>
+</li>
+<li>
+<p>dataOrder: MSBFIRST or LSBFIRST</p>
+</li>
+<li>
+<p>dataMode : SPI_MODE0, SPI_MODE1, SPI_MODE2, or SPI_MODE3</p>
+</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>None</p>
+<h2 id="begin">begin()<a class="headerlink" href="#begin" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Initializes the SPI bus by setting SCK, MOSI, and SS to outputs, pulling SCK and MOSI low, and SS high.</p>
+<p><strong>Syntax</strong></p>
+<p><code>SPI.begin()</code></p>
+<p><strong>Parameters</strong></p>
+<p>None</p>
+<p><strong>Return</strong></p>
+<p>None</p>
+<p><strong>Example</strong></p>
+<h2 id="end">end()<a class="headerlink" href="#end" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Disables the SPI bus (leaving pin modes unchanged).</p>
+<p><strong>Syntax</strong></p>
+<p><code>SPI.end()</code></p>
+<p><strong>Parameters</strong></p>
+<p>None</p>
+<p><strong>Return</strong></p>
+<p>None</p>
+<h2 id="begintransaction">beginTransaction()<a class="headerlink" href="#begintransaction" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Initializes the SPI bus using the defined <a href="#spisettings">SPISettings</a>.</p>
+<p><strong>Syntax</strong></p>
+<p><code>SPI.beginTransaction(mySettings);</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>mySettings: the chosen settings according to SPISettings.</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>None</p>
+<h2 id="endtransaction">endTransaction()<a class="headerlink" href="#endtransaction" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Stop using the SPI bus. Normally this is called after de-asserting the chip select, to allow other libraries to use the SPI bus.</p>
+<p><strong>Syntax</strong></p>
+<p><code>SPI.endTransaction()</code></p>
+<p><strong>Parameters</strong></p>
+<p>None</p>
+<p><strong>Return</strong></p>
+<p>None</p>
+<h2 id="setbitorder">setBitOrder()<a class="headerlink" href="#setbitorder" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Sets the order of the bits shifted out of and into the SPI bus, either LSBFIRST (least-significant bit first) or MSBFIRST (most-significant bit first).</p>
+<p><strong>Syntax</strong></p>
+<p><code>SPI.setBitOrder(order)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>order: either LSBFIRST or MSBFIRST</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>None</p>
+<h2 id="setclockdivider">setClockDivider()<a class="headerlink" href="#setclockdivider" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Sets the SPI clock divider relative to the system clock. The dividers available are 2, 4, 8, 16, 32, 64 or 128. The default setting is SPI_CLOCK_DIV4, which sets the SPI clock to one-quarter the frequency of the Arduino system clock (4 Mhz for the boards at 16 MHz).</p>
+<p><strong>Syntax</strong></p>
+<p><code>SPI.setClockDivider(divider)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>divider:<ul>
+<li>SPI_CLOCK_DIV2 (8MHz)</li>
+<li>SPI_CLOCK_DIV4 (4MHz, default)</li>
+<li>SPI_CLOCK_DIV8 (2MHz)</li>
+<li>SPI_CLOCK_DIV16 (1MHz)</li>
+<li>SPI_CLOCK_DIV32 (500kHz) </li>
+<li>SPI_CLOCK_DIV64 (250kHz)</li>
+<li>SPI_CLOCK_DIV128 (125kHz)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>None</p>
+<h2 id="setdatamode">setDataMode()<a class="headerlink" href="#setdatamode" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>Sets the SPI data mode: that is, clock polarity and phase. See the <a href="http://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus">Wikipedia article on SPI</a> for details.</p>
+<p><strong>Syntax</strong></p>
+<p><code>SPI.setDataMode(mode)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>mode:    <ul>
+<li>SPI_MODE0</li>
+<li>SPI_MODE1</li>
+<li>SPI_MODE2</li>
+<li>SPI_MODE3</li>
+</ul>
+</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>None</p>
+<h2 id="transfer">transfer()<a class="headerlink" href="#transfer" title="Permanent link">&para;</a></h2>
+<p><strong>Description</strong></p>
+<p>SPI transfer is based on a simultaneous send and receive: the received data is returned in receivedVal (or receivedVal16). In case of buffer transfers the received data is stored in the buffer in-place (the old data is replaced with the data received).</p>
+<p><strong>Syntax</strong></p>
+<p><code>receivedVal = SPI.transfer(val)</code></p>
+<p><code>SPI.transfer(buffer, size)</code></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>
+<p>val: the byte to send out over the bus</p>
+</li>
+<li>
+<p>buffer: the array of data to be transferred</p>
+</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>the received data</p>
+                
+                  
+                
+              
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../SoftwareSerial/" title="SoftwareSerial" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                SoftwareSerial
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../Timer/" title="Timer" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Timer
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2016 - 2017 Cytron Technologies
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
+        and
+        <a href="http://squidfunk.github.io/mkdocs-material/" title="Material for MkDocs">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/CytronTechnologies" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://www.facebook.com/cytrontech/" class="md-footer-social__link fa fa-facebook"></a>
+    
+      <a href="https://instagram.com/cytrontech/" class="md-footer-social__link fa fa-instagram"></a>
+    
+      <a href="https://plus.google.com/112639852007306050798/" class="md-footer-social__link fa fa-google-plus"></a>
+    
+      <a href="https://www.youtube.com/user/cytrontech" class="md-footer-social__link fa fa-youtube"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application-ad1183cb07.js"></script>
+      <script>app.initialize({url:{base:"../.."}})</script>
+      
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+    
+      
+    
+  </body>
+</html>
