@@ -14,7 +14,7 @@ script:
 - cd package
 - "./build_boards_manager_package.sh"
 - cd ~/tmp
-- git add package_cytron_arm_index.json
+- git add package_cytron_index.json
 - git commit -m "CT-ARM version $ver release"
 
 notifications:
