@@ -38,23 +38,22 @@
 extern "C" {
 #endif
 
-extern caddr_t _sbrk( int incr ) ;
+extern caddr_t _sbrk(int incr);
 
-extern int link( char *cOld, char *cNew ) ;
+extern int link(char *cOld, char *cNew);
 
-extern int _close( int file ) ;
+extern int _close(int file);
 
-extern int _fstat( int file, struct stat *st ) ;
+extern int _fstat(int file, struct stat *st);
 
-extern int _isatty( int file ) ;
+extern int _isatty(int file);
 
-extern int _lseek( int file, int ptr, int dir ) ;
+extern int _lseek(int file, int ptr, int dir);
 
-extern int _read(int file, char *ptr, int len) ;
+extern int _read(int file, char *ptr, int len);
 
-extern int _write( int file, char *ptr, int len ) ;
+extern int _write(int file, char *ptr, int len);
 
 #ifdef __cplusplus
 }
 #endif
-

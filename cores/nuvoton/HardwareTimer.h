@@ -36,10 +36,10 @@
 typedef void (*voidFuncPtr)(void);
 
 /** Timer mode. */
-#define ONESHOT 		TIMER_ONESHOT_MODE
-#define PERIODIC 		TIMER_PERIODIC_MODE
-#define TOGGLE 			TIMER_TOGGLE_MODE
-#define CONTINUOUS		TIMER_CONTINUOUS_MODE 
+#define ONESHOT TIMER_ONESHOT_MODE
+#define PERIODIC TIMER_PERIODIC_MODE
+#define TOGGLE TIMER_TOGGLE_MODE
+#define CONTINUOUS TIMER_CONTINUOUS_MODE
 
 /** @brief Deprecated; use TIMER_OUTPUT_COMPARE instead. */
 #define TIMER_OUTPUTCOMPARE TIMER_OUTPUT_COMPARE
@@ -50,8 +50,9 @@ extern uint32_t TimeClock;
  * @brief Interface to one of the 16-bit timer peripherals.
  */
 
-class HardwareTimer {
-//private:
+class HardwareTimer
+{
+  //private:
 public:
   TIMER_T *dev;
   int channel;
@@ -88,12 +89,13 @@ public:
     * @brief This API stops Timer counting and disable the Timer interrupt function  
     * @return None
     */
-  void initialize(uint32_t microseconds = 1000000)__attribute__((always_inline)){
-		
-		uint32_t u32ClkInMHz = 0;
-		u32ClkInMHz = getModuleClock() / 1000000;
-		dev->TCSR = (dev->TCSR & ~TIMER_TCSR_PRESCALE_Msk)| PERIODIC |(u32ClkInMHz - 1);
-		dev->TCMPR = microseconds;// range - 2us - 16,777,216 us
+  void initialize(uint32_t microseconds = 1000000) __attribute__((always_inline))
+  {
+
+    uint32_t u32ClkInMHz = 0;
+    u32ClkInMHz = getModuleClock() / 1000000;
+    dev->TCSR = (dev->TCSR & ~TIMER_TCSR_PRESCALE_Msk) | PERIODIC | (u32ClkInMHz - 1);
+    dev->TCMPR = microseconds; // range - 2us - 16,777,216 us
   }
 
   void close(void);
@@ -123,14 +125,14 @@ public:
     * @see HardwareTimer::attachInterrupt()
     */
   void detachInterrupt();
-    
+
   /**
     * @brief This API is used to get the clock frequency of Timer	  
     * @return Timer clock frequency
     * @note This API cannot return correct clock rate if timer source is external clock input.
-    */   
+    */
   uint32_t getModuleClock();
-    
+
   /**
     * @brief This function clears the Timer time-out interrupt flag.		  
     * @return None
@@ -140,18 +142,18 @@ public:
 
 /* -- The rest of this file is deprecated. --------------------------------- */
 
-#if(NR_TIMERS>0)
-	extern HardwareTimer Timer1;
+#if (NR_TIMERS > 0)
+extern HardwareTimer Timer1;
 #endif
-#if(NR_TIMERS>1)
-	extern HardwareTimer Timer2;
+#if (NR_TIMERS > 1)
+extern HardwareTimer Timer2;
 #endif
-#if(NR_TIMERS>2)
-	extern HardwareTimer Timer3;
+#if (NR_TIMERS > 2)
+extern HardwareTimer Timer3;
 #endif
-#if(NR_TIMERS>3)
-	extern HardwareTimer Timer4;
+#if (NR_TIMERS > 3)
+extern HardwareTimer Timer4;
 #endif
-extern HardwareTimer* Timer[NR_TIMERS];
+extern HardwareTimer *Timer[NR_TIMERS];
 
 #endif

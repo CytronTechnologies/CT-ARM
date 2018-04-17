@@ -22,36 +22,63 @@
 extern "C" {
 #endif
 
-extern uint32_t GetTickCount( void );
+extern uint32_t GetTickCount(void);
 
-uint32_t millis( void )
+uint32_t millis(void)
 {
-// todo: ensure no interrupts
-	return GetTickCount() ;
+    // todo: ensure no interrupts
+    return GetTickCount();
 }
 
-uint32_t micros( void )
+uint32_t micros(void)
 {
-    uint32_t ticks ;
-    uint32_t count ;
+#if 0 // original function:
+    uint32_t ticks;
+    int32_t count;
 
-    SysTick->CTRL;
+		SysTick->CTRL;
     do {
         ticks = SysTick->VAL;
         count = GetTickCount();
     } while (SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk);
 
-    return count * 1000 + (SysTick->LOAD + 1 - ticks) / (SystemCoreClock/1000000) ;  
+    return count * 1000 + (SysTick->LOAD + 1 - ticks) / (SystemCoreClock/1000000) ;
+#else
+    uint32_t ticks, ticks2;
+    uint32_t pend, pend2;
+    uint32_t count, count2;
+
+    ticks2 = SysTick->VAL;
+    pend2 = !!(SCB->ICSR & SCB_ICSR_PENDSTSET_Msk);
+    count2 = GetTickCount();
+
+    do
+    {
+        ticks = ticks2;
+        pend = pend2;
+        count = count2;
+        ticks2 = SysTick->VAL;
+        pend2 = !!(SCB->ICSR & SCB_ICSR_PENDSTSET_Msk);
+        count2 = GetTickCount();
+    } while ((pend != pend2) || (count != count2) || (ticks < ticks2));
+
+    return ((count + pend) * 1000) + (((SysTick->LOAD - ticks) * (1048576 / (F_CPU / 1000000))) >> 20);
+    // this is an optimization to turn a runtime division into two compile-time divisions and
+    // a runtime multiplication and shift, saving a few cycles
+#endif
 }
 
-void delay( uint32_t ms )
+void delay(uint32_t ms)
 {
+    if (ms == 0)
+        return;
     uint32_t end = GetTickCount() + ms;
-    while (GetTickCount() < end);
+    while (GetTickCount() < end)
+        ;
 }
 
-#if defined ( __ICCARM__ ) /* IAR Ewarm 5.41+ */
-extern signed int putchar( signed int c ) ;
+#if defined(__ICCARM__) /* IAR Ewarm 5.41+ */
+extern signed int putchar(signed int c);
 /**
  * \brief
  *
@@ -59,9 +86,9 @@ extern signed int putchar( signed int c ) ;
  *
  * \return The character that was output.
  */
-extern WEAK signed int putchar( signed int c )
+extern WEAK signed int putchar(signed int c)
 {
-    return c ;
+    return c;
 }
 #endif /* __ICCARM__ */
 

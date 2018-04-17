@@ -2,11 +2,11 @@
   "packages": [
     {
       "name": "cytron",
-      "maintainer": "Cytron Technologies",
-      "websiteURL": "http://www.cytron.com.my",
-      "email": "support@cytron.com.my",
+      "maintainer": "Cytron Technologies Sdn Bhd",
+      "websiteURL": "https://www.cytron.io",
+      "email": "support@cytron.io",
       "help": {
-        "online": "http://forum.cytron.com.my/"
+        "online": "http://forum.cytron.io"
       },
       "platforms": [
         {
@@ -72,43 +72,54 @@
               "archiveFileName": "gcc-arm-none-eabi-4.8.3-2014q1-linux32.tar.gz",
               "checksum": "SHA-256:ba1994235f69c526c564f65343f22ddbc9822b2ea8c5ee07dd79d89f6ace2498",
               "size": "51029223"
-            }		
+            },
+            {
+              "host": "arm-linux-gnueabihf",
+              "url": "http://downloads.arduino.cc/gcc-arm-none-eabi-4.8.3-2014q1-arm.tar.bz2",
+              "archiveFileName": "gcc-arm-none-eabi-4.8.3-2014q1-arm.tar.bz2",
+              "checksum": "SHA-256:ebe96b34c4f434667cab0187b881ed585e7c7eb990fe6b69be3c81ec7e11e845",
+              "size": "44423906"
+            }
           ]
         },
         {
           "name": "nulinkburn",
-          "version": "1.0.0",
+          "version": "1.0.1",
           "systems": [
             {
-              "host": "i686-mingw32",
-              "archiveFileName": "nulinkburn.tar.bz2",
-              "url": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/nulinkburn/windows/nulinkburn.tar.bz2",
-              "checksum": "SHA-256:E1D0BDF21F6B9A709783F49D7691ED0FF387B4AD457E7A6D5A86772AA9CC1F2C",
-
-              "size": "469963"
+              "url": "https://github.com/bengchet/nuvodude/releases/download/1.0.1/nuvodude-1.0.1-win32.zip", 
+              "checksum": "SHA-256:e7db08c7c851310b9f2672fa3f702ee838123d7b435eee8ffcb5535ded55f220", 
+              "host": "i686-mingw32", 
+              "archiveFileName": "nuvodude-1.0.1-win32.zip", 
+              "size": "27791"
             },
             {
-              "host": "x86_64-apple-darwin",
-              "archiveFileName": "nulinkburn-mac.tar.bz2",
-              "url": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/nulinkburn/mac/nulinkburn-mac.tar.bz2",
-              "checksum": "SHA-256:40D02E45552208D7D594C41C5EC2031BFCBCA182BDFE0D1607484A886303F574",
-              "size": "13399"
+              "url": "https://github.com/bengchet/nuvodude/releases/download/1.0.1/nuvodude-1.0.1-osx.tar.gz", 
+              "checksum": "SHA-256:1e247f035249261762b594066f06e2a4286a2fdfcc4c3b84bd98ce3f699e2f89", 
+              "host": "x86_64-apple-darwin", 
+              "archiveFileName": "nuvodude-1.0.1-osx.tar.gz", 
+              "size": "11929"
             },
             {
-              "host": "x86_64-pc-linux-gnu",
-              "archiveFileName": "nulinkburn-linux64.tar.gz",
-              "url": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/nulinkburn/linux64/nulinkburn-linux64.tar.gz",
-              "checksum": "SHA-256:085336DFC78011077342DC90374D175C20FA77B87057783C5809F2BE991F303F",
-
-              "size": "8264"
+              "url": "https://github.com/bengchet/nuvodude/releases/download/1.0.1/nuvodude-1.0.1-linux64.tar.gz", 
+              "checksum": "SHA-256:9b658978f70465f4ea79364ec4b84d06a2dba3dcf2bae74d6b100f0b0d52ec68", 
+              "host": "x86_64-pc-linux-gnu", 
+              "archiveFileName": "nuvodude-1.0.1-linux64.tar.gz", 
+              "size": "7377"
             },
             {
-              "host": "i686-pc-linux-gnu",
-              "archiveFileName": "nulinkburn-linux32.tar.gz",
-              "url": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/nulinkburn/linux32/nulinkburn-linux32.tar.gz",
-              "checksum": "SHA-256:3E9CF27C12EA9D641C97AE2B706DB8430748C9DEFD991BD2968BA89CDA795F40",
-
-              "size": "7604"
+              "url": "https://github.com/bengchet/nuvodude/releases/download/1.0.1/nuvodude-1.0.1-linux32.tar.gz", 
+              "checksum": "SHA-256:e7163c88810681884ee72698d59867223d41f9ba30a66abb1dc513236e00282a", 
+              "host": "i686-pc-linux-gnu", 
+              "archiveFileName": "nuvodude-1.0.1-linux32.tar.gz", 
+              "size": "7615"
+            },
+            {
+              "url": "https://github.com/bengchet/nuvodude/releases/download/1.0.1/nuvodude-1.0.1-linux-armhf.tar.gz", 
+              "checksum": "SHA-256:00cef8c1509fa39fe36571ab80dce9a2135d8203ec1b27336987de1edd62f214", 
+              "host": "arm-linux-gnueabihf",
+              "archiveFileName": "nuvodude-1.0.1-linux-armhf.tar.gz", 
+              "size": "6908"
             }
           ]
         }

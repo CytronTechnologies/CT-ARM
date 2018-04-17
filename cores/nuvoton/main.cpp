@@ -21,21 +21,22 @@
 /*
  * \brief Main entry point of Arduino application
  */
-int main( void )
+int main(void)
 {
-	init();		
-	
-	#if defined(__M451__) | defined(__NUC240__) |defined(__NANO100__)
-	USBDevice.attach();
-	#endif
-			
-	setup();
-	
-	for (;;)
-	{
-		loop();		
-		if(serialEventRun) serialEventRun();
-	}
+  init();
 
-	return 0;
+#if defined(__M451__) | defined(__NUC240__) | defined(__NANO100__)
+  USBDevice.attach();
+#endif
+
+  setup();
+
+  for (;;)
+  {
+    loop();
+    if (serialEventRun)
+      serialEventRun();
+  }
+
+  return 0;
 }

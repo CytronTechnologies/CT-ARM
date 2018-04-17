@@ -20,7 +20,7 @@
 #define _ITOA_
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif // __cplusplus
 
 #if 0
@@ -28,11 +28,11 @@ extern "C"{
 extern void itoa( int n, char s[] ) ;
 
 #else
-extern char* dtostrf (double val, signed char width, unsigned char prec, char *sout) ;
-extern char* itoa( int value, char *string, int radix ) ;
-extern char* ltoa( long value, char *string, int radix ) ;
-extern char* utoa( unsigned long value, char *string, int radix ) ;
-extern char* ultoa( unsigned long value, char *string, int radix ) ;
+extern char *dtostrf(double val, signed char width, unsigned char prec, char *sout);
+extern char *itoa(int value, char *string, int radix);
+extern char *ltoa(long value, char *string, int radix);
+extern char *utoa(unsigned long value, char *string, int radix);
+extern char *ultoa(unsigned long value, char *string, int radix);
 #endif /* 0 */
 
 #ifdef __cplusplus

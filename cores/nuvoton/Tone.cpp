@@ -18,129 +18,148 @@
 
 */
 
-
 #include "Arduino.h"
 
 HardwareTimer *ToneTimer = Timer[1];
 
-typedef struct {
-  HardwareTimer* timer;
-  uint8_t pin; 
+typedef struct
+{
+  HardwareTimer *timer;
+  uint8_t pin;
   uint8_t arduino_pin;
-  uint8_t enabled;  
+  uint8_t enabled;
   volatile uint8_t waitISR;
 } tone_t;
 
-tone_t Tone = {0};
+tone_t Tone;
 
 void tone_ISR(void)
-{		
+{
   Tone.waitISR = 0;
-  Tone.timer->close(); 
-  if(Tone.arduino_pin > 5 && Tone.arduino_pin < 10)
-	BPWM_DisableOutput(BPWM_Desc[Tone.pin].P, (1<<BPWM_Desc[Tone.pin].ch));
+  Tone.timer->close();
+  if (Tone.arduino_pin > 5 && Tone.arduino_pin < 10)
+    BPWM_DisableOutput(BPWM_Desc[Tone.pin].P, (1 << BPWM_Desc[Tone.pin].ch));
   else
-	PWM_DisableOutput(PWM_Desc[Tone.pin].P, (1<<PWM_Desc[Tone.pin].ch));
+    PWM_DisableOutput(PWM_Desc[Tone.pin].P, (1 << PWM_Desc[Tone.pin].ch));
 }
 
 static uint8_t pinEnabled[PWM_MAX_COUNT] = {0};
 // frequency (in hertz) and duration (in milliseconds).
-void tone(uint8_t ulPin, unsigned int frequency, unsigned long duration)
+void tone(uint8_t ulPin, uint32_t frequency, uint32_t duration)
 {
   tone_t *tone;
   uint8_t bpwm = 0;
 
-  if(ulPin > BoardToPin_MAX_COUNT) return;
+  if (ulPin > BoardToPin_MAX_COUNT)
+    return;
 
-  if(ulPin > 5 && ulPin < 10) { // BPWM pins - 6, 7, 8, 9
+  if (ulPin > 5 && ulPin < 10)
+  { // BPWM pins - 6, 7, 8, 9
     bpwm = 1;
   }
-  
-  if(ulPin > 17 && ulPin < 22) { // PWM at analog pins - A0, A1, A2, A3
-    ulPin = ulPin + 8;
+
+  if (ulPin >= A0 && ulPin <= A3)
+  { // PWM at analog pins - A0, A1, A2, A3
+    ulPin = ulPin + 12;
   }
 
-  if(BoardToPinInfo[ulPin].type != PWM_TYPE) return;
-  
+  if (BoardToPinInfo[ulPin].type != PWM_TYPE)
+    return;
+
   uint32_t pwmPin = BoardToPinInfo[ulPin].num;
 
-  if(!pinEnabled[pwmPin]) {
-	if(bpwm) {
-		BPWM_Config(BPWM_Desc[pwmPin]); // Set Mutifunction pins
-		BPWM_ConfigOutputChannel(BPWM_Desc[pwmPin].P, BPWM_Desc[pwmPin].ch, frequency, 50); // Config BPWMs
-		BPWM_EnableOutput(BPWM_Desc[pwmPin].P, (1 << BPWM_Desc[pwmPin].ch)); //Enable BPWM output
-		BPWM_Start(BPWM_Desc[pwmPin].P, (1 << BPWM_Desc[pwmPin].ch)); //Start BPWM
-	}
-	else{
-		PWM_Config(PWM_Desc[pwmPin]); // Set Mutifunction pins
-		PWM_ConfigOutputChannel(PWM_Desc[pwmPin].P, PWM_Desc[pwmPin].ch, frequency, 50); //Config PWMs
-		PWM_EnableOutput(PWM_Desc[pwmPin].P, (1<<PWM_Desc[pwmPin].ch)); //Enable PWM output
-		PWM_Start(PWM_Desc[pwmPin].P, (1<<PWM_Desc[pwmPin].ch)); //Start PWM
-	}
-    
+  if (!pinEnabled[pwmPin])
+  {
+    if (bpwm)
+    {
+      BPWM_Config(BPWM_Desc[pwmPin]);                                                     // Set Mutifunction pins
+      BPWM_ConfigOutputChannel(BPWM_Desc[pwmPin].P, BPWM_Desc[pwmPin].ch, frequency, 50); // Config BPWMs
+      BPWM_EnableOutput(BPWM_Desc[pwmPin].P, (1 << BPWM_Desc[pwmPin].ch));                //Enable BPWM output
+      BPWM_Start(BPWM_Desc[pwmPin].P, (1 << BPWM_Desc[pwmPin].ch));                       //Start BPWM
+    }
+    else
+    {
+      PWM_Config(PWM_Desc[pwmPin]);                                                    // Set Mutifunction pins
+      PWM_ConfigOutputChannel(PWM_Desc[pwmPin].P, PWM_Desc[pwmPin].ch, frequency, 50); //Config PWMs
+      PWM_EnableOutput(PWM_Desc[pwmPin].P, (1 << PWM_Desc[pwmPin].ch));                //Enable PWM output
+      PWM_Start(PWM_Desc[pwmPin].P, (1 << PWM_Desc[pwmPin].ch));                       //Start PWM
+    }
+
     pinEnabled[pwmPin] = 1;
   }
 
   tone = &Tone;
   tone->pin = pwmPin;
   tone->arduino_pin = ulPin;
-  tone->timer = ToneTimer;		
-  tone->enabled = 1;	
-  if(duration == 0){
-	if(bpwm) {
-		BPWM_EnableOutput(BPWM_Desc[pwmPin].P, (1 << BPWM_Desc[pwmPin].ch));
-		BPWM_ConfigOutputChannel(BPWM_Desc[pwmPin].P, BPWM_Desc[pwmPin].ch, frequency, 50);
-	}
-	else{
-		PWM_EnableOutput(PWM_Desc[pwmPin].P, (1 << PWM_Desc[pwmPin].ch));
-		PWM_ConfigOutputChannel(PWM_Desc[pwmPin].P, PWM_Desc[pwmPin].ch, frequency, 50);
-		//PWM_Start(PWM_Desc[tone->pin].P,(1<<PWM_Desc[tone->pin].ch));	
-	}	  
+  tone->timer = ToneTimer;
+  tone->enabled = 1;
+  if (duration == 0)
+  {
+    if (bpwm)
+    {
+      BPWM_EnableOutput(BPWM_Desc[pwmPin].P, (1 << BPWM_Desc[pwmPin].ch));
+      BPWM_ConfigOutputChannel(BPWM_Desc[pwmPin].P, BPWM_Desc[pwmPin].ch, frequency, 50);
+    }
+    else
+    {
+      PWM_EnableOutput(PWM_Desc[pwmPin].P, (1 << PWM_Desc[pwmPin].ch));
+      PWM_ConfigOutputChannel(PWM_Desc[pwmPin].P, PWM_Desc[pwmPin].ch, frequency, 50);
+      //PWM_Start(PWM_Desc[tone->pin].P,(1<<PWM_Desc[tone->pin].ch));
+    }
   }
-  else {
-    while(tone->waitISR);
+  else
+  {
+    while (tone->waitISR)
+      ;
     //Config PWMs
-    if(bpwm) {
-		BPWM_EnableOutput(BPWM_Desc[pwmPin].P, (1 << BPWM_Desc[pwmPin].ch));
-		BPWM_ConfigOutputChannel(BPWM_Desc[pwmPin].P, BPWM_Desc[pwmPin].ch, frequency, 50);
-	}
-	else{
-		PWM_EnableOutput(PWM_Desc[pwmPin].P, (1 << PWM_Desc[pwmPin].ch));
-		PWM_ConfigOutputChannel(PWM_Desc[pwmPin].P, PWM_Desc[pwmPin].ch, frequency, 50);
-		//PWM_Start(PWM_Desc[tone->pin].P,(1<<PWM_Desc[tone->pin].ch));	
-	}	  
+    if (bpwm)
+    {
+      BPWM_EnableOutput(BPWM_Desc[pwmPin].P, (1 << BPWM_Desc[pwmPin].ch));
+      BPWM_ConfigOutputChannel(BPWM_Desc[pwmPin].P, BPWM_Desc[pwmPin].ch, frequency, 50);
+    }
+    else
+    {
+      PWM_EnableOutput(PWM_Desc[pwmPin].P, (1 << PWM_Desc[pwmPin].ch));
+      PWM_ConfigOutputChannel(PWM_Desc[pwmPin].P, PWM_Desc[pwmPin].ch, frequency, 50);
+      //PWM_Start(PWM_Desc[tone->pin].P,(1<<PWM_Desc[tone->pin].ch));
+    }
     tone->waitISR = 1;
-   //Config Timer			
+    //Config Timer
     tone->timer->open(ONESHOT, tone->timer->getModuleClock());
     tone->timer->setPrescaleFactor(0);
-    tone->timer->setCompare(tone->timer->getModuleClock() / 1000 * duration);  /* milliseconds */ 
+    tone->timer->setCompare(tone->timer->getModuleClock() / 1000 * duration); /* milliseconds */
     tone->timer->attachInterrupt(tone_ISR);
-    tone->timer->start();			
-  }		
+    tone->timer->start();
+  }
 }
 
 void noTone(uint8_t ulPin)
 {
   tone_t *tone;
   uint8_t bpwm = 0;
-  
-  if(ulPin > BoardToPin_MAX_COUNT) return;
-  
-  if(ulPin > 5 && ulPin < 10) { // BPWM pins - 6, 7, 8, 9
+
+  if (ulPin > BoardToPin_MAX_COUNT)
+    return;
+
+  if (ulPin > 5 && ulPin < 10)
+  { // BPWM pins - 6, 7, 8, 9
     bpwm = 1;
   }
-  
-  if(BoardToPinInfo[ulPin].type != PWM_TYPE) return;
+
+  if (BoardToPinInfo[ulPin].type != PWM_TYPE)
+    return;
   uint32_t pwmPin = BoardToPinInfo[ulPin].num;
   //close tone
   tone = &Tone;
-  if(tone->pin == pwmPin) {
-    while(tone->waitISR);
-	if(bpwm)
-		BPWM_DisableOutput(BPWM_Desc[tone->pin].P, (1 << BPWM_Desc[tone->pin].ch));
-	else    
-		PWM_DisableOutput(PWM_Desc[tone->pin].P, (1 << PWM_Desc[tone->pin].ch));
-    //PWM_Stop(PWM_Desc[tone->pin].P,(1<<PWM_Desc[tone->pin].ch));						
+  if (tone->pin == pwmPin)
+  {
+    while (tone->waitISR)
+      ;
+    if (bpwm)
+      BPWM_DisableOutput(BPWM_Desc[tone->pin].P, (1 << BPWM_Desc[tone->pin].ch));
+    else
+      PWM_DisableOutput(PWM_Desc[tone->pin].P, (1 << PWM_Desc[tone->pin].ch));
+    //PWM_Stop(PWM_Desc[tone->pin].P,(1<<PWM_Desc[tone->pin].ch));
     tone->pin = 0;
     tone->enabled = 0;
     tone->timer->close();

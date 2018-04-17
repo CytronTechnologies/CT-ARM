@@ -53,7 +53,7 @@ private:
   uint8_t _transmitPin;
   uint32_t _receiveBitMask; // for rx interrupts
   volatile uint32_t *_receivePortRegister;
-  volatile uint32_t *_pimd_maskreg; 
+  volatile uint32_t *_pimd_maskreg;
   volatile uint32_t *_pien_maskreg;
   uint32_t _pimd_en_maskvalue;
   uint32_t _pien_en_maskvalue;
@@ -66,11 +66,11 @@ private:
   uint16_t _rx_delay_stopbit;
   uint16_t _tx_delay;
 
-  uint16_t _buffer_overflow:1;
-  uint16_t _inverse_logic:1;
+  uint16_t _buffer_overflow : 1;
+  uint16_t _inverse_logic : 1;
 
   // static data
-  static unsigned char _receive_buffer[_SS_MAX_RX_BUFF]; 
+  static unsigned char _receive_buffer[_SS_MAX_RX_BUFF];
   static volatile uint8_t _receive_buffer_tail;
   static volatile uint8_t _receive_buffer_head;
   static SoftwareSerial *active_object;
@@ -85,10 +85,10 @@ private:
 
   // private static method for timing
   static inline void tunedDelay(uint32_t delay);
-  
+
 public:
   // public methods
-  
+
   SoftwareSerial(uint8_t receivePin, uint8_t transmitPin, bool inverse_logic = false);
   ~SoftwareSerial();
   void begin(long speed);
@@ -96,7 +96,13 @@ public:
   void end();
   bool isListening() { return this == active_object; }
   bool stopListening();
-  bool overflow() { bool ret = _buffer_overflow; if (ret) _buffer_overflow = false; return ret; }
+  bool overflow()
+  {
+    bool ret = _buffer_overflow;
+    if (ret)
+      _buffer_overflow = false;
+    return ret;
+  }
   int peek();
 
   virtual size_t write(uint8_t byte);
@@ -104,7 +110,7 @@ public:
   virtual int available();
   virtual void flush();
   operator bool() { return true; }
-  
+
   using Print::write;
 
   // public only for easy access by interrupt handlers

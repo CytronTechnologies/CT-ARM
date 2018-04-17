@@ -20,7 +20,7 @@
 #define _WIRING_PULSE_
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /*
@@ -29,8 +29,7 @@
  * to 3 minutes in length, but must be called at least a few dozen microseconds
  * before the start of the pulse.
  */
-extern uint32_t pulseIn( uint32_t ulPin, uint32_t ulState, uint32_t ulTimeout = 1000000L ) ;
-
+extern uint32_t pulseIn(uint32_t ulPin, uint32_t ulState, uint32_t ulTimeout = 1000000L);
 
 #ifdef __cplusplus
 }

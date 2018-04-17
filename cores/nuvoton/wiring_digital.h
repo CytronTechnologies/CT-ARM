@@ -20,7 +20,7 @@
 #define _WIRING_DIGITAL_
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /**
@@ -29,7 +29,7 @@
  * \param ulPin The number of the pin whose mode you wish to set
  * \param ulMode Either INPUT or OUTPUT
  */
-extern void pinMode( uint32_t dwPin, uint32_t dwMode ) ;
+extern void pinMode(uint8_t dwPin, uint8_t dwMode);
 
 /**
  * \brief Write a HIGH or a LOW value to a digital pin.
@@ -51,7 +51,7 @@ extern void pinMode( uint32_t dwPin, uint32_t dwMode ) ;
  * \param dwPin the pin number
  * \param dwVal HIGH or LOW
  */
-extern void digitalWrite( uint32_t dwPin, uint32_t dwVal ) ;
+extern void digitalWrite(uint8_t dwPin, uint8_t dwVal);
 
 /**
  * \brief Reads the value from a specified digital pin, either HIGH or LOW.
@@ -60,7 +60,7 @@ extern void digitalWrite( uint32_t dwPin, uint32_t dwVal ) ;
  *
  * \return HIGH or LOW
  */
-extern int digitalRead( uint32_t ulPin ) ;
+extern short digitalRead(uint8_t ulPin);
 
 #ifdef __cplusplus
 }

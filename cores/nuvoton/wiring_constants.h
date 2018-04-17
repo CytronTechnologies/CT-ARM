@@ -20,18 +20,15 @@
 #define _WIRING_CONSTANTS_
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif // __cplusplus
 
 #define HIGH 0x1
-#define LOW  0x0
+#define LOW 0x0
 
 #define INPUT 0x0
 #define OUTPUT 0x1
 #define INPUT_PULLUP 0x2
-
-#define true 0x1
-#define false 0x0
 
 #define PI 3.1415926535897932384626433832795
 #define HALF_PI 1.5707963267948966192313216916398
@@ -39,12 +36,13 @@ extern "C"{
 #define DEG_TO_RAD 0.017453292519943295769236907684886
 #define RAD_TO_DEG 57.295779513082320876798154814105
 
-#define SERIAL  0x0
+#define SERIAL 0x0
 #define DISPLAY 0x1
 
-enum BitOrder {
-	LSBFIRST = 0,
-	MSBFIRST = 1
+enum BitOrder
+{
+  LSBFIRST = 0,
+  MSBFIRST = 1
 };
 
 //      LOW 0
@@ -62,39 +60,42 @@ enum BitOrder {
 #endif // abs
 
 #ifndef min
-#define min(a,b) ((a)<(b)?(a):(b))
+#define min(a, b) ((a) < (b) ? (a) : (b))
 #endif // min
 
 #ifndef max
-#define max(a,b) ((a)>(b)?(a):(b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
 #endif // max
 
-#define abs(x) ((x)>0?(x):-(x))
-#define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
-#define round(x)     ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
+#define abs(x) ((x) > 0 ? (x) : -(x))
+#define constrain(amt, low, high) ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)))
+#define round(x) ((x) >= 0 ? (long)((x) + 0.5) : (long)((x)-0.5))
 #define radians(deg) ((deg)*DEG_TO_RAD)
 #define degrees(rad) ((rad)*RAD_TO_DEG)
-#define sq(x) ((x)*(x))
+#define sq(x) ((x) * (x))
 
 #define interrupts() __enable_irq()
 #define noInterrupts() __disable_irq()
 
-#define lowByte(w) ((uint8_t) ((w) & 0xff))
-#define highByte(w) ((uint8_t) ((w) >> 8))
+#define lowByte(w) ((uint8_t)((w)&0xff))
+#define highByte(w) ((uint8_t)((w) >> 8))
 
 #define bitRead(value, bit) (((value) >> (bit)) & 0x01)
 #define bitSet(value, bit) ((value) |= (1UL << (bit)))
 #define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
 #define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 
-typedef unsigned int word;
-
 #define bit(b) (1UL << (b))
+#define _BV(x) bit(b)
 
-// TODO: to be checked
-typedef uint8_t boolean ;
-typedef uint8_t byte ;
+typedef bool boolean;
+typedef uint8_t byte;
+typedef uint16_t word;
 
+#define NOT_A_PIN 0
+#define NOT_A_PORT 0
+#define NOT_AN_INTERRUPT -1
+#define NOT_ON_TIMER 0
 
 #ifdef __cplusplus
 } // extern "C"

@@ -18,70 +18,86 @@
 #include "Arduino.h"
 #include "Servo.h"
 
-Servo::Servo():
-	Servo_MAX(12),
-	Servo_MIN(3),
-	Servo_Freq(50),
-	Servo_Pin(0),
-	Servo_Val(0),
-	bpwm(0)
-{}
+Servo::Servo() : Servo_MAX(12),
+				 Servo_MIN(3),
+				 Servo_Freq(50),
+				 Servo_Pin(0),
+				 Servo_Val(0),
+				 bpwm(0),
+				 isActive(0)
+{
+}
 
 //static uint8_t pinEnabled[PWM_MAX_COUNT];
 //static uint32_t fixValue[PWM_MAX_COUNT];
 
-uint8_t Servo::attach(int ulPin, int min, int max, int freq)
-{      
-	uint32_t ulValue=0;
+uint8_t Servo::attach(uint8_t ulPin, int min, int max, int freq)
+{
+	if (ServoCount < MAX_SERVOS)
+	{
+		this->servoIndex = ServoCount++;
+	}
+	else
+	{
+		this->servoIndex = INVALID_SERVO; // too many servos
+		this->Servo_Pin = ulPin;
+		return 0;
+	}
+
+	uint32_t ulValue = 0;
 	bpwm = 0;
-	
-	#ifdef USE_BoardToPin
-	if(ulPin > BoardToPin_MAX_COUNT) return 0;
-	
-	if(ulPin > 5 && ulPin < 10) { // BPWM pins - 6, 7, 8, 9
+
+	if (ulPin > BoardToPin_MAX_COUNT)
+		return 0;
+
+	if (ulPin > 5 && ulPin < 10)
+	{ // BPWM pins - 6, 7, 8, 9
 		bpwm = 1;
 	}
-	
-	if(ulPin > 17 && ulPin < 22) { // PWM at analog pins - A0, A1, A2, A3
-		ulPin = ulPin + 8;
+
+	if (ulPin >= A0 && ulPin <= A3)
+	{ // PWM at analog pins - A0, A1, A2, A3
+		ulPin = ulPin + 12;
 	}
-	
-	if(BoardToPinInfo[ulPin].type!=PWM_TYPE) return 0;
-	
-	ulPin=BoardToPinInfo[ulPin].num;
-	
-	if(bpwm) {
-		if(ulPin > BPWM_MAX_COUNT || BPWM_Desc[ulPin].P == NULL) return 0;
-	}
-	else {
-		if(ulPin  > PWM_MAX_COUNT || PWM_Desc[ulPin].P == NULL) return 0;
-	}
-	#else
+
+	if (BoardToPinInfo[ulPin].type != PWM_TYPE)
 		return 0;
-	#endif	
-	
-	if(bpwm) 
+
+	ulPin = BoardToPinInfo[ulPin].num;
+
+	if (bpwm)
 	{
-		BPWM_Config(BPWM_Desc[ulPin]); // Set Mutifunction pins
+		if (ulPin > BPWM_MAX_COUNT || BPWM_Desc[ulPin].P == NULL)
+			return 0;
+	}
+	else
+	{
+		if (ulPin > PWM_MAX_COUNT || PWM_Desc[ulPin].P == NULL)
+			return 0;
+	}
+
+	if (bpwm)
+	{
+		BPWM_Config(BPWM_Desc[ulPin]);																	   // Set Mutifunction pins
 		BPWM_ConfigOutputChannel(BPWM_Desc[ulPin].P, BPWM_Desc[ulPin].ch, BPWM_Desc[ulPin].freq, ulValue); // Config BPWMs
-		BPWM_EnableOutput(BPWM_Desc[ulPin].P, (1 << BPWM_Desc[ulPin].ch)); //Enable BPWM output
-		BPWM_Start(BPWM_Desc[ulPin].P, (1 << BPWM_Desc[ulPin].ch)); //Start BPWM
+		BPWM_EnableOutput(BPWM_Desc[ulPin].P, (1 << BPWM_Desc[ulPin].ch));								   //Enable BPWM output
+		BPWM_Start(BPWM_Desc[ulPin].P, (1 << BPWM_Desc[ulPin].ch));										   //Start BPWM
 	}
-	
-	else 
+	else
 	{
-		PWM_Config(PWM_Desc[ulPin]); // Set Mutifunction pins
+		PWM_Config(PWM_Desc[ulPin]);																   // Set Mutifunction pins
 		PWM_ConfigOutputChannel(PWM_Desc[ulPin].P, PWM_Desc[ulPin].ch, PWM_Desc[ulPin].freq, ulValue); // Config PWMs
-		PWM_EnableOutput(PWM_Desc[ulPin].P, (1 << PWM_Desc[ulPin].ch)); //Enable PWM output
-		PWM_Start(PWM_Desc[ulPin].P, (1 << PWM_Desc[ulPin].ch)); //Start PWM
+		PWM_EnableOutput(PWM_Desc[ulPin].P, (1 << PWM_Desc[ulPin].ch));								   //Enable PWM output
+		PWM_Start(PWM_Desc[ulPin].P, (1 << PWM_Desc[ulPin].ch));									   //Start PWM
 	}
-	
-	Servo_MAX = max;
-	Servo_MIN = min;
-	Servo_Pin = ulPin;
-	Servo_Freq = freq;
-				
-/*
+
+	this->Servo_MAX = max;
+	this->Servo_MIN = min;
+	this->Servo_Pin = ulPin;
+	this->Servo_Freq = freq;
+
+	return 1;
+	/*
 #if defined(__M451__)
 	if(ulValue==100)
 	{  
@@ -153,37 +169,42 @@ uint8_t Servo::attach(int ulPin, int min, int max, int freq)
 		fixValue[ulPin]=ulValue;
 	}
 */
-
 }
 
 void Servo::detach()
 {
-	if(bpwm)
-		BPWM_DisableOutput(BPWM_Desc[Servo_Pin].P,(1<<BPWM_Desc[Servo_Pin].ch));
-	
+	if (bpwm)
+		BPWM_DisableOutput(BPWM_Desc[Servo_Pin].P, (1 << BPWM_Desc[Servo_Pin].ch));
 	else
-		PWM_DisableOutput(PWM_Desc[Servo_Pin].P,(1<<PWM_Desc[Servo_Pin].ch));	
+		PWM_DisableOutput(PWM_Desc[Servo_Pin].P, (1 << PWM_Desc[Servo_Pin].ch));
 
+	this->isActive = false;
 }
 
-void Servo::write(int value)
+void Servo::write(short value)
 {
-    if (value < 0)
-      value = 0;
-    else if (value > 180)
-      value = 180;
-  	
-	Servo_Val = value;
+	if (value < 0)
+		value = 0;
+	else if (value > 180)
+		value = 180;
 
-    value = map(value, 0, 180, Servo_MIN, Servo_MAX);
-    //value = map(value, 0, 180, 5, 12);
-	if(bpwm)
+	this->Servo_Val = value;
+
+	value = map(value, 0, 180, Servo_MIN, Servo_MAX);
+	//value = map(value, 0, 180, 5, 12);
+	if (bpwm)
 		BPWM_ConfigOutputChannel(BPWM_Desc[Servo_Pin].P, BPWM_Desc[Servo_Pin].ch, Servo_Freq, value);
 	else
-		PWM_ConfigOutputChannel(PWM_Desc[Servo_Pin].P,PWM_Desc[Servo_Pin].ch,Servo_Freq,value);	 
+		PWM_ConfigOutputChannel(PWM_Desc[Servo_Pin].P, PWM_Desc[Servo_Pin].ch, Servo_Freq, value);
+
+	this->isActive = true;
 }
 
-int Servo::read() // return the value as degrees
+short Servo::read() // return the value as degrees
 {
-  return Servo_Val;
+	if (!this->isActive)
+	{
+		return 0;
+	}
+	return Servo_Val;
 }

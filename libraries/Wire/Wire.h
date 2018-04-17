@@ -23,71 +23,71 @@
 
 // Include Nuvoton CMSIS driver
 #include "Arduino.h"
-
 #include "Stream.h"
 
 #define BUFFER_LENGTH 32
 
 #if defined(__M451__)
-#define I2C_STA_STO_SI 		I2C_CTL_STA_STO_SI       
-#define I2C_STA_STO_SI_AA 	I2C_CTL_STA_STO_SI_AA    
-#define I2C_STA_SI 	        I2C_CTL_STA_SI           
-#define I2C_STA_SI_AA 	        I2C_CTL_STA_SI_AA         
-#define I2C_STO_SI		I2C_CTL_STO_SI            
-#define I2C_STO_SI_AA   	I2C_CTL_STO_SI_AA         
-#define I2C_SI 			I2C_CTL_SI                
-#define I2C_SI_AA	        I2C_CTL_SI_AA             
-#define I2C_STA 	        I2C_CTL_STA               
-#define I2C_STO 		I2C_CTL_STO               
-#define I2C_AA 			I2C_CTL_AA     
+#define I2C_STA_STO_SI I2C_CTL_STA_STO_SI
+#define I2C_STA_STO_SI_AA I2C_CTL_STA_STO_SI_AA
+#define I2C_STA_SI I2C_CTL_STA_SI
+#define I2C_STA_SI_AA I2C_CTL_STA_SI_AA
+#define I2C_STO_SI I2C_CTL_STO_SI
+#define I2C_STO_SI_AA I2C_CTL_STO_SI_AA
+#define I2C_SI I2C_CTL_SI
+#define I2C_SI_AA I2C_CTL_SI_AA
+#define I2C_STA I2C_CTL_STA
+#define I2C_STO I2C_CTL_STO
+#define I2C_AA I2C_CTL_AA
 #elif defined(__NUC240__) | defined(__NUC131__)
-#define I2C_STA_STO_SI 		I2C_I2CON_STA_STO_SI       
-#define I2C_STA_STO_SI_AA 	I2C_I2CON_STA_STO_SI_AA    
-#define I2C_STA_SI 		I2C_I2CON_STA_SI           
-#define I2C_STA_SI_AA 		I2C_I2CON_STA_SI_AA         
-#define I2C_STO_SI		I2C_I2CON_STO_SI            
-#define I2C_STO_SI_AA   	I2C_I2CON_STO_SI_AA         
-#define I2C_SI 			I2C_I2CON_SI                
-#define I2C_SI_AA		I2C_I2CON_SI_AA             
-#define I2C_STA 		I2C_I2CON_STA               
-#define I2C_STO 		I2C_I2CON_STO               
-#define I2C_AA 			I2C_I2CON_AA                
+#define I2C_STA_STO_SI I2C_I2CON_STA_STO_SI
+#define I2C_STA_STO_SI_AA I2C_I2CON_STA_STO_SI_AA
+#define I2C_STA_SI I2C_I2CON_STA_SI
+#define I2C_STA_SI_AA I2C_I2CON_STA_SI_AA
+#define I2C_STO_SI I2C_I2CON_STO_SI
+#define I2C_STO_SI_AA I2C_I2CON_STO_SI_AA
+#define I2C_SI I2C_I2CON_SI
+#define I2C_SI_AA I2C_I2CON_SI_AA
+#define I2C_STA I2C_I2CON_STA
+#define I2C_STO I2C_I2CON_STO
+#define I2C_AA I2C_I2CON_AA
 #endif
 
-#define I2C_SI_AA               (I2C_SI | I2C_AA)           
+#define I2C_SI_AA (I2C_SI | I2C_AA)
 
-class TwoWire : public Stream {
-public:
-	TwoWire(I2C_T *twi, void(*begin_cb)(void));
+class TwoWire : public Stream
+{
+  public:
+	TwoWire(I2C_T *twi, void (*begin_cb)(void));
 	void begin();
 	void begin(uint8_t);
 	void begin(int);
 	void beginTransmission(uint8_t);
 	void beginTransmission(int);
 	uint8_t endTransmission(void);
-    uint8_t endTransmission(uint8_t);
+	uint8_t endTransmission(uint8_t);
 	uint8_t requestFrom(uint8_t, uint8_t);
-    uint8_t requestFrom(uint8_t, uint8_t, uint8_t);
+	uint8_t requestFrom(uint8_t, uint8_t, uint8_t);
 	uint8_t requestFrom(int, int);
-    uint8_t requestFrom(int, int, int);
+	uint8_t requestFrom(int, int, int);
 	virtual size_t write(uint8_t);
 	virtual size_t write(const uint8_t *, size_t);
 	virtual int available(void);
 	virtual int read(void);
 	virtual int peek(void);
 	virtual void flush(void);
-	void onReceive(void(*)(int));
-	void onRequest(void(*)(void));
+	void onReceive(void (*)(int));
+	void onRequest(void (*)(void));
 
-    inline size_t write(unsigned long n) { return write((uint8_t)n); }
-    inline size_t write(long n) { return write((uint8_t)n); }
-    inline size_t write(unsigned int n) { return write((uint8_t)n); }
-    inline size_t write(int n) { return write((uint8_t)n); }
-    using Print::write;
+	inline size_t write(unsigned long n) { return write((uint8_t)n); }
+	inline size_t write(long n) { return write((uint8_t)n); }
+	inline size_t write(unsigned int n) { return write((uint8_t)n); }
+	inline size_t write(int n) { return write((uint8_t)n); }
+	using Print::write;
 
 	void onService(void);
 
-private:
+  private:
 	// RX Buffer
 	uint8_t rxBuffer[BUFFER_LENGTH];
 	uint8_t rxBufferIndex;
@@ -114,7 +114,8 @@ private:
 	I2C_T *i2c;
 
 	// TWI state
-	enum TwoWireStatus {
+	enum TwoWireStatus
+	{
 		UNINITIALIZED,
 		MASTER_IDLE,
 		MASTER_SEND,
@@ -129,9 +130,8 @@ private:
 	static const uint32_t I2C_CLOCK = 100000;
 
 	// Timeouts (
-	static const uint32_t TIMEOUT = 100;	
-	
-	
+	static const uint32_t TIMEOUT = 100;
+
 	void I2C_SlaveTRx(uint32_t u32Status);
 };
 
@@ -143,4 +143,3 @@ extern TwoWire Wire1;
 #endif
 
 #endif
-

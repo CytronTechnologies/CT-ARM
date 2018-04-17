@@ -26,10 +26,9 @@ extern "C" {
 /*
  * \brief SAM3 products have only one reference for ADC
  */
-typedef enum _eAnalogReference
-{
+typedef enum _eAnalogReference {
   AR_DEFAULT,
-} eAnalogReference ;
+} eAnalogReference;
 
 /*
  * \brief Configures the reference voltage used for analog input (i.e. the value used as the top of the input range).
@@ -37,7 +36,7 @@ typedef enum _eAnalogReference
  *
  * \param ulMmode Should be set to AR_DEFAULT.
  */
-extern void analogReference( eAnalogReference ulMode ) ;
+extern void analogReference(eAnalogReference ulMode);
 
 /*
  * \brief Writes an analog value (PWM wave) to a pin.
@@ -45,7 +44,7 @@ extern void analogReference( eAnalogReference ulMode ) ;
  * \param ulPin
  * \param ulValue
  */
-extern void analogWrite( uint32_t ulPin, uint32_t ulValue ) ;
+extern void analogWrite(uint8_t ulPin, uint16_t ulValue);
 
 /*
  * \brief Reads the value from the specified analog pin.
@@ -54,21 +53,21 @@ extern void analogWrite( uint32_t ulPin, uint32_t ulValue ) ;
  *
  * \return Read value from selected pin, if no error.
  */
-extern uint32_t analogRead( uint32_t ulPin ) ;
+extern uint32_t analogRead(uint8_t ulPin);
 
 /*
  * \brief Set the resolution of analogRead return values. Default is 10 bits (range from 0 to 1023).
  *
  * \param res
  */
-extern void analogReadResolution(int res);
+extern void analogReadResolution(uint8_t res);
 
 /*
  * \brief Set the resolution of analogWrite parameters. Default is 8 bits (range from 0 to 255).
  *
  * \param res
  */
-extern void analogWriteResolution(int res);
+extern void analogWriteResolution(uint8_t res);
 
 #ifdef __cplusplus
 }

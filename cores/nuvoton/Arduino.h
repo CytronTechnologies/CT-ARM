@@ -8,69 +8,74 @@
  * Copyright (C) 2012 Nuvoton Technology Corp. All rights reserved.
  *
  ******************************************************************************/
- 
+
 #ifndef _ARDUINO_H_
 #define _ARDUINO_H_
 
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 
-#include "NUC131.h"
-#include "Pins_arduino.h"
 #include "wiring_constants.h"
+
 #include "avr/pgmspace.h"
+#include "avr/interrupt.h"
+#include "avr/io.h"
 
-#define ARDUINO 100
+#include "binary.h"
+#include "itoa.h"
 
-extern uint32_t SystemTickClock;
-#define clockCyclesPerMicrosecond() ( SystemCoreClock / 1000000L )
-#define clockCyclesToMicroseconds(a) ( ((a) * 1000L) / (SystemCoreClock / 1000L) )
-#define microsecondsToClockCycles(a) ( (a) * (SystemCoreClock / 1000000L) )
+static volatile uint8_t init_flag = 0;
 
 #ifdef __cplusplus
 extern "C" {
-#endif
-  #include "delay.h"
-  #include "wiring_digital.h"
-  #include "wiring_analog.h"
-  #include "WInterrupts.h"
+#endif // __cplusplus
 
-  void yield(void);
+#include "NUC131.h"
+#include "pins_arduino.h"
+
+extern uint32_t SystemTickClock;
+#define clockCyclesPerMicrosecond() (SystemCoreClock / 1000000L)
+#define clockCyclesToMicroseconds(a) (((a)*1000L) / (SystemCoreClock / 1000L))
+#define microsecondsToClockCycles(a) ((a) * (SystemCoreClock / 1000000L))
+
+void yield(void);
+
+/* system functions */
+int main(void);
+void init(void);
+
+/* sketch */
+void setup(void);
+void loop(void);
 
 #ifdef __cplusplus
-}
+} // extern "C"
+#endif
 
-void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val);
-uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder);
+// The following headers are for C++ only compilation
+#ifdef __cplusplus
 
 #include "WCharacter.h"
 #include "WString.h"
+#include "Tone.h"
 #include "WMath.h"
 #include "HardwareSerial.h"
 #include "HardwareTimer.h"
 #include "wiring_pulse.h"
 
-void tone(uint8_t _pin, unsigned int frequency, unsigned long duration = 0);
-void noTone(uint8_t _pin);
-
 #endif
 
-#define INPUT 0x0
-#define OUTPUT 0x1
-#define INPUT_PULLUP 0x2
-static volatile uint8_t init_flag = 0;	
+#include "delay.h"
+#include "wiring_digital.h"
+#include "wiring_analog.h"
+#include "wiring_shift.h"
+#include "WInterrupts.h"
 
-void init(void);
-
-void setup(void);
-void loop(void);
-
+// USB device
 #include "USBCore.h"
 #include "USBAPI.h"
-
-#include "binary.h"
-#include "itoa.h"
 
 #endif

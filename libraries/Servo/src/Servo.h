@@ -51,28 +51,38 @@
 #include "Arduino.h"
 #include <inttypes.h>
 
+#ifndef MAX_SERVOS
+#define MAX_SERVOS 18 // PWM pins
+#endif
+
+#define INVALID_SERVO 255 // flag indicating an invalid servo index
+static uint8_t ServoCount = 0;
 
 class Servo
 {
 public:
-
   Servo();
   //uint8_t attach(int pin);           // attach the given pin to the next free channel, sets pinMode, returns channel number or 0 if failure
-  uint8_t attach(int pin, int min = 3, int max = 12, int freq = 50); // as above but also sets min and max values for writes. 
+  uint8_t attach(uint8_t pin, int min = 3, int max = 12, int freq = 50); // as above but also sets min and max values for writes.
   void detach();
-  void write(int value);             // if value is < 200 its treated as an angle, otherwise as pulse width in microseconds 
-  // void writeMicroseconds(int value); // Write pulse width in microseconds 
-  int read();                        // returns current pulse width as an angle between 0 and 180 degrees
+  void write(short value); // if value is < 200 its treated as an angle, otherwise as pulse width in microseconds
+  // void writeMicroseconds(int value); // Write pulse width in microseconds
+  short read(); // returns current pulse width as an angle between 0 and 180 degrees
   // int readMicroseconds();            // returns current pulse width in microseconds for this servo (was read_us() in first release)
-  bool attached();                   // return true if this servo is attached, otherwise false 
+  bool attached()
+  { // return true if this servo is attached, otherwise false
+    return this->isActive;
+  }
+
 private:
-   uint8_t bpwm;
-   int Servo_MAX;
-   int Servo_MIN;
-   int Servo_Freq;
-   int Servo_Pin;
-   int Servo_Val;
-   
+  uint8_t bpwm;
+  uint8_t isActive = false;
+  uint8_t servoIndex;
+  int8_t Servo_MAX;
+  int8_t Servo_MIN;
+  short Servo_Freq;
+  uint8_t Servo_Pin;
+  short Servo_Val;
 };
 
 #endif

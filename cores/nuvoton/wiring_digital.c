@@ -17,61 +17,65 @@
 */
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 #include "Arduino.h"
 
-extern void pinMode(uint32_t ulPin, uint32_t ulMode)
+extern void pinMode(uint8_t ulPin, uint8_t ulMode)
 {
-	uint32_t len;
-
-	if(ulPin > BoardToPin_MAX_COUNT) return;
-	if(BoardToPinInfo[ulPin].pin == -1) return;
+	if (ulPin > BoardToPin_MAX_COUNT)
+		return;
 	ulPin = BoardToPinInfo[ulPin].pin;
 
-  	GPIO_Config(GPIO_Desc[ulPin]);
+	GPIO_Config(GPIO_Desc[ulPin]);
 
-	switch(ulMode)
-  	{
-    		case INPUT:                        
-      			GPIO_SetMode(GPIO_Desc[ulPin].P, 1<<GPIO_Desc[ulPin].bit, GPIO_PMD_INPUT);
-      			break ;
+	switch (ulMode)
+	{
+	case INPUT:
+		GPIO_SetMode(GPIO_Desc[ulPin].P, 1 << GPIO_Desc[ulPin].bit, GPIO_PMD_INPUT);
+		break;
 
-    		case INPUT_PULLUP:            
-      			GPIO_SetMode(GPIO_Desc[ulPin].P, 1<<GPIO_Desc[ulPin].bit, GPIO_PMD_QUASI);                    
-      			break ;
+	case INPUT_PULLUP:
+		GPIO_SetMode(GPIO_Desc[ulPin].P, 1 << GPIO_Desc[ulPin].bit, GPIO_PMD_QUASI);
+		// set to HIGH to make pin act as digital input, refer to manual pg 171
+		(GPIO_Desc[ulPin].P)->DOUT |= (1 << GPIO_Desc[ulPin].bit);
+		break;
 
-    		case OUTPUT:
-    			GPIO_SetMode(GPIO_Desc[ulPin].P, 1<<GPIO_Desc[ulPin].bit, GPIO_PMD_OUTPUT);
-      			(GPIO_Desc[ulPin].P)->DOUT &= ~(1<<GPIO_Desc[ulPin].bit); // By default, set LOW
-      			break ;
+	case OUTPUT:
+		GPIO_SetMode(GPIO_Desc[ulPin].P, 1 << GPIO_Desc[ulPin].bit, GPIO_PMD_OUTPUT);
+		(GPIO_Desc[ulPin].P)->DOUT &= ~(1 << GPIO_Desc[ulPin].bit); // By default, set LOW
+		break;
 
-    		default:
-      			break ;
-  	}
+	default:
+		break;
+	}
 }
 
-extern void digitalWrite(uint32_t ulPin, uint32_t ulVal)
+extern void digitalWrite(uint8_t ulPin, uint8_t ulVal)
 {
-	if(ulPin > BoardToPin_MAX_COUNT) return;
-	if(BoardToPinInfo[ulPin].pin == -1) return;
+	if (ulPin > BoardToPin_MAX_COUNT)
+		return;
 	ulPin = BoardToPinInfo[ulPin].pin;
 
-  	GPIO_Config(GPIO_Desc[ulPin]);
+	GPIO_Config(GPIO_Desc[ulPin]);
 
-	if(ulVal == HIGH)
-		(GPIO_Desc[ulPin].P)->DOUT |= (1<<GPIO_Desc[ulPin].bit);
+	if (ulVal == LOW)
+	{
+		(GPIO_Desc[ulPin].P)->DOUT &= ~(1 << GPIO_Desc[ulPin].bit);
+	}
 	else
-		(GPIO_Desc[ulPin].P)->DOUT &= ~(1<<GPIO_Desc[ulPin].bit);
+	{
+		(GPIO_Desc[ulPin].P)->DOUT |= (1 << GPIO_Desc[ulPin].bit);
+	}
 }
 
-extern int digitalRead(uint32_t ulPin)
+extern short digitalRead(uint8_t ulPin)
 {
-	if(ulPin > BoardToPin_MAX_COUNT) return;     
-	if(BoardToPinInfo[ulPin].pin == -1) return;
+	if (ulPin > BoardToPin_MAX_COUNT)
+		return LOW;
 	ulPin = BoardToPinInfo[ulPin].pin;
-	return ((GPIO_Desc[ulPin].P)->PIN & (1<<GPIO_Desc[ulPin].bit))? HIGH:LOW;
+	return ((GPIO_Desc[ulPin].P)->PIN & (1 << GPIO_Desc[ulPin].bit)) ? HIGH : LOW;
 }
 
 #ifdef __cplusplus
