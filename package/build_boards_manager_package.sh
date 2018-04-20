@@ -93,6 +93,7 @@ jq ".packages[0].platforms[0].version = \"$ver\" | \
     > tmp
 
 # get nuvodude version info
+echo "Getting nuvodude stable version"
 curl --silent https://api.github.com/repos/$ORGANISATION/nuvodude/releases > releases.json
 # Previous final release (prerelase == false)
 prev_release=$(jq -r '. | map(select(.draft == false and .prerelease == false)) | sort_by(.created_at | - fromdateiso8601) | .[0].tag_name' releases.json)
@@ -106,6 +107,13 @@ echo "Previous (pre-?)release: $prev_any_release"
 echo "Previous pre-release: $prev_pre_release"
 
 nuvodude_ver=$prev_any_release
+
+if [ $nuvodude_ver == null ];then
+	echo "Getting nuvodude stable version from template json"
+	nuvodude_ver=`cat "$srcdir/package/package_cytron_arm_index.template.json" | jq ".packages[0].platforms[0].toolsDependencies[1].version" | cut -d '"' -f 2`
+fi
+
+echo "Current Version of nuvodude is $nuvodude_ver"
 
 if [ "$nuvodude_ver" != 1.0.0 ];then
 
