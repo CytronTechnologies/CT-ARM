@@ -119,7 +119,8 @@ void SPIClass::beginTransaction(uint8_t pin, SPISettings settings)
 {
 	/* Configure as a master, clock idle low, falling clock edge Tx, rising edge Rx and 8-bit transaction */
 	/* Set IP clock divider. SPI clock rate = 4MHz */
-	SPI_Open(spi, SPI_MASTER, settings.datmode, 8, settings.clock);
+	// check clock
+	SPI_Open(spi, SPI_MASTER, settings.datmode, 8, settings.clock > MAX_SPI_CLOCK ? MAX_SPI_CLOCK : settings.clock);
 	//SPI_EnableFIFO(spi,12,12);
 	setBitOrder(SS, settings.border);
 
@@ -157,8 +158,9 @@ void SPIClass::setClockDivider(uint8_t _pin, uint32_t _divider)
 #if 0
 	_divider=((_divider+1)>>1)-1;
 	spi->DIVIDER = (spi->DIVIDER & ~0xffff) | _divider;
+#else
+	SPI_SetBusClock(spi, _divider > MAX_SPI_CLOCK ? MAX_SPI_CLOCK : _divider);
 #endif
-	SPI_SetBusClock(spi, _divider);
 }
 
 byte SPIClass::transfer(byte _pin, uint8_t _data, SPITransferMode _mode)

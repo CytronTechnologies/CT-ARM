@@ -3,7 +3,7 @@
 # --------------------- 
 
 name=Cytron ARM Boards
-version=1.1.0-dev
+version=1.1.1-dev
 
 runtime.tools.arm-none-eabi-gcc.path={runtime.platform.path}/tools/gcc-arm-none-eabi
 
@@ -46,6 +46,7 @@ compiler.elf2hex.extra_flags=
 
 compiler.arm.cmsis.c.flags= -D__NUVOTON__ "-I{runtime.platform.path}/system/{build.def}/CMSIS/Include/" "-I{runtime.platform.path}/system/{build.def}/Device/Nuvoton/{build.def}/Include/" "-I{runtime.platform.path}/system/{build.def}/StdDriver/inc/"
 compiler.arm.cmsis.ldflags=
+compiler.combine.flags=-u _sbrk -u link -u _close -u _fstat -u _isatty -u _lseek -u _read -u _write -u _exit -u kill -u _getpid
 
 # Nuvoton MCU compile patterns
 # ---------------------
@@ -65,7 +66,7 @@ archive_file_path={build.path}/{archive_file}
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 
 ## Combine gc-sections, archives, and objects
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" -mcpu={build.mcu} "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-T{build.variant.path}/{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" --specs=nano.specs --specs=nosys.specs {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} -Wl,--start-group "{build.path}/core/syscalls.c.o" "{build.variant_system_lib}" -lm "{build.path}/{archive_file}" -Wl,--end-group
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" -mcpu={build.mcu} "-L{build.path}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} "-T{build.variant.path}/{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" --specs=nano.specs --specs=nosys.specs {compiler.ldflags} -o "{build.path}/{build.project_name}.elf" {object_files} -Wl,--start-group {compiler.combine.flags} "{build.variant_system_lib}" -lm "{build.path}/{archive_file}" -Wl,--end-group
 
 ## Create eeprom
 recipe.objcopy.eep.pattern=

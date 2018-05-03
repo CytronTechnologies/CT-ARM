@@ -52,11 +52,6 @@ extern uint32_t TimeClock;
 
 class HardwareTimer
 {
-  //private:
-public:
-  TIMER_T *dev;
-  int channel;
-
 public:
   /**
     * @brief Construct a new HardwareTimer instance.
@@ -68,6 +63,7 @@ public:
     *													 CLK_CLKSEL1_TMRx_S_IRC22M 
     */
   HardwareTimer(uint8_t timerNum, uint32_t moduleIdx, uint32_t clksel);
+
   /**
     * @brief This API is used to configure timer to operate in specified mode
     *        and frequency. If timer cannot work in target frequency, a closest
@@ -84,25 +80,85 @@ public:
     */
   void open(uint32_t mode, uint32_t freq);
 
+  /**
+    * @brief This API starts Timer counting
+    * @return None
+    */
   void start(void);
+
   /**
     * @brief This API stops Timer counting and disable the Timer interrupt function  
     * @return None
     */
+  void close(void);
+
+  /**
+    * @brief This API is used to set timer prescale value and timer source clock will be divided by (prescale + 1) before it is fed into timer	  
+    * @return None
+    */
+  void setPrescaleFactor(uint32_t factor);
+
+  /**
+    * @brief This API is used to set timer compared value to adjust timer time-out interval	  
+    * @return None
+    */
+  void setCompare(uint32_t compare);
+
+  /**
+    * @brief This API is used to get the clock frequency of Timer	  
+    * @return Timer clock frequency
+    * @note This API cannot return correct clock rate if timer source is external clock input.
+    */
+  uint32_t getModuleClock();
+
+  /**
+    * @brief This function clears the Timer time-out interrupt flag.		  
+    * @return None
+    */
+  void clearIntFlag();
+
+  /**
+    * @brief This function initialize timer in specific operation mode and frequency.		  
+    * @return None
+    */
   void initialize(uint32_t microseconds = 1000000) __attribute__((always_inline))
   {
-
+    setPeriod(microseconds);
     uint32_t u32ClkInMHz = 0;
     u32ClkInMHz = getModuleClock() / 1000000;
+    // set prescaler to u32ClkMHz -1 so the timer source clock is divided by u32ClkMHz
+    // Frequency = timer source clock / (getModuleClock / 1000000) = 1000000Hz
+    // which gives period = 1us, increment takes 1us to complete
     dev->TCSR = (dev->TCSR & ~TIMER_TCSR_PRESCALE_Msk) | PERIODIC | (u32ClkInMHz - 1);
+    if (microseconds < 2)
+      microseconds = 2;
+    if (microseconds > 0xFFFFFF)
+      microseconds = 0xFFFFFF;
     dev->TCMPR = microseconds; // range - 2us - 16,777,216 us
   }
 
-  void close(void);
+  /**
+    * @brief This function initialize timer in specific operation mode and frequency.		  
+    * @return None
+    */
+  void setPeriod(unsigned long microseconds)
+  {
+    uint32_t frequency = 1000000 / microseconds;
 
-  void setPrescaleFactor(uint32_t factor);
-  void setCompare(uint32_t compare);
+    // minimum frequency = 1Hz, max = 1MHz
+    if (frequency == 0)
+      frequency = 1;
+    pwmFrequency = frequency;
+  }
 
+  //****************************
+  //  PWM outputs
+  //****************************
+  void setPwmDuty(char pin, unsigned short duty);
+  void pwm(char pin, unsigned short duty);
+  void pwm(char pin, unsigned short duty, unsigned long microseconds);
+  void disablePwm(char pin);
+  
   /**
     * @brief Attach an interrupt handler to the given channel.
     *
@@ -126,18 +182,12 @@ public:
     */
   void detachInterrupt();
 
-  /**
-    * @brief This API is used to get the clock frequency of Timer	  
-    * @return Timer clock frequency
-    * @note This API cannot return correct clock rate if timer source is external clock input.
-    */
-  uint32_t getModuleClock();
-
-  /**
-    * @brief This function clears the Timer time-out interrupt flag.		  
-    * @return None
-    */
-  void clearIntFlag();
+private:
+  // properties
+  unsigned short pwmFrequency = 25000; // default 25KHz
+  unsigned short dutyCycle = 0;        // default 0% duty cycle
+  TIMER_T *dev;
+  int channel;
 };
 
 /* -- The rest of this file is deprecated. --------------------------------- */
@@ -154,6 +204,6 @@ extern HardwareTimer Timer3;
 #if (NR_TIMERS > 3)
 extern HardwareTimer Timer4;
 #endif
-extern HardwareTimer *Timer[NR_TIMERS];
+//extern HardwareTimer Timer[NR_TIMERS];
 
 #endif

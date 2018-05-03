@@ -20,7 +20,8 @@
 
 #include "Arduino.h"
 
-HardwareTimer *ToneTimer = Timer[1];
+//HardwareTimer *ToneTimer = &Timer[1];
+HardwareTimer *ToneTimer = &Timer2;
 
 typedef struct
 {

@@ -42,20 +42,20 @@ HardwareTimer Timer3(2, TMR2_MODULE, CLK_CLKSEL1_TMR2_S_HXT);
 HardwareTimer Timer4(3, TMR3_MODULE, CLK_CLKSEL1_TMR3_S_HXT);
 #endif
 
-HardwareTimer *Timer[NR_TIMERS] = {
+/*HardwareTimer Timer[NR_TIMERS] = {
 #if (NR_TIMERS > 0)
-    &Timer1,
+    Timer1,
 #endif
 #if (NR_TIMERS > 1)
-    &Timer2,
+    Timer2,
 #endif
 #if (NR_TIMERS > 2)
-    &Timer3,
+    Timer3,
 #endif
 #if (NR_TIMERS > 3)
-    &Timer4
+    Timer4
 #endif
-};
+};*/
 
 #ifdef __cplusplus
 extern "C" {
@@ -63,36 +63,69 @@ extern "C" {
 #if (NR_TIMERS > 0)
 void TMR0_IRQHandler(void)
 {
-  TIMER_ClearIntFlag(TIMER0);
-  if (TimerFuncPtr[0])
-    TimerFuncPtr[0]();
+  if (TIMER_GetIntFlag(TIMER0) == 1)
+  {
+    TIMER_ClearIntFlag(TIMER0);
+    if (TimerFuncPtr[0])
+      TimerFuncPtr[0]();
+  }
+
+  if (TIMER_GetWakeupFlag(TIMER0) == 1)
+  {
+    /* Clear Timer0 wake-up flag */
+    TIMER_ClearWakeupFlag(TIMER0);
+  }
 }
 #endif
 
 #if (NR_TIMERS > 1)
 void TMR1_IRQHandler(void)
 {
-  TIMER_ClearIntFlag(TIMER1);
-  if (TimerFuncPtr[1])
-    TimerFuncPtr[1]();
+  if (TIMER_GetIntFlag(TIMER1) == 1)
+  {
+    TIMER_ClearIntFlag(TIMER1);
+    if (TimerFuncPtr[1])
+      TimerFuncPtr[1]();
+  }
+  if (TIMER_GetWakeupFlag(TIMER1) == 1)
+  {
+    /* Clear Timer0 wake-up flag */
+    TIMER_ClearWakeupFlag(TIMER1);
+  }
 }
 #endif
 
 #if (NR_TIMERS > 2)
 void TMR2_IRQHandler(void)
 {
-  TIMER_ClearIntFlag(TIMER2);
-  if (TimerFuncPtr[2])
-    TimerFuncPtr[2]();
+  if (TIMER_GetIntFlag(TIMER2) == 1)
+  {
+    TIMER_ClearIntFlag(TIMER2);
+    if (TimerFuncPtr[2])
+      TimerFuncPtr[2]();
+  }
+  if (TIMER_GetWakeupFlag(TIMER2) == 1)
+  {
+    /* Clear Timer0 wake-up flag */
+    TIMER_ClearWakeupFlag(TIMER2);
+  }
 }
 #endif
 
 #if (NR_TIMERS > 3)
 void TMR3_IRQHandler(void)
 {
-  TIMER_ClearIntFlag(TIMER3);
-  if (TimerFuncPtr[3])
-    TimerFuncPtr[3]();
+  if (TIMER_GetIntFlag(TIMER3) == 1)
+  {
+    TIMER_ClearIntFlag(TIMER3);
+    if (TimerFuncPtr[3])
+      TimerFuncPtr[3]();
+  }
+  if (TIMER_GetWakeupFlag(TIMER3) == 1)
+  {
+    /* Clear Timer0 wake-up flag */
+    TIMER_ClearWakeupFlag(TIMER3);
+  }
 }
 #endif
 #ifdef __cplusplus
@@ -121,7 +154,7 @@ HardwareTimer::HardwareTimer(uint8_t timerNum, uint32_t moduleIdx, uint32_t clks
   channel = timerNum;
   TimerFuncPtr[channel] = NULL;
   CLK_EnableModuleClock(moduleIdx);
-  CLK_SetModuleClock(moduleIdx, clksel, NULL);
+  CLK_SetModuleClock(moduleIdx, clksel, 0);
 }
 
 void HardwareTimer::open(uint32_t mode, uint32_t freq)
@@ -157,6 +190,124 @@ void HardwareTimer::setPrescaleFactor(uint32_t factor)
 void HardwareTimer::setCompare(uint32_t val)
 {
   TIMER_SET_CMP_VALUE(dev, val);
+}
+
+//****************************
+//  PWM outputs
+//****************************
+void HardwareTimer::setPwmDuty(char pin, unsigned short duty)
+{
+  // map 10 bit resolution duty to 100% duty
+  if (duty > 1023)
+    duty = 1023;
+  dutyCycle = map(duty, 0, 1023, 0, 100);
+
+  // set pin as output
+  //pinMode(pin, OUTPUT);
+}
+
+void HardwareTimer::pwm(char pin, unsigned short duty)
+{
+  setPwmDuty(pin, duty);
+  // start pwm
+  boolean bpwm = 0;
+  if (pin > 5 && pin < 10)
+  { // BPWM pins - 6, 7, 8, 9
+    bpwm = 1;
+  }
+
+  if (pin >= A0 && pin <= A3)
+  { // PWM at analog pins - A0, A1, A2, A3
+    pin = pin + 12;
+  }
+
+  if (BoardToPinInfo[pin].type != PWM_TYPE)
+    return;
+
+  uint32_t pwmPin = BoardToPinInfo[pin].num;
+  if (bpwm)
+  {
+    if (pwmPin > BPWM_MAX_COUNT || BPWM_Desc[pwmPin].P == NULL)
+      return;
+  }
+  else
+  {
+    if (pwmPin > PWM_MAX_COUNT || PWM_Desc[pwmPin].P == NULL)
+      return;
+  }
+
+  if (dutyCycle == 0)
+  {
+    digitalWrite(pin, LOW);
+  }
+  else if (dutyCycle == 100)
+  {
+    digitalWrite(pin, HIGH);
+  }
+  else
+  {
+    if (bpwm)
+    {
+      BPWM_Config(BPWM_Desc[pwmPin]);                                                               // Set Mutifunction pins
+      BPWM_ConfigOutputChannel(BPWM_Desc[pwmPin].P, BPWM_Desc[pwmPin].ch, pwmFrequency, dutyCycle); // Config BPWMs
+      BPWM_EnableOutput(BPWM_Desc[pwmPin].P, (1 << BPWM_Desc[pwmPin].ch));                          //Enable BPWM output
+      BPWM_Start(BPWM_Desc[pwmPin].P, (1 << BPWM_Desc[pwmPin].ch));                                 //Start BPWM
+    }
+    else
+    {
+      PWM_Config(PWM_Desc[pwmPin]);                                                              // Set Mutifunction pins
+      PWM_ConfigOutputChannel(PWM_Desc[pwmPin].P, PWM_Desc[pwmPin].ch, pwmFrequency, dutyCycle); // Config PWMs
+      PWM_EnableOutput(PWM_Desc[pwmPin].P, (1 << PWM_Desc[pwmPin].ch));                          //Enable PWM output
+      PWM_Start(PWM_Desc[pwmPin].P, (1 << PWM_Desc[pwmPin].ch));                                 //Start PWM
+    }
+  }
+}
+
+void HardwareTimer::pwm(char pin, unsigned short duty, unsigned long microseconds)
+{
+  if (microseconds > 0)
+    setPeriod(microseconds);
+  pwm(pin, duty);
+}
+
+void HardwareTimer::disablePwm(char pin)
+{
+  boolean bpwm = 0;
+  if (pin > 5 && pin < 10)
+  { // BPWM pins - 6, 7, 8, 9
+    bpwm = 1;
+  }
+
+  if (pin >= A0 && pin <= A3)
+  { // PWM at analog pins - A0, A1, A2, A3
+    pin = pin + 12;
+  }
+
+  if (BoardToPinInfo[pin].type != PWM_TYPE)
+    return;
+
+  uint32_t pwmPin = BoardToPinInfo[pin].num;
+  if (bpwm)
+  {
+    if (pwmPin > BPWM_MAX_COUNT || BPWM_Desc[pwmPin].P == NULL)
+      return;
+  }
+  else
+  {
+    if (pwmPin > PWM_MAX_COUNT || PWM_Desc[pwmPin].P == NULL)
+      return;
+  }
+
+  if (bpwm)
+  {
+    BPWM_DisableOutput(BPWM_Desc[pwmPin].P, (1 << BPWM_Desc[pwmPin].ch)); //Disable BPWM output
+    BPWM_Stop(BPWM_Desc[pwmPin].P, (1 << BPWM_Desc[pwmPin].ch));          //Stop BPWM
+  }
+  else
+  {
+    PWM_DisableOutput(PWM_Desc[pwmPin].P, (1 << PWM_Desc[pwmPin].ch)); //Disable PWM output
+    PWM_Stop(PWM_Desc[pwmPin].P, (1 << PWM_Desc[pwmPin].ch));          //Stop PWM
+  }
 }
 
 void HardwareTimer::attachInterrupt(void (*callback)(void))

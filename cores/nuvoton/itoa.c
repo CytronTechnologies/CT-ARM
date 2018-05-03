@@ -66,13 +66,14 @@ extern void itoa( int n, char s[] )
 
 #else
 
-/*extern char *dtostrf (double val, signed char width, unsigned char prec, char *sout) {
+#if 1
+extern char *dtostrf (double val, signed char width, unsigned char prec, char *sout) {
   char fmt[20];
   sprintf(fmt, "%%%d.%df", width, prec);
   sprintf(sout, fmt, val);
   return sout;
-}*/
-
+}
+#else
 extern char *dtostrf(double value, signed char minwidth, unsigned char places, char *outstr /*, bool rightjustify=false*/)
 {
   int digit;
@@ -166,6 +167,7 @@ extern char *dtostrf(double value, signed char minwidth, unsigned char places, c
   outstr[c++] = '\0';
   return outstr;
 }
+#endif
 
 extern char *itoa(int value, char *string, int radix)
 {
