@@ -1,3 +1,15 @@
+## 1.1.0 (16/4/2018)
+
+### **Bug Fixes**
+- Fixed program memory sudden rise issue during program compilation
+- Retidy Servo library
+
+### **Changes**
+- Change pin mapping of analog, I2C and SPI, but still backward compatible
+
+### **New**
+- Added Firmata compatibility
+
 ## 1.0.1 (18/4/2017)
 
 ### **Bug Fixes**

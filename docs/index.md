@@ -40,8 +40,8 @@ This is CT-ARM, an Arduino UNO R3 compatible 32-bit ARM Cortex-M0 microcontrolle
 ## Downloads
 
 ### Eagle Files
-- [Schematics](https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/Eagle%20Files/Prototype%201/CT-ARM.sch)
-- [Board Layout](https://github.com/CytronTechnologies/Cytron-ARM-Arduino-URL/raw/master/Eagle%20Files/Prototype%201/CT-ARM.brd)
+- [Schematics](https://cytrontechnologies.github.io/downloads/eagle/CT-ARM/CT-ARM.sch)
+- [Board Layout](https://cytrontechnologies.github.io/downloads/eagle/CT-ARM/CT-ARM.brd)
 
 ### Datasheets
 - [NUC131 Datasheet](https://drive.google.com/file/d/0BzFWfMiqqjyqUUpUVm51NkVQV2c/view)
