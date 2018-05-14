@@ -229,16 +229,56 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#get-arduino-ide" title="Get Arduino IDE" class="md-nav__link">
-    Get Arduino IDE
+  <a href="#boards-manager" title="Boards Manager" class="md-nav__link">
+    Boards Manager
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" title="Prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instructions" title="Instructions" class="md-nav__link">
+    Instructions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#download-from-arduino-boards-manager" title="Download from Arduino Boards Manager" class="md-nav__link">
-    Download from Arduino Boards Manager
+  <a href="#using-git-version" title="Using git version" class="md-nav__link">
+    Using git version
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_1" title="Prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instructions_1" title="Instructions" class="md-nav__link">
+    Instructions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -450,16 +490,56 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#get-arduino-ide" title="Get Arduino IDE" class="md-nav__link">
-    Get Arduino IDE
+  <a href="#boards-manager" title="Boards Manager" class="md-nav__link">
+    Boards Manager
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" title="Prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instructions" title="Instructions" class="md-nav__link">
+    Instructions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#download-from-arduino-boards-manager" title="Download from Arduino Boards Manager" class="md-nav__link">
-    Download from Arduino Boards Manager
+  <a href="#using-git-version" title="Using git version" class="md-nav__link">
+    Using git version
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_1" title="Prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instructions_1" title="Instructions" class="md-nav__link">
+    Instructions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -482,20 +562,84 @@
                 
                   <h1>How to Install</h1>
                 
-                <h2 id="get-arduino-ide">Get Arduino IDE<a class="headerlink" href="#get-arduino-ide" title="Permanent link">&para;</a></h2>
-<p>Get the latest Arduino IDE from <a href="https://www.arduino.cc/en/Main/Software">Arduino official website</a>. Arduino version &gt;=1.6.7 recommended.</p>
-<h2 id="download-from-arduino-boards-manager">Download from Arduino Boards Manager<a class="headerlink" href="#download-from-arduino-boards-manager" title="Permanent link">&para;</a></h2>
-<ol>
-<li>
-<p>Start Arduino IDE and open <strong>Preferences</strong> window.</p>
-</li>
-<li>
-<p>Enter <code>https://cytrontechnologies.github.io/package_cytron_index.json</code> to <strong>Additional Boards Manager URLs</strong> field. You can add multiple URLs, separating them with commas.</p>
-</li>
-<li>
-<p>Open Boards Manager from Tools &gt; Board menu and install <strong>Cytron ARM Boards by Cytron Technologies</strong>. (Don't forget to select your CT-ARM board from Tools &gt; Board menu after installation)</p>
-</li>
-</ol>
+                <h2 id="boards-manager">Boards Manager<a class="headerlink" href="#boards-manager" title="Permanent link">&para;</a></h2>
+<p>This is the suggested installation method for end users.</p>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Arduino 1.6.7 and above from <a href="https://www.arduino.cc/en/Main/Software">Arduino official website</a>.</li>
+<li>Internet connection</li>
+</ul>
+<h3 id="instructions">Instructions<a class="headerlink" href="#instructions" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Start Arduino IDE and open <em>Preferences</em> window.</li>
+<li>Enter <code>https://cytrontechnologies.github.io/package_cytron_index.json</code> into <strong>Additional Boards Manager URLs</strong> field. You can add multiple URLs, separating them with commas.</li>
+<li>Open Boards Manager from Tools &gt; Board menu and find <strong>Cytron ARM Boards by Cytron Technologies Sdn Bhd</strong> platform.</li>
+<li>Select the version you need from a drop-down box.</li>
+<li>Click <strong>install</strong> button.</li>
+<li>After the installation is completed, close the Board Manager window.</li>
+<li>Select your CT-ARM board from Tools &gt; Board menu.</li>
+</ul>
+<h2 id="using-git-version">Using git version<a class="headerlink" href="#using-git-version" title="Permanent link">&para;</a></h2>
+<p>This is the suggested installation method for contributors and library
+developers.</p>
+<h3 id="prerequisites_1">Prerequisites<a class="headerlink" href="#prerequisites_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Arduino 1.6.7 (or newer, if you know what you are doing)</li>
+<li>Python 2.7</li>
+<li>git</li>
+<li>terminal, console, or command prompt (depending on you OS)</li>
+<li>Internet connection</li>
+</ul>
+<h3 id="instructions_1">Instructions<a class="headerlink" href="#instructions_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Open the console and go to Arduino directory. This can be either your
+   <strong>sketchbook</strong> directory (usually <code>&lt;Documents&gt;/Arduino</code>), or the
+   directory of Arduino application itself, the choice is up to you.</li>
+<li>Clone this repository into hardware/cytron_arm/ct-arm directory.
+   Alternatively, clone it elsewhere and create a symlink, if your OS
+   supports them.</li>
+</ul>
+<div class="codehilite"><pre><span></span>cd hardware
+mkdir -p cytron_arm
+cd cytron_arm
+git clone https://github.com/CytronTechnologies/CT-ARM.git ct-arm
+</pre></div>
+
+
+<p>You should end up with the following directory structure:
+<div class="codehilite"><pre><span></span>Arduino
+|
+--- hardware
+   |
+   --- cytron_arm
+       |
+       --- CT-ARM
+           |
+           --- cores
+           --- docs
+           --- libraries
+           --- tools
+           --- package
+           --- system
+           --- variants
+           --- platform.txt
+           --- programmers.txt
+           --- README.md
+           --- boards.txt
+           --- LICENSE.md
+</pre></div>
+</p>
+<ul>
+<li>Download binary tools</li>
+</ul>
+<div class="codehilite"><pre><span></span>cd ct-arm/tools
+python get.py
+</pre></div>
+
+
+<ul>
+<li>Restart Arduino</li>
+</ul>
                 
                   
                 

@@ -37,18 +37,38 @@
         }, 
         {
             "location": "/How_to_Install/", 
-            "text": "Get Arduino IDE\n\n\nGet the latest Arduino IDE from \nArduino official website\n. Arduino version \n=1.6.7 recommended.\n\n\nDownload from Arduino Boards Manager\n\n\n\n\n\n\nStart Arduino IDE and open \nPreferences\n window.\n\n\n\n\n\n\nEnter \nhttps://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/package_cytron_arm_index.json\n to \nAdditional Boards Manager URLs\n field. You can add multiple URLs, separating them with commas.\n\n\n\n\n\n\nOpen Boards Manager from Tools \n Board menu and install \nCytron ARM Boards by Cytron Technologies\n. (Don't forget to select your CT-ARM board from Tools \n Board menu after installation)", 
+            "text": "Boards Manager\n\n\nThis is the suggested installation method for end users.\n\n\nPrerequisites\n\n\n\n\nArduino 1.6.7 and above from \nArduino official website\n.\n\n\nInternet connection\n\n\n\n\nInstructions\n\n\n\n\nStart Arduino IDE and open \nPreferences\n window.\n\n\nEnter \nhttps://cytrontechnologies.github.io/package_cytron_index.json\n into \nAdditional Boards Manager URLs\n field. You can add multiple URLs, separating them with commas.\n\n\nOpen Boards Manager from Tools \n Board menu and find \nCytron ARM Boards by Cytron Technologies Sdn Bhd\n platform.\n\n\nSelect the version you need from a drop-down box.\n\n\nClick \ninstall\n button.\n\n\nAfter the installation is completed, close the Board Manager window.\n\n\nSelect your CT-ARM board from Tools \n Board menu.\n\n\n\n\nUsing git version\n\n\nThis is the suggested installation method for contributors and library\ndevelopers.\n\n\nPrerequisites\n\n\n\n\nArduino 1.6.7 (or newer, if you know what you are doing)\n\n\nPython 2.7\n\n\ngit\n\n\nterminal, console, or command prompt (depending on you OS)\n\n\nInternet connection\n\n\n\n\nInstructions\n\n\n\n\nOpen the console and go to Arduino directory. This can be either your\n   \nsketchbook\n directory (usually \nDocuments\n/Arduino\n), or the\n   directory of Arduino application itself, the choice is up to you.\n\n\nClone this repository into hardware/cytron_arm/ct-arm directory.\n   Alternatively, clone it elsewhere and create a symlink, if your OS\n   supports them.\n\n\n\n\ncd hardware\nmkdir -p cytron_arm\ncd cytron_arm\ngit clone https://github.com/CytronTechnologies/CT-ARM.git ct-arm\n\n\n\n\n\nYou should end up with the following directory structure:\n\nArduino\n|\n--- hardware\n   |\n   --- cytron_arm\n       |\n       --- CT-ARM\n           |\n           --- cores\n           --- docs\n           --- libraries\n           --- tools\n           --- package\n           --- system\n           --- variants\n           --- platform.txt\n           --- programmers.txt\n           --- README.md\n           --- boards.txt\n           --- LICENSE.md\n\n\n\n\n\n\n\nDownload binary tools\n\n\n\n\ncd ct-arm/tools\npython get.py\n\n\n\n\n\n\n\nRestart Arduino", 
             "title": "How to Install"
         }, 
         {
-            "location": "/How_to_Install/#get-arduino-ide", 
-            "text": "Get the latest Arduino IDE from  Arduino official website . Arduino version  =1.6.7 recommended.", 
-            "title": "Get Arduino IDE"
+            "location": "/How_to_Install/#boards-manager", 
+            "text": "This is the suggested installation method for end users.", 
+            "title": "Boards Manager"
         }, 
         {
-            "location": "/How_to_Install/#download-from-arduino-boards-manager", 
-            "text": "Start Arduino IDE and open  Preferences  window.    Enter  https://raw.githubusercontent.com/CytronTechnologies/Cytron-ARM-Arduino-URL/master/package_cytron_arm_index.json  to  Additional Boards Manager URLs  field. You can add multiple URLs, separating them with commas.    Open Boards Manager from Tools   Board menu and install  Cytron ARM Boards by Cytron Technologies . (Don't forget to select your CT-ARM board from Tools   Board menu after installation)", 
-            "title": "Download from Arduino Boards Manager"
+            "location": "/How_to_Install/#prerequisites", 
+            "text": "Arduino 1.6.7 and above from  Arduino official website .  Internet connection", 
+            "title": "Prerequisites"
+        }, 
+        {
+            "location": "/How_to_Install/#instructions", 
+            "text": "Start Arduino IDE and open  Preferences  window.  Enter  https://cytrontechnologies.github.io/package_cytron_index.json  into  Additional Boards Manager URLs  field. You can add multiple URLs, separating them with commas.  Open Boards Manager from Tools   Board menu and find  Cytron ARM Boards by Cytron Technologies Sdn Bhd  platform.  Select the version you need from a drop-down box.  Click  install  button.  After the installation is completed, close the Board Manager window.  Select your CT-ARM board from Tools   Board menu.", 
+            "title": "Instructions"
+        }, 
+        {
+            "location": "/How_to_Install/#using-git-version", 
+            "text": "This is the suggested installation method for contributors and library\ndevelopers.", 
+            "title": "Using git version"
+        }, 
+        {
+            "location": "/How_to_Install/#prerequisites_1", 
+            "text": "Arduino 1.6.7 (or newer, if you know what you are doing)  Python 2.7  git  terminal, console, or command prompt (depending on you OS)  Internet connection", 
+            "title": "Prerequisites"
+        }, 
+        {
+            "location": "/How_to_Install/#instructions_1", 
+            "text": "Open the console and go to Arduino directory. This can be either your\n    sketchbook  directory (usually  Documents /Arduino ), or the\n   directory of Arduino application itself, the choice is up to you.  Clone this repository into hardware/cytron_arm/ct-arm directory.\n   Alternatively, clone it elsewhere and create a symlink, if your OS\n   supports them.   cd hardware\nmkdir -p cytron_arm\ncd cytron_arm\ngit clone https://github.com/CytronTechnologies/CT-ARM.git ct-arm  You should end up with the following directory structure: Arduino\n|\n--- hardware\n   |\n   --- cytron_arm\n       |\n       --- CT-ARM\n           |\n           --- cores\n           --- docs\n           --- libraries\n           --- tools\n           --- package\n           --- system\n           --- variants\n           --- platform.txt\n           --- programmers.txt\n           --- README.md\n           --- boards.txt\n           --- LICENSE.md    Download binary tools   cd ct-arm/tools\npython get.py   Restart Arduino", 
+            "title": "Instructions"
         }, 
         {
             "location": "/Getting_Started/", 
@@ -447,8 +467,28 @@
         }, 
         {
             "location": "/Bugs_and_Fixes/", 
-            "text": "1.0.1 (18/4/2017)\n\n\nBug Fixes\n\n\n\n\nExternal interrupts now can be applied on all pins\n\n\nSoftwareSerial now can be used on all pins, tested works stable at 9600 baud or lower\n\n\nFixed the analogReadResolution issue, by default now gives 10 bit resolution\n\n\n\n\nNew\n\n\n\n\nAdded ShiftIn and ShiftOut", 
+            "text": "1.1.0 (16/4/2018)\n\n\nBug Fixes\n\n\n\n\nFixed program memory sudden rise issue during program compilation\n\n\nRetidy Servo library\n\n\n\n\nChanges\n\n\n\n\nChange pin mapping of analog, I2C and SPI, but still backward compatible\n\n\n\n\nNew\n\n\n\n\nAdded Firmata compatibility\n\n\n\n\n1.0.1 (18/4/2017)\n\n\nBug Fixes\n\n\n\n\nExternal interrupts now can be applied on all pins\n\n\nSoftwareSerial now can be used on all pins, tested works stable at 9600 baud or lower\n\n\nFixed the analogReadResolution issue, by default now gives 10 bit resolution\n\n\n\n\nNew\n\n\n\n\nAdded ShiftIn and ShiftOut", 
             "title": "Bugs and Fixes"
+        }, 
+        {
+            "location": "/Bugs_and_Fixes/#110-1642018", 
+            "text": "", 
+            "title": "1.1.0 (16/4/2018)"
+        }, 
+        {
+            "location": "/Bugs_and_Fixes/#bug-fixes", 
+            "text": "Fixed program memory sudden rise issue during program compilation  Retidy Servo library", 
+            "title": "Bug Fixes"
+        }, 
+        {
+            "location": "/Bugs_and_Fixes/#changes", 
+            "text": "Change pin mapping of analog, I2C and SPI, but still backward compatible", 
+            "title": "Changes"
+        }, 
+        {
+            "location": "/Bugs_and_Fixes/#new", 
+            "text": "Added Firmata compatibility", 
+            "title": "New"
         }, 
         {
             "location": "/Bugs_and_Fixes/#101-1842017", 
@@ -456,12 +496,12 @@
             "title": "1.0.1 (18/4/2017)"
         }, 
         {
-            "location": "/Bugs_and_Fixes/#bug-fixes", 
+            "location": "/Bugs_and_Fixes/#bug-fixes_1", 
             "text": "External interrupts now can be applied on all pins  SoftwareSerial now can be used on all pins, tested works stable at 9600 baud or lower  Fixed the analogReadResolution issue, by default now gives 10 bit resolution", 
             "title": "Bug Fixes"
         }, 
         {
-            "location": "/Bugs_and_Fixes/#new", 
+            "location": "/Bugs_and_Fixes/#new_1", 
             "text": "Added ShiftIn and ShiftOut", 
             "title": "New"
         }, 
